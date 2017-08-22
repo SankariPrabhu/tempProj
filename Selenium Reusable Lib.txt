@@ -1,0 +1,1100 @@
+package supportlibraries;
+
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.text.Normalizer;
+import java.util.ArrayList;
+//import org.openqa.selenium.WebElement;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Properties;
+import java.util.Set;
+import java.util.concurrent.TimeUnit;
+import java.util.regex.Pattern;
+
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Cell;
+import org.openqa.selenium.By;
+import org.openqa.selenium.ElementNotVisibleException;
+import org.openqa.selenium.InvalidElementStateException;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.NoAlertPresentException;
+import org.openqa.selenium.StaleElementReferenceException;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedCondition;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.FluentWait;
+import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import com.cognizant.datatable.*;
+import com.cognizant.framework.FrameworkParameters;
+import com.cognizant.framework.Settings;
+import com.cognizant.selenium.SeleniumReport;
+import com.gargoylesoftware.htmlunit.ElementNotFoundException;
+import com.google.common.base.Predicate;
+//import com.thoughtworks.selenium.webdriven.commands.KeyEvent;
+import com.cognizant.reporting.*;
+
+import java.awt.datatransfer.StringSelection;
+import java.awt.datatransfer.Clipboard;
+import java.awt.AWTException;
+import java.awt.Robot;
+import java.awt.Toolkit;
+import java.awt.datatransfer.Transferable;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.UnsupportedFlavorException;
+import java.io.*;
+import java.awt.event.KeyEvent;
+
+import javax.print.DocFlavor.STRING;
+///import org.openqa.selenium.support.ui.ExpectedConditions;
+
+/**
+ * Abstract base class for reusable libraries created by the user
+ * @author Cognizant
+ * @author Vinod Potineni
+ */
+public abstract class ReusableLibrary
+{
+/**
+* The {@link CraftDataTable} object (passed from the test script)
+*/
+protected CraftDataTable dataTable;
+/**
+* The {@link SeleniumReport} object (passed from the test script)
+*/
+protected SeleniumReport report;
+/**
+* The {@link WebDriver} object
+*/
+protected WebDriver driver;
+/**
+* The {@link ScriptHelper} object (required for calling one reusable library from another)
+*/
+protected ScriptHelper scriptHelper;
+ 
+/**
+* The {@link Properties} object with settings loaded from the framework properties file
+*/
+protected Properties properties;
+protected Properties env_properties;
+/**
+* The {@link FrameworkParameters} object
+*/
+protected FrameworkParameters frameworkParameters;
+ 
+ 
+/**
+* Constructor to initialize the {@link ScriptHelper} object and in turn the objects wrapped by it
+* @param scriptHelper The {@link ScriptHelper} object
+*/
+public ReusableLibrary(ScriptHelper scriptHelper)
+{
+this.scriptHelper = scriptHelper;
+ 
+this.dataTable = scriptHelper.getDataTable();
+this.report = scriptHelper.getReport();
+this.driver = scriptHelper.getDriver();
+env_properties = EnvSettings.loadFromPropertiesFile();
+properties = Settings.getInstance();
+frameworkParameters = FrameworkParameters.getInstance();
+}
+ 
+/**
+* Clicks WebElement.
+* 
+* @param exp WebElement to be clicked.
+* @author original author unknown...created the shell for the click of WebElement.
+* @author 3/21/16 Vinod: added the loop, helps particularly when picking something from drop-down & bit of time is 
+* needed to bring the change into picture.
+*/
+public void ClickWebElement(WebElement exp)
+ {
+   
+   int n=2;
+   for (int i=1; i<=n; i++){
+    try {exp.click();
+    report.updateTestLog("Clicked:", exp+" "+i+" attempt/s", Status.DONE);
+    break;
+    } catch (Exception e) {
+   
+    waitElementVisible(exp, 5);
+    }
+    if (i==n) {
+    report.updateTestLog("Failed to click: ", exp+" after "+i+" attempts", Status.FAIL);
+    }
+   }
+ }
+ 
+/**
+* Checks for attribute of WebElement & returns true/false. 
+*  
+* @param element
+* @param attribute
+* @return boolean result.
+* @since 11/4/2015
+* @author Vinod (source Stackoverflow)
+*/
+public boolean isAttribtuePresent(WebElement element, String attribute) {
+boolean result = false;
+String value = "";
+try {value = element.getAttribute(attribute);
+if (value != null) {
+result = true;
+}
+} catch (Exception e) {}
+return result;
+}
+ 
+public void SelectCheckBox(WebElement exp)
+ {
+try 
+{
+if (!(exp.getAttribute("checked").equalsIgnoreCase("checked")))
+{
+exp.click();
+}
+}catch (Exception e)
+{
+exp.click();
+}
+   exp.click();
+ }
+ 
+public void typeText(WebElement exp, String text)
+ {
+exp.sendKeys(text);
+ }
+ 
+public boolean isElementChecked (WebElement exp)
+{
+try 
+{
+exp.getAttribute("checked").equalsIgnoreCase("checked");
+ 
+}catch (Exception e)
+{
+return false;
+}
+ 
+return true;
+}
+public void pageTile(String pgTitle)
+{
+if(driver.getTitle().equalsIgnoreCase(pgTitle))
+{
+report.updateTestLog("Page Title", pgTitle+" page is loaded", Status.PASS);
+}else
+{
+report.updateTestLog("Page Title", pgTitle+" page is not loaded", Status.FAIL);
+}
+}
+ 
+public boolean isElementUnchecked (WebElement exp)
+{
+try 
+{
+exp.getAttribute("checked").equalsIgnoreCase("checked");
+ 
+}catch (Exception e)
+{
+return true;
+}
+ 
+return false;
+}
+ 
+public void verifyLink(WebElement link)
+{
+if (link.isDisplayed())
+{
+report.updateTestLog("Link Exists", link.getText()+" link is present", Status.PASS);
+}else
+{
+report.updateTestLog("Link Exists", link.getText()+" page is not loaded", Status.FAIL);
+}
+ 
+}
+ 
+public boolean verifyisElementaLink(WebElement We)
+{
+String Tag=We.getTagName();
+if(Tag.equals("a"))
+{
+return true;
+}else
+{
+return false;
+}
+}
+ 
+public void verifyDropdown(WebElement drop, String value)
+{
+Select dropdown = new Select(drop);
+if (dropdown.getFirstSelectedOption().getText().contains(value))
+{
+report.updateTestLog("Dropdown Value", "Selected value in drodown is "+dropdown.getFirstSelectedOption().getText(), Status.PASS);
+}else
+{
+report.updateTestLog("Dropdown Value", "Selected value in drodown is not displayed", Status.FAIL);
+}
+}
+ 
+ 
+public void clickLink(String linkName)
+{
+if(driver.findElement(By.linkText(linkName)).isDisplayed())
+{
+driver.findElement(By.linkText(linkName)).click();
+report.updateTestLog("Click Link",linkName+" Link is clicked", Status.PASS);
+}
+else{
+report.updateTestLog("Click Link",linkName+" Link is not Displayed", Status.FAIL);
+}
+
+}
+ 
+public static class StoreValue {
+
+private static String value;
+
+public static String getStoredValue() {
+return value;
+}
+
+public static void setStoredValue(String value) {
+StoreValue.value = value;
+}
+ 
+}
+ 
+public boolean ifElementExists( By by) {
+try {
+driver.findElement(by);
+} catch (Exception e) {
+System.out.println("Link is present ");
+return false;
+}
+
+return true;
+}
+ 
+public boolean isWebElementPresent(WebElement x)
+{
+try {
+x.isDisplayed();
+return true;
+} catch (NoSuchElementException e) 
+{
+return false;
+}
+}
+ 
+public boolean isWindowAlertPresent() 
+{ 
+try 
+{ 
+driver.switchTo().alert(); 
+return true; 
+}   // try 
+catch (NoAlertPresentException Ex) 
+{ 
+return false; 
+}   // catch 
+} 
+ 
+public boolean isTextPresent(String textPattern)
+{
+// if(driver.findElement(By.cssSelector("BODY")).getText().matches(textPattern)) 
+if (driver.findElement(By.tagName("body")).getText().contains(textPattern)) 
+{
+return true;
+} else 
+{
+return false;
+}
+}
+ 
+/**
+* Returns the occurrence of a string(child) within larger string(parent) using the delimiter.
+* 
+* @param parent
+* @param child
+* @param delimiter
+* @return count
+* 
+* @since 11/9/2015
+* @author Vinod
+*/
+public int getStringCount(String parent, String child, String delimiter) {
+int count = 0;
+String items[] = parent.split(delimiter);
+for (String item : items) {
+if (item.contains(child)) {
+count++; }
+}
+return count;
+}
+ 
+/**
+* Checks if a String is present in a List.
+* 
+* @param parent
+* @param child
+* @return True/False
+* 
+* @since 11/18/2015
+* @author Vinod
+*/
+public boolean isStringPresentInList(List<String> parent, String child) {
+boolean present = false;
+for (String item : parent) {
+if (item.contains(child)) {
+present = true;
+break; }
+}
+if (present) {report.updateTestLog("isStringPresentInList", 
+"String is present in List: "+child, Status.DONE); }
+else {report.updateTestLog("isStringPresentInList", 
+"String is NOT present in List: "+child, Status.DONE); }
+return present;
+}
+ 
+public long convertStringToLongAndDeleteNonNumericChar(String originalString) {
+String finalString = originalString;
+long finalLong = 0;
+
+for (int i = 0; i < finalString.length(); i++) {
+if (finalString.charAt(i) <= '9' && finalString.charAt(i) >= '0') {
+continue;
+} else {
+finalString = finalString.replace(finalString.charAt(i), '!');
+}
+}
+
+finalString = finalString.replace("!", "");
+finalLong = Long.parseLong(finalString);
+return finalLong;
+}
+ 
+public boolean waitForElement(final String locator)
+{
+ 
+// Wait for element to be visible until the given time using Fluent Wait .
+// Fluent wait use polling concept in which it will poll after the given second and search for the element visibility. 
+ 
+ 
+try{
+ 
+FluentWait<WebDriver> wait = new FluentWait<WebDriver>(driver)
+         .withTimeout(15, TimeUnit.SECONDS)
+         .pollingEvery(3, TimeUnit.SECONDS)
+         .ignoring(NoSuchElementException.class)
+         .ignoring(StaleElementReferenceException.class)
+         .ignoring(ElementNotFoundException.class)
+         .ignoring(ElementNotVisibleException.class);
+ 
+ 
+WebElement element =  wait.until(ExpectedConditions.presenceOfElementLocated(getBymethod(locator)));
+if(element.isDisplayed() && element.isEnabled())
+return true;
+}
+catch(Exception e){
+e.printStackTrace();
+}
+return false;
+}
+ 
+public WebElement getElement(final String locator){
+// Wait for an element to appear ignoring the given set of exception until the wait time. 
+// Null would be returned in case the element is not appeared after the wait time.
+ 
+try{
+WebElement element = null;
+WebDriverWait wait = new WebDriverWait(driver, 15);
+wait.ignoring(NoSuchElementException.class);
+       wait.ignoring(StaleElementReferenceException.class);
+       wait.ignoring(ElementNotFoundException.class);
+       wait.ignoring(ElementNotVisibleException.class);
+       element = wait.until(new ExpectedCondition<WebElement>() {
+
+@Override
+public WebElement apply(WebDriver arg0) {
+return driver.findElement(getBymethod(locator));
+}
+});
+       
+       try{
+       
+WebDriverWait waitTillActive = new WebDriverWait(driver, 15);
+wait.ignoring(NoSuchElementException.class);
+       wait.ignoring(StaleElementReferenceException.class);
+       wait.ignoring(ElementNotFoundException.class);
+       wait.ignoring(ElementNotVisibleException.class);
+       waitTillActive.until(new Predicate<WebDriver>(){
+
+@Override
+public boolean apply(WebDriver driver) {
+return driver.findElement(getBymethod(locator)).isEnabled() && driver.findElement(getBymethod(locator)).isEnabled();
+}
+       
+       });
+       }
+       catch(Exception e){
+        // if it is not enabled, then ignore the exception as some elements will be
+        // verified for this condition on the test
+       
+       }
+    return element;
+}
+    catch(Exception e){
+    report.updateTestLog("Locator Not found", "Locator ( " + locator + ") not found in the DOM", Status.DONE);
+    return null;
+    }
+}
+ 
+public By getBymethod(String locator){
+ 
+// Find's BY method of locator and returns it based on the locator passed in the param.
+ 
+if(locator.contains("//"))
+return By.xpath(locator);
+else if(locator.contains("/"))
+return By.xpath(locator);
+else if (locator.contains("link="))
+{
+String[] locator1 = locator.split("link=");
+return By.linkText(locator1[1]);
+}
+else if (locator.contains("#"))
+{
+String[] locator1 = locator.split("css=");
+return By.cssSelector(locator1[1]);
+}
+else if (locator.contains("name="))
+{
+String[] locator1 = locator.split("name=");
+return By.className(locator1[1]);
+}
+else if (locator.contains("class="))
+{
+String[] locator1 = locator.split("class=");
+return By.className(locator1[1]);
+}
+else
+return By.id(locator);
+ 
+}
+public boolean verifyElementPresence(String locator){
+ 
+// Verify the existence of element/elements in the DOM for the locator passed in the param.
+// Return's boolean even in case of Unavailability of element for the given locator. 
+ 
+try{
+if((getElements(locator).size() != 0) || (getElement(locator).isDisplayed()))
+return true;
+}
+catch(NullPointerException e) {
+return false;
+}
+return false;
+}
+ 
+public List<WebElement> getElements(String locator){
+return driver.findElements(getBymethod(locator));
+}
+ 
+public void writeExcel(String fileLocation, int row, int column, String value)
+{
+try {
+   FileInputStream file = new FileInputStream(fileLocation);
+ 
+   HSSFWorkbook workbook = new HSSFWorkbook(file);
+   HSSFSheet sheet = workbook.getSheet("Search");
+   Cell cell = null;  
+   //Update the value of cell
+   cell = sheet.getRow(row).createCell(column);
+   cell.setCellValue(value); 
+   FileOutputStream outFile =new FileOutputStream(fileLocation);
+   workbook.write(outFile);
+   outFile.close();
+} catch (FileNotFoundException e) {
+   e.printStackTrace();
+} catch (IOException e) {
+   e.printStackTrace();
+}
+}
+ 
+public void waitElementVisible(WebDriver driver, By by, int TimeoutInSecond) {
+WebDriverWait wait = new WebDriverWait(driver, TimeoutInSecond);
+wait.until(ExpectedConditions.presenceOfElementLocated(by));
+}
+ 
+/**
+* Waits for the WebElement to be visible until the specified time.
+* 
+* @param by
+* @param timeoutInSecond
+* @author Mike / Vinod
+* @since 10/13/2015
+*/
+public void waitElementVisible(By by, int timeoutInSecond) {
+WebDriverWait wait = new WebDriverWait(driver, timeoutInSecond);
+int i = 0;
+while (i<2) { 
+try {
+report.updateTestLog("Waiting for WebElement", "WebElement locator: "
++by, Status.DONE);
+wait.until(ExpectedConditions.visibilityOfElementLocated(by));
+break;
+} catch (StaleElementReferenceException e) {
+}
+i++;
+}
+}
+ 
+/**
+* Waits for the WebElement to be visible until the specified time.
+* Name of method is same as above, only as to provide an option to take
+* in WebElement as parameter.
+* 
+* @param webElement
+* @param timeoutInSecond
+* @author Vinod / Mike
+* @since 10/13/2015
+*/
+public void waitElementVisible(WebElement webElement, int timeoutInSecond) {
+WebDriverWait wait = new WebDriverWait(driver, timeoutInSecond);
+int i = 0;
+while (i<2) { 
+try {
+report.updateTestLog("Waiting for WebElement", "WebElement: "+webElement, Status.DONE);
+wait.until(ExpectedConditions.visibilityOf(webElement));
+break;
+//} catch (StaleElementReferenceException e) {
+} catch (Exception e) {
+report.updateTestLog("WebElement", webElement+" did is NOT visible.", Status.WARNING);
+}
+i++;
+}
+}
+ 
+public void waitLinkClickable(WebDriver driver, WebElement webElement, int TimeoutInSecond) {
+WebDriverWait wait = new WebDriverWait(driver, TimeoutInSecond);
+wait.until(ExpectedConditions.elementToBeClickable(webElement));
+}
+ 
+/**
+* When a child window pops up, focus still stays on the Parent. This 
+* method switches the focus to Child.
+* 
+* @since 10/19/2015
+* @author Vinod
+*/
+public void SwitchToChild() {
+Set<String> allHandles = driver.getWindowHandles();
+Iterator<String> itr = allHandles.iterator();
+itr.next();
+String childWindowHandle = itr.next();
+driver.switchTo().window(childWindowHandle);
+driver.manage().window().maximize();
+report.updateTestLog("Switching to child", "Page title: "+driver.getTitle(), Status.DONE);
+}
+ 
+/**
+* Switches to Parent when child window/tab is closed, but focus is not set on Parent.
+* 
+* @since 2/4/16
+* @author Vinod
+*/
+public void SwitchToParent() {
+Set<String> allHandles = driver.getWindowHandles();
+Iterator<String> itr = allHandles.iterator();
+String parentWindowHandle = itr.next();
+driver.switchTo().window(parentWindowHandle);
+report.updateTestLog("Switching to parent", "Page title: "+driver.getTitle(), Status.DONE);
+}
+ 
+/**
+* Closes the current tab.
+* 
+* @since 2/4/16
+* @author Vinod
+*/
+public void closeTab() {
+String title = driver.getTitle();
+driver.close();
+report.updateTestLog("Closed tab:", "Page title: "+title, Status.DONE);
+}
+ 
+/**
+* Removes the punctuation in the list & returns stripped version.
+*  
+* @param originalString
+* @return finalString
+* 
+* @since 10/21/2015
+* @author Mike / Vinod
+*/
+public String removePunctuation(String originalString) {
+
+String finalString = originalString;
+
+// More punctuation can be added later
+List<String> punctuations = new ArrayList<String>();
+punctuations.add("-");
+punctuations.add(" ");
+punctuations.add(",");
+punctuations.add(".");
+punctuations.add("(");
+punctuations.add(")");
+for (int i = 0; i < punctuations.size(); i++) {
+finalString = finalString.replace(punctuations.get(i), "");
+}
+return finalString;
+}
+ 
+/**
+* Overloading of above method, to facilitate removal of all listed 
+* punctuations except one passed as 2nd parameter.
+*  
+* @param originalString
+* @param puncNotRemove
+* @return finalString
+* 
+* @since 10/21/2015
+* @author Vinod
+*/
+public String removePunctuation(String originalString, String puncNotRemove) {
+
+String finalString = originalString;
+
+// More punctuation can be added later
+List<String> punctuations = new ArrayList<String>();
+punctuations.add("-");
+punctuations.add(" ");
+punctuations.add(",");
+punctuations.add(".");
+punctuations.add("(");
+punctuations.add(")");
+punctuations.remove(puncNotRemove);
+for (int i = 0; i < punctuations.size(); i++) {
+finalString = finalString.replace(punctuations.get(i), "");
+}
+return finalString;
+}
+ 
+/**
+* Overloading of above method, to facilitate removal of all listed punctuations except list passed as 2nd parameter.
+*  
+* @param originalString
+* @param puncNotRemove
+* @return finalString
+* 
+* @since 4/12/2016
+* @author Vinod
+*/
+public String removePunctuation(String originalString, String[] puncNotRemove) {
+
+String finalString = originalString;
+
+// More punctuation can be added later
+List<String> punctuations = new ArrayList<String>();
+punctuations.add("-");
+punctuations.add(" ");
+punctuations.add(",");
+punctuations.add(".");
+punctuations.add("(");
+punctuations.add(")");
+for (int j = 0; j < puncNotRemove.length; j++) {
+punctuations.remove(puncNotRemove[j]);
+}
+for (int i = 0; i < punctuations.size(); i++) {
+finalString = finalString.replace(punctuations.get(i), "");
+}
+return finalString;
+}
+ 
+/**
+* Replaces the punctuation in the list with the replacement provided &
+*  returns replaced version.
+* 
+* @param originalString
+* @param replacement
+* @return finalString
+*/
+public String replacePunctuation(String originalString, String replacement) {
+
+String finalString = originalString;
+
+// More punctuation can be added later
+List<String> punctuations = new ArrayList<String>();
+punctuations.add("-");
+punctuations.add(" ");
+punctuations.add(",");
+punctuations.add(".");
+punctuations.add("(");
+punctuations.add(")");
+for (int i = 0; i < punctuations.size(); i++) {
+finalString = finalString.replace(punctuations.get(i), replacement);
+}
+return finalString;
+}
+ 
+/**
+  * Overloading of above method, to facilitate replacement of all listed 
+* punctuations except one passed as 3rd parameter & returns replaced 
+* version.
+* 
+* @param originalString
+* @param replacement
+* @return finalString
+*/
+public String replacePunctuation(String originalString, String replacement, String puncNotRemove) {
+
+String finalString = originalString;
+
+// More punctuation can be added later
+List<String> punctuations = new ArrayList<String>();
+punctuations.add("-");
+punctuations.add(" ");
+punctuations.add(",");
+punctuations.add(".");
+punctuations.add("(");
+punctuations.add(")");
+punctuations.remove(puncNotRemove);
+for (int i = 0; i < punctuations.size(); i++) {
+finalString = finalString.replace(punctuations.get(i), replacement);
+}
+return finalString;
+}
+ 
+public String squareBracketToSpace(String stringStartsWithSquareBracket) {
+
+String stringStartsWithSpace = null;
+
+if (stringStartsWithSquareBracket.startsWith("[")) {
+stringStartsWithSpace = stringStartsWithSquareBracket.replace('[',
+' ');
+} else {
+stringStartsWithSpace = stringStartsWithSquareBracket;
+}
+
+return stringStartsWithSpace;
+}
+ 
+/**
+* Removes diacritics/accents from strings like Å, å
+* 
+* @param str
+* @return de-accented string
+* @since 3/17/16
+* @author Vinod
+* @source Stackoverflow
+*/
+public String deAccent(String str) {
+String nfdNormalizedString = Normalizer.normalize(str, Normalizer.Form.NFD);
+Pattern pattern = Pattern.compile("\\p{InCombiningDiacriticalMarks}+");
+return pattern.matcher(nfdNormalizedString).replaceAll("");
+}
+ 
+public void PressEnter() throws AWTException{
+Robot r=new Robot();
+r.keyPress(KeyEvent.VK_ENTER);
+r.keyPress(KeyEvent.VK_ENTER);
+}
+ 
+/**
+* Scrolls WebElement into view.
+* @param we
+* @since 3/23/16
+* @author Vinod
+* @throws AWTException 
+*/
+public void scrollIntoView(WebElement we) throws InterruptedException {
+JavascriptExecutor executor = (JavascriptExecutor) driver;
+executor.executeScript("arguments[0].scrollIntoView(true);", we);
+// the above takes it right to the top & this causes not clickable issue, so just scrolling up 1 arrow stroke.
+//we.sendKeys(Keys.ARROW_UP);//3/29/16 Vinod: commented this & using Actions due to issue of focus on WebElement.
+/* Actions action =new Actions(driver);
+for (int i=0; i<3; i++) {
+action.sendKeys(Keys.ARROW_UP);
+action.build().perform();
+}*/
+executor.executeScript("javascript:window.scrollBy(0,-100)");
+Thread.sleep(1000);// DO NOT increase the sleep time here...if needed, from the calling method use a wait
+// for method.
+}
+ 
+/**
+* Clicks hidden JavaScript links which cannot be clicked by normal click().
+* 
+* @param elem
+* @author Vinod / Mike
+* @throws InterruptedException 
+* @since 11/2/2015
+*/
+public void clickHiddenJavaScriptWebElement(WebElement elem) throws InterruptedException {
+Thread.sleep(4000);
+//String js = "arguments[0].style.height='auto'; arguments[0].style.visibility='visible';";
+JavascriptExecutor executor = (JavascriptExecutor) driver;
+executor.executeScript("arguments[0].click();", elem);
+Thread.sleep(3000);
+}
+ 
+/**
+* Moves mouse to some specific WebElement.
+* 
+* @param elem
+* @author Mike
+* @throws InterruptedException
+* @since 11/3/2015
+*/
+public void mouseHover(WebElement elem) throws InterruptedException {
+Thread.sleep(1000);
+Actions actions = new Actions(driver);
+actions.moveToElement(elem).perform();
+Thread.sleep(1000);
+}
+ 
+/**
+* Copies text onto the Clipboard.
+* replicating 'Ctrl-C'.
+* 
+* @param text
+* @since 11/17/2015
+* @author Vinod
+*/
+public void setClipboardText(String text) {
+StringSelection stringSelection = new StringSelection(text);
+Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+clipboard.setContents(stringSelection, stringSelection);
+report.updateTestLog("Clipboard", "Copied text: "+text, Status.DONE);
+}
+ 
+/**
+* Returns text from Clipboard.
+* 
+* @return text
+* @since 11/17/2015
+* @author Vinod
+*/
+public String getClipboardText() {
+String text = "";
+Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+Transferable clipData = clipboard.getContents(clipboard);
+try {text = (String)(clipData.getTransferData(DataFlavor.stringFlavor));
+report.updateTestLog("Clipboard", "Retrieving text: "+text, 
+Status.DONE);
+} catch (UnsupportedFlavorException ufe){
+System.err.println("Flavor unsupported: " + ufe);
+report.updateTestLog("Clipboard", "Retrieving text failed 'Flavor unsupported': "+ufe, 
+Status.FAIL);
+} catch (IOException ioe) {
+System.err.println("Data not available: " + ioe);
+report.updateTestLog("Clipboard", "Retrieving text failed 'Data not available': "+ioe, 
+Status.FAIL);
+}
+return text;
+}
+ 
+public void verifyGreatToSmallInInt(List<WebElement> listWebElement,
+List<String> listString) throws InterruptedException {
+
+List<Long> listLong = new ArrayList<Long>();
+for (int i = 0; i < listWebElement.size(); i++) {
+listLong.add(convertStringToLongAndDeleteNonNumericChar(listString
+.get(i)));
+}
+
+for (int i = 0; i < listLong.size() - 1; i++) {
+if (listLong.get(i) >= listLong.get(i + 1)) {
+if (i == listLong.size() - 2) {
+report.updateTestLog("verifyGreatToSmallInInt",
+"verifyGreatToSmallInInt", Status.PASS);
+break;
+}
+continue;
+} else {
+report.updateTestLog("verifyGreatToSmallInInt",
+"verifyGreatToSmallInInt", Status.FAIL);
+break;
+}
+}
+
+Thread.sleep(2000);
+}
+ 
+public void verifySmallToGreatInInt(List<WebElement> listWebElement,
+List<String> listString) throws InterruptedException {
+
+List<Long> listLong = new ArrayList<Long>();
+for (int i = 0; i < listWebElement.size(); i++) {
+listLong.add(convertStringToLongAndDeleteNonNumericChar(listString
+.get(i)));
+}
+
+for (int i = 0; i < listLong.size() - 1; i++) {
+if (listLong.get(i) <= listLong.get(i + 1)) {
+if (i == listLong.size() - 2) {
+report.updateTestLog("verifySmallToGreatInInt",
+"verifySmallToGreatInInt", Status.PASS);
+break;
+}
+continue;
+} else {
+report.updateTestLog("verifySmallToGreatInInt",
+"verifySmallToGreatInInt", Status.FAIL);
+break;
+}
+}
+
+Thread.sleep(2000);
+}
+ 
+public void verifySmallToGreat(List<WebElement> listWebElement,
+List<String> listString) throws InterruptedException {
+for (int i = 0; i < listWebElement.size() - 1; i++) {
+if (listString.get(i).compareToIgnoreCase(listString.get(i + 1)) <= 0) {
+if (i == listWebElement.size() - 2) {
+report.updateTestLog("verifySmallToGreat",
+"verifySmallToGreat", Status.PASS);
+break;
+}
+continue;
+} else {
+report.updateTestLog("verifySmallToGreat",
+"verifySmallToGreat", Status.FAIL);
+break;
+}
+}
+
+Thread.sleep(2000);
+
+}
+ 
+public void verifyGreatToSmall(List<WebElement> listWebElement,
+List<String> listString) throws InterruptedException {
+for (int i = 0; i < listWebElement.size() - 1; i++) {
+if (listString.get(i).compareToIgnoreCase(listString.get(i + 1)) >= 0) {
+if (i == listWebElement.size() - 2) {
+report.updateTestLog("verifyGreatToSmall",
+"verifyGreatToSmall", Status.PASS);
+break;
+}
+continue;
+} else {
+report.updateTestLog("verifyGreatToSmall",
+"verifyGreatToSmall", Status.FAIL);
+break;
+}
+}
+
+Thread.sleep(2000);
+
+}
+
+
+/**
+ * Returns true/false 
+ * 
+ * @since 02/04/2016
+ * @author Nirupam Anand
+*/
+ 
+//To close all windows other than main window
+public  boolean closeAllOtherWindows(WebDriver driver, String openWindowHandle)
+{ 
+Set<String> allWindowHandles = driver.getWindowHandles();
+for (String currentWindowHandle : allWindowHandles) 
+{ if (!currentWindowHandle.equals(openWindowHandle)) 
+{ 
+driver.switchTo().window(currentWindowHandle); 
+driver.close(); 
+} } 
+driver.switchTo().window(openWindowHandle); 
+if (driver.getWindowHandles().size() == 1) 
+return true; 
+else return false; }
+
+/*To scroll to a specified element...
+also can be use  a reference to shift  the Browser focus ...
+Written By Indrajit..
+*/
+
+public void ScrollToTargetElement(WebElement element)
+{
+Actions action = new Actions(driver);
+action.moveToElement(element);
+action.perform();
+}
+
+
+
+/*To count the number of words in a  String
+*@author Indrajit
+
+*/
+
+
+
+
+public static int countWords(String s){
+
+    int wordCount = 0;
+
+    boolean word = false;
+    int endOfLine = s.length() - 1;
+
+    for (int i = 0; i < s.length(); i++) {
+        // if the char is a letter, word = true.
+        if (Character.isLetter(s.charAt(i)) && i != endOfLine) {
+            word = true;
+            // if char isn't a letter and there have been letters before,
+            // counter goes up.
+        } else if (!Character.isLetter(s.charAt(i)) && word) {
+            wordCount++;
+            word = false;
+            // last word of String; if it doesn't end with a non letter, it
+            // wouldn't count without this.
+        } else if (Character.isLetter(s.charAt(i)) && i == endOfLine) {
+            wordCount++;
+        }
+    }
+    return wordCount;
+}
+
+
+
+
+
+
+
+
+
+
+   /*Method to extract only Digits from a String 
+   Written By Indrajit*/
+     public String  ExtractDigitFromString(String str)
+       {
+    String ExctractedString="";
+    ExctractedString = str.replaceAll("[^0-9]","");
+   return ExctractedString;
+       }
+     
+     
+ 
+       
+     
+     
+
+}

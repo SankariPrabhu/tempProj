@@ -1,0 +1,40 @@
+ Tuesday, September 15, 2015 1:07 PM
+http://bitcooks.com/starting-test-develpoment-using-selenium-webdriver-junit/
+ 
+Xpath:
+http://www.w3schools.com/xsl/xpath_syntax.asp
+ 
+http://selenium-release.storage.googleapis.com/2.47/selenium-java-2.47.1.zip
+
+Sample Code:
+public class HotelSearch {
+    public static WebDriver driver;
+   
+    @BeforeClass
+    public static void setUpBeforeClass() throws Exception {
+        driver = new FirefoxDriver();
+        driver.manage().window().maximize();
+        driver.get("http://www.ramada.com");
+    }
+    @AfterClass
+    public static void tearDownAfterClass() throws Exception {
+        driver.quit();
+    }
+    @Before
+    public void setUp() throws Exception {
+    }
+    @After
+    public void tearDown() throws Exception {
+    }
+    @Test
+    public void hotelChecker() throws InterruptedException {
+        driver.findElement(By.id("searchSubView:where")).sendKeys("Cochin");
+        driver.findElement(By.xpath("//img[@alt='Check In']")).click();
+        driver.findElement(By.xpath("//a[@title='Next']")).click();
+        driver.findElement(By.linkText("24")).click();
+       
+        Select rooms = new Select(driver.findElement(By.id("searchSubView:noOfRooms")));
+        rooms.selectByVisibleText("4 Rooms");
+       
+        Thread.sleep(5000);
+        driver.findElement(By.id("searchSubView:findIt")

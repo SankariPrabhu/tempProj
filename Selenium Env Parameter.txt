@@ -1,0 +1,34 @@
+#Framework Config
+#****************
+datasheet.filename=resources/DataSheet.xls
+locator.filename=resources/ObjectLocator.xls
+XMLlocator.filename = resources/ObjectRepository.xml
+
+web.browser=*firefox
+#web.browser=*chrome
+#web.browser=*iexplore
+
+firefox.bin=C:\\Program Files (x86)\\Mozilla Firefox\\firefox.exe
+
+fluent.timeout=30
+clear.browser.cache=false
+retry.attempts=0
+
+#Grid Config
+grid.enabled=false
+hub.ip=localhost
+hub.port=4444
+
+#Report - TestLink
+testlink.report=false
+
+#Reporting stuff
+environment=Testing
+suitname=elsevier
+buildname=Sample1.0
+testtype=Regression
+capture.screenshot=true
+capture.video=false
+advanced.report=true
+archive.report=true
+openreport=true

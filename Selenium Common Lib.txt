@@ -1,0 +1,5459 @@
+/**
+ * 
+ */
+package pages;
+
+import java.awt.AWTException;
+import java.awt.Robot;
+import java.awt.event.KeyEvent;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.sql.DriverManager;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Scanner;
+import java.util.Set;
+import java.util.concurrent.TimeUnit;
+
+import javax.swing.KeyStroke;
+
+import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.openqa.selenium.Alert;
+import org.openqa.selenium.By;
+import org.openqa.selenium.Capabilities;
+import org.openqa.selenium.InvalidElementStateException;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.NoAlertPresentException;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Action;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.remote.RemoteWebDriver;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedCondition;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import com.opencsv.CSVReader;
+
+import com.cognizant.reporting.Status;
+import com.gargoylesoftware.htmlunit.javascript.host.event.InputEvent;
+import com.thoughtworks.selenium.webdriven.commands.SelectFrame;
+
+import pages.*;
+import supportlibraries.ScriptHelper;
+
+
+
+/**
+ *Complex methods involving multiple pages can be stored here.
+ *Functional code beneficial to more than 1 page also should reside here.
+ *
+ * @author Vinod Potineni
+ *
+ */
+public class Common extends HomePage { //public class Common extends MasterPage {
+
+private String pageTitle = "";
+ 
+    @FindBy(css="a[title='Back to results']")
+    private WebElement backToResults;
+    
+    @FindBy(css="a[title='View and edit all general settings in Scopus.']")
+    private WebElement MyScopus;
+    
+   @FindBy(css="input[title='Search']")
+    //@FindBy(className="floatL")
+    
+    public  WebElement Search;
+   
+   @FindBy(name="next")
+   public WebElement NextBtn;
+   @FindBy(name="save")
+   public WebElement Save;
+   
+   @FindBy(id = "allPageCheckBox")
+   public WebElement AllCheckbox;
+    
+    @FindBy(className="svTitle")
+public WebElement DocumentTitle;
+    
+    @FindBy(className="searchHistoryDataRow")
+    private WebElement  History;
+    
+    @FindBy(id = "name")
+    public WebElement RSSFeedname;
+    
+    @FindBy(css="a[title='Delete query']")
+    private  WebElement DeleteQuery ;
+    
+    @FindBy(id="settings-change-pass")
+    private WebElement ChangePassword;
+    
+    @FindBy(linkText = "Show all abstracts")
+public WebElement link_ShowAllAbstracts;
+    
+    @FindBy(id="searchHistHeader")
+    public WebElement SearchHistory;
+    
+    @FindBy(id="combinedSearch")
+    public WebElement CombinedTexbox;
+    
+    @FindBy (className="queryTxt")
+public WebElement DocQuery;
+    
+    @FindBy (className="documentOptions")
+    public WebElement DocQueryInreleatedDoc;
+    
+    @FindBy (linkText="Add to search")
+public WebElement  Addtosearch;
+    
+    @FindBy(name = "done")
+    public WebElement Done;
+       
+    
+    @FindBy(xpath="/html/body/table/tbody/tr[3]/td[1]/table/tbody/tr[9]/td/p/a")
+    public WebElement CitedByQA;
+    
+@FindBy(xpath = "//a[@id='moreLink']")
+public WebElement moreLink;    
+    
+    @FindBy (id="searchterm1")
+    public WebElement BasicSearchTerm;
+    
+    @FindBy (name="limitTo")
+    public WebElement LimitTo;
+    
+    @FindBy (css="#docLi")
+    public WebElement DocumentdetailLink;
+    
+    @FindBy(linkText = "E-mail")
+    private WebElement email;
+    
+    
+    @FindBy(id = "siteURL")
+    public WebElement site_Url;
+    
+    @FindBy(id ="next")
+    public WebElement Next;
+    
+    
+    @FindBy (name="exclude")
+    public WebElement ExcludeTo;
+    
+    @FindBy(id="allPageCheckBox")
+   public  WebElement checkBox;
+    
+    @FindBy (id="allPageSelectedValue")
+    public WebElement Arrow; 
+    
+    @FindBy (id="export-to-new-refworks")
+    public WebElement newRefworks; 
+    
+    @FindBy (id="export-to-old-refworks")
+    public WebElement oldRefworks; 
+    
+    @FindBy(css="a[title='Show document details']")
+    public WebElement Document ;
+    
+    @FindBy(css="a[title='Show source title details']")
+    public  WebElement SourceTitle ;
+    
+    
+    @FindBy(linkText="View at Publisher")
+    public WebElement ViewAtPublisher;
+    
+    @FindBy(className ="openpreview")
+    public WebElement ShowAbstract;
+    
+    @FindBy(className ="closepreview")
+    public WebElement HideAbstract;
+
+    @FindBy(id  = "resultRelatedLink0")
+    public WebElement ReleatedDocuments;
+    
+    @FindBy (id="moreLink")
+    public WebElement More; 
+    
+    @FindBy(css = "input[name=continue]")
+    public WebElement continue_Name_Feed;
+    
+    @FindBy(css="a[title='View references of the selected documents']")
+    public WebElement ViewReferences;
+    
+    @FindBy(css = "input[name=create]")
+    public WebElement create_html_feed;
+    
+    
+    
+    @FindBy(css="a[title='Create a bibliography for the selected documents']")
+    public WebElement BiblioGraphy;
+    
+    @FindBy(css="a[title='Create a bibliography for this document']")
+    public WebElement Record_BiblioGraphy;
+       
+    @FindBy(css="a[title='Email the selected documents']")
+    public WebElement Email;
+    
+    @FindBy(css="a[title='Print the selected documents']")
+    public WebElement Print;
+
+    @FindBy(css="a[title='Print this document']")
+    public WebElement Printrecordpage;
+        
+    @FindBy(css="input[title='Print']")
+    public WebElement PrintButton ;
+    
+    @FindBy(css="a[title='Go back to the previous page']")
+    public WebElement BiblioGraphyBack;
+    
+    @FindBy(css="a[title='Go back to the previous page']")
+    public WebElement EmailBack;
+    
+    @FindBy(css="a[title='Return to results list']")
+    public WebElement PrintBack;
+    
+    @FindBy(id="ctoDocResultLink")
+    public WebElement ViewCitationOverview;
+    
+    
+    @FindBy(id="hirschButton")
+    public WebElement ViewH_graph; 
+    
+    @FindBy(css="a[title='Select to go back to the document search results']")
+    public  WebElement Backfromcto ;
+    
+    
+    @FindBy(linkText = "Download")
+public WebElement Download;
+
+    @FindBy (xpath="//div[@class='buttonRowTop']/span[2]/span[1]/input")
+public WebElement AS_continuebtn; 
+   
+    
+    
+    @FindBy(css="a[title='Sort the document results on date. ']")
+    public WebElement Date;
+    
+    @FindBy(css="a[title='Sort the document results on Cited by count.']")
+    public WebElement CitedBy;
+
+    @FindBy(css="a[title='Re-select documents']")
+    public  WebElement Reselect_documents ;
+    
+    @FindBy(linkText ="Add to List")
+    public WebElement AddToList; 
+    
+    @FindBy(css  ="a[title='Manage your temporary list of documents and saved lists.']")
+    public WebElement Lists; 
+    
+    @FindBy(id = "loginRegPopup")
+    public WebElement SavethisLists;
+    
+    @FindBy (id="authorSubmitBtn")
+    public WebElement AuthorSearchButton;
+    
+    
+    @FindBy(css="a[title='Set feed']")
+    public   WebElement SetFeed ;
+   
+    @FindBy(css="a[title='View and edit all general settings in Scopus.']")
+    public WebElement myScopus;
+    
+    
+    @FindBy(css="a[title='Search for documents, authors and affiliations.']")
+    public WebElement SearchInNavBar ;
+
+
+    @FindBy(css ="a[title='Set RSS feed for this saved search (opens in a new window)']")
+public WebElement setFeedinSavedSearch;
+
+    @FindBy(css ="a[class^='icon setFeed']")
+public WebElement setFeedonMouseHover;
+
+    
+    @FindBy(css = "input[name='exportRefine']")
+private WebElement exportRefine;
+    
+    Actions action = new Actions(driver);
+
+
+    @FindBy(id="submitButton")
+      public WebElement Rss_Login;
+      
+      @FindBy(id="emailText")
+      public WebElement Rss_Email;
+      
+      @FindBy(id="passwordText")
+      public WebElement Rss_Password;
+
+   @FindBy(linkText = "Set feed")
+      private WebElement setDocumentFeed;
+   
+   @FindBy(css ="a[title='Saved searches']")
+   public WebElement savedSearches; 
+   
+   @FindBy(css ="a[title='Alerts']")
+   public WebElement Alerts;  
+   
+   @FindBy(css ="a[title='Saved lists']")
+   public WebElement SavedList;
+   
+   @FindBy(css ="a[title='Modify profile']")
+   public WebElement ModifyDetails;
+   
+   
+   @FindBy(css = "a[title='Set feed']")
+public WebElement setFeed;
+   
+   @FindBy(css = ".queryOperator")
+  public WebElement queryoperator;
+   
+   @FindBy(css = ".querySrchTerm")
+  public WebElement queryTerm;
+   
+   @FindBy(css = "#outputFormat")
+  public WebElement bibFormat;
+   
+   @FindBy(css = "#bibliographyStyle")
+  public WebElement bibStyle;
+   
+   @FindBy(css = "#outputFormat-button")
+public WebElement bibformatbtn;
+   
+   @FindBy(css = "#bibliographyStyle-button")
+public WebElement bibStylebtn;
+ 
+@FindBy(css="#exportTrigger")
+public WebElement Exportbtn;
+   
+@FindBy(css=".refImgTxtCntr")
+public WebElement RefWorkdirect;
+ 
+@FindBy(css=".refImgTxtCntr.bgConfImg")
+public WebElement RefWorkdirectSelected;
+ 
+@FindBy(css="#selectedCitationInformationItemsAll-Export")
+public WebElement citationinfo;
+ 
+@FindBy(css="#selectedOtherInformationItemsAll-Export")
+public WebElement otherinfo;
+ 
+@FindBy(css="#selectedBibliographicalInformationItemsAll-Export")
+public WebElement bibinfo;
+ 
+@FindBy(css="#selectedAbstractInformationItemsAll-Export")
+public WebElement absinfo;
+ 
+@FindBy(css="#selectedFundInformationItemsAll-Export")
+public WebElement fundinfo;
+ 
+@FindBy(css="#selectedReferenceInformationItems-Export")
+public WebElement Refinfo;
+ 
+@FindBy(css="#btn_folder_last_imported")
+public WebElement Lastimportedbtn;
+ 
+@FindBy(id="LoginName")
+public WebElement RefWorkusername;
+ 
+@FindBy(id="Password")
+public WebElement RefWorkpwd;
+ 
+@FindBy(id="group-login-btn")
+public WebElement RefWorkLoginbtn;
+ 
+@FindBy(css=".clickAction.arrowDownExport.exportResultsPage") 
+public WebElement Exportarrow;
+ 
+@FindBy(css=".clickAction.lnkEnabled.arrowDownExport.exportResultsAf") 
+public WebElement RefWorkExportarrow;
+ 
+@FindBy(className="cancel")
+public WebElement Printcancel;
+ 
+@FindBy(css="a[title='Edit search query']")
+    public  WebElement EditinAuthorSearchForm;
+ 
+@FindBy(css="a[title='Search']")
+    public  WebElement SearchButtonInAuthorSrchPg ;
+ 
+@FindBy (id="institute")
+    public WebElement AffiliationSearchTabinAuthorSrchForm; 
+ 
+@FindBy(css = "a[title='Back to document results']")
+public WebElement backtoResultsFromPatentsPg;
+ 
+ 
+@FindBy (id="lastname")
+    public WebElement AuthorLastNameInAuthorSrchForm;
+//    public DocumentResults drPage;
+//    public AdvancedSearch asPage;
+    //resultRelatedLink0
+   
+/* String limitto = LimitTo.getAttribute("name");
+
+ String excludeto = ExcludeTo.getAttribute("name");*/
+    
+    public String changePassword;
+    public String Query;
+    public String PasswordAcknowlegment;
+    public String searchBoxes = "//div[contains(@id,'searchTable')]/div[contains(@class,'searchRow')][%s]//input[contains(@id,'searchterm')]";
+public String Affilaition_Name;
+public int length;
+public char str1[],str2[];
+public int  First_index,Last_index,m;
+public String Affilaition_Name_derived;
+public String text,Derived;
+public int index ;
+String HighlightedSearchTerm; 
+public String withinFields = "//div[contains(@id,'searchTable')]/div[contains(@class,'searchRow')][%s]//span[contains(@id,'field')]";
+public String chooseWithin = "//div[contains(@id,'searchTable')]/div[contains(@class,'searchRow')][%s]//li[contains(text(),'%s')]";
+public String withiInaffiliation = "//div[contains(@id,'searchTable')]/div[contains(@class,'searchRow')][%s]//li[text()='Affiliation']";
+public String DocumentDetails="//a[@title='Show document details']";
+public String AffiliationId="affiliationIds";
+ 
+public JavascriptExecutor js =  (JavascriptExecutor) driver;
+public static String Filecontent;
+ 
+public String Document_Name="";
+ 
+public  String show_abstract="";
+public  String hide_abstract="";
+ 
+ 
+public String  PageTitle;//2/24/16 Vinod: use the private definition above.
+public WebElement Dropdown;
+// these 2 arrays will hold Subject Area abbreviations & their full names:
+public static final String subAreaAbbrev[] = {"AGRI", "ARTS", "BIOC", "BUSI",
+"CENG", "CHEM", "COMP", "DECI", "EART", "ECON", "ENER", "ENGI", 
+"ENVI", "IMMU", "MATE", "MATH", "MEDI", "NEUR", "NURS", "PHAR", "PHYS",
+"PSYC", "SOCI", "VETE", "DENT", "HEAL", "MULT"};
+public static final String subAreaFull[] = {"Agricultural and Biological Sciences",
+"Arts and Humanities", "Biochemistry, Genetics and Molecular Biology", 
+"Business, Management and Accounting", "Chemical Engineering", "Chemistry",
+"Computer Science", "Decision Sciences", "Earth and Planetary Sciences",
+ "Economics, Econometrics and Finance", "Energy", "Engineering", 
+ "Environmental Science", "Immunology and Microbiology", "Materials Science",
+  "Mathematics", "Medicine", "Neuroscience", "Nursing", 
+  "Pharmacology, Toxicology and Pharmaceutics", "Physics and Astronomy",
+  "Psychology", "Social Sciences", "Veterinary", "Dentistry", 
+  "Health Professions", "Multidisciplinary"};
+ 
+ 
+public WebDriverWait wait = new WebDriverWait(driver,30);
+public JavascriptExecutor jse =(JavascriptExecutor)driver;
+ 
+public String addSearchlink = "addsearchfield";
+public String connectors = "//div[contains(@id,'searchTable')]/div[contains(@id,'Row')][%s]//span[contains(@id,'connector')]";
+public String chooseConnectors = "//div[contains(@id,'searchTable')]/div[contains(@id,'Row')][%s]//li[text()='%s']";
+ 
+public String  SelectAll ="Select all";
+public  String SelectPage = "Select page";
+ 
+public String View_References ="View references";
+ 
+ 
+/**
+*
+*/
+public Common(ScriptHelper scriptHelper) {
+// DO NOT ADD page validation.
+ 
+super(scriptHelper);
+pageTitle = driver.getTitle();
+}
+ 
+   /**
+    * Clicks 'Back to results' link bringing up the results page.
+    * 
+    * @since    2/24/16
+    * @author    Vinod
+    */
+    public void clickBackToResults() {
+       backToResults.click();
+       report.updateTestLog(pageTitle, "Clicked 'Back to results'.", Status.DONE);
+    }
+ 
+/**
+* Does Advanced search using search term from datasheet & subject area from
+*  the array defined above, iterating through the complete list.
+*  
+*  @author Vinod
+*/
+public void doAdvancedSearchVerifyResultsCountMatchesSubjectAreaValue() {
+String searchTerm = dataTable.getData("General_Data", "SearchTerm");
+AdvancedSearch asPage = new AdvancedSearch(scriptHelper);
+ 
+int totalSA = subAreaAbbrev.length;
+for (int i=0;i<totalSA;i++) {
+asPage.doAdvancedSearch(searchTerm+" AND "+"SUBJAREA("+subAreaAbbrev[i]+")");
+DocumentResults drPage = new DocumentResults(scriptHelper);
+drPage.verifyResultsCountMatchesSubjectAreaValue(subAreaAbbrev[i], subAreaFull[i]);
+drPage.clickEditSearch();
+}
+ 
+}
+ 
+/**
+* Does Advanced search using search term from datasheet then verifies documnet Result query,
+* and scirus query in patent results page.
+*  
+*  @author Sankari
+*  @since 05/18/2016 
+* @throws InterruptedException 
+*/
+public void doAdvancedSearchandVerifyPatentQuery() throws InterruptedException {
+String searchTerm = dataTable.getData("General_Data", "SearchTerm");
+AdvancedSearch asPage = new AdvancedSearch(scriptHelper);
+asPage.doAdvancedSearch(searchTerm);
+ 
+DocumentResults drPage = new DocumentResults(scriptHelper);
+drPage.verifyDocumentResultQueryfromAdvancedSearch();
+drPage.clickandVerifyPatentResultscirusQuery();
+drPage.clickEditSearch();
+}
+ 
+/**
+* Verifies that the Tool-tip info of 'Subject Areas' under 'Document Search'
+*  and 'Author Search' is same.
+*  
+* @throws InterruptedException
+* @since 11/30/2015
+* @author Vinod
+*/
+public void verifyToolTipConsistencyForSubjectAreas() throws InterruptedException {
+HomePage homePage = new HomePage(scriptHelper);
+List<String> toolTipsDS = new ArrayList<String>();
+for (int i=1; i<5; i++ ) {
+String chkbox = "//input[@id='subArea-"+i+"']";
+mouseHover(driver.findElement(By.xpath(chkbox)));
+String xpath = "//span[@class='tooltipText txtSmaller']["+i+"]//li";
+List<WebElement> li = driver.findElements(By.xpath(xpath));
+for (WebElement we : li){
+toolTipsDS.add(we.getText());
+}
+}
+homePage.navigateRoom("Author search");
+Thread.sleep(1000);
+List<String> toolTipsAS = new ArrayList<String>();
+for (int i=1; i<5; i++ ) {
+String chkbox = "//input[@id='subArea-"+i+"']";
+mouseHover(driver.findElement(By.xpath(chkbox)));
+String xpath = "//span[@class='tooltipText']["+i+"]//li";
+List<WebElement> li = driver.findElements(By.xpath(xpath));
+for (WebElement we : li){
+toolTipsAS.add(we.getText());
+}
+}
+int size = toolTipsDS.size();
+int size2 = toolTipsAS.size();
+if (size == size2) {
+report.updateTestLog(pageTitle, "Number of Subject Area sources covered is same: "
++size, Status.PASS);
+for (int j=0; j<size; j++) {
+if (!toolTipsDS.get(j).equals(toolTipsAS.get(j))) {
+report.updateTestLog(pageTitle, "Tool tip NOT same. Document Search: "
++toolTipsDS.get(j), Status.FAIL);
+report.updateTestLog(pageTitle, "Tool tip NOT same. Author Search: "
++toolTipsAS.get(j), Status.WARNING);
+}
+}
+} else {report.updateTestLog(pageTitle, "Number of Subject Area sources"
++ " covered is NOT same. Document Search: " +size, Status.FAIL);
+report.updateTestLog(pageTitle, "Number of Subject Area sources"
++ " covered is NOT same. Author Search: " +size2, Status.WARNING);}
+}
+ 
+//Created by Mike
+//4/13/16 Vinod: added few more startsWith pieces.
+public String displayingNameToSortingName(String displayingName) {
+
+displayingName = displayingName.toUpperCase();
+String sortingName = null;
+
+if (displayingName.startsWith("UNIVERSITY OF THE")) {
+sortingName = displayingName.substring(18) + ", UNIVERSITY OF THE";
+} else if (displayingName.startsWith("UNIVERSITY OF")) {
+sortingName = displayingName.substring(14) + ", UNIVERSITY OF";
+} else if (displayingName.startsWith("UNIVERSITY")) {
+sortingName = displayingName.substring(11) + ", UNIVERSITY";
+} else if (displayingName.startsWith("CENTRO UNIVERSITARIO")) {
+sortingName = displayingName.substring(21)
++ ", CENTRO UNIVERSITARIO";
+} else if (displayingName.startsWith("UNIWERSYTET")) {
+sortingName = displayingName.substring(12) + ", UNIWERSYTET";
+} else if (displayingName.startsWith("HOCHSCHULE")) {
+sortingName = displayingName.substring(11) + ", HOCHSCHULE";
+} else if (displayingName.startsWith("UNIVERSITAT")) {
+sortingName = displayingName.substring(12) + ", UNIVERSITAT";
+} else if (displayingName
+.startsWith("MEDIZINISCHE FAKULTAT UND UNIVERSITATS KLINIKUM")) {
+sortingName = displayingName.substring(48)
++ ", MEDIZINISCHE FAKULTAT UND UNIVERSITATS KLINIKUM";
+} else if (displayingName.startsWith("FACHHOCHSCHULE")) {
+sortingName = displayingName.substring(15) + ", FACHHOCHSCHULE";
+} else if (displayingName.startsWith("HOGSKOLEN I")) {
+sortingName = displayingName.substring(12) + ", HOGSKOLEN I";
+} else if (displayingName.startsWith("HANDELSHOJSKOLEN,")) {
+sortingName = displayingName.substring(18) + ", HANDELSHOJSKOLEN,";
+} else if (displayingName.startsWith("UNIVERSITE")) {
+sortingName = displayingName.substring(11) + ", UNIVERSITE";
+} else if (displayingName.startsWith("DIE")) {
+sortingName = displayingName.substring(4) + ", DIE";
+}
+ 
+else {
+sortingName = displayingName;
+}
+
+return sortingName;
+}
+ 
+/**
+* Returns text from Tool tip point text.
+* 
+* @return text
+* @since 12/09/2015
+* @author Nirupam 
+ */
+public String getToolTipPointText(WebElement elem) {
+ 
+  String hovertext="";
+  Actions hover= new Actions(driver);
+           hover.moveToElement(elem).build().perform();
+           try{
+           hovertext=elem.getAttribute("title");
+           System.out.println(hovertext);
+           report.updateTestLog("ToolTipPoint text", "Retrieving text: "+hovertext, 
+Status.DONE);
+           }catch (InvalidElementStateException ufe){
+    System.err.println("Hover  unsupported: " + ufe);
+  report.updateTestLog("ToolTipPoint text", "Retrieving text failed 'Hover unsupported': "+ufe, 
+Status.FAIL);
+}
+           return hovertext;
+}
+ 
+/**
+* To verify Export All link 
+* 
+* @return text
+* @since 12/10/2015
+* @author Nirupam
+* 4/28/16 Vinod: Export link was not consistently being clicked, hence added a loop.
+* @throws InterruptedException 
+ */
+//Method to verify ExportAll functionality in pages 
+public  void checkExportAll(   ) throws InterruptedException
+{
+String ExportallLink = "export_results";
+String ExportConatiner="saveToMed";
+WebElement  ExportLink=(WebElement) driver.findElement(By.id("export_results"));
+if(verifyElementPresence(ExportallLink))
+report.updateTestLog("ExportAll link verified", "ExportAll link is found and verified in Author details page " , Status.PASS);
+else
+report.updateTestLog("ExportAll link is not found ", "Export All link is not found and verifid in Author details page" , Status.FAIL);
+Thread.sleep(3000);
+//ClickWebElement(getElement(ExportallLink));
+for (int i=1; i<4; i++) {
+ExportLink.sendKeys(Keys.ENTER);
+Thread.sleep(1000);
+System.out.println("clicking ExportAll link attempt "+i);
+report.updateTestLog("clicking ExportAll link", "attempt "+i , Status.PROCESSING);
+if(verifyElementPresence("bubble-export_results"))//checking for the popup to appear.
+break;
+}
+//WebDriverWait wait = new WebDriverWait(driver, TimeoutInSecond);
+//wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("exportFormatRadio bibTextPaddding")));
+if(verifyElementPresence(ExportConatiner))
+report.updateTestLog("ExportAll link is clicked and navigated to Export ", "ExportAll link is clicked and navigated to Export " , Status.PASS);
+else
+report.updateTestLog("Failed to click ExportAll link ", "Failed to click ExportAll link " , Status.FAIL);
+ 
+}
+ 
+//To check and verify Export Refine link in pages
+ 
+public void CheckExportRefine(int TimeoutInSecond)
+{
+WebElement ExportRefine =driver.findElement(By.name("exportRefine"));
+String ExportRefineLink="exportRefine";
+getToolTipPointText(ExportRefine );
+if(verifyElementPresence(ExportRefineLink))
+report.updateTestLog("Export Refine link verified", "ExportRefine link is found and verified in  page " , Status.PASS);
+else
+   report.updateTestLog("Export Refine link is not found ", "Export Refine link is not found and verifid in Author details page" , Status.FAIL);
+ 
+   ClickWebElement(getElement(ExportRefineLink));
+}
+ 
+/**
+* To Show preview functioanlity in result page
+* @since 04/01/2016
+* @author Nirupam 
+* @throws InterruptedException 
+ */
+//To verify show preview functionality
+public void showpreview() throws InterruptedException
+{
+WebElement previewItem=(WebElement)driver.findElements(By.xpath("//span[@class='floatL']")).get(0);
+ 
+getToolTipPointText(previewItem);
+driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
+if (ifElementExists(By.xpath("//a[@id='documentNum']"))) {
+report.updateTestLog("Show Preview", "Preview is dispalyed before clicking on Show Preview", Status.FAIL);
+} else {
+report.updateTestLog("Show Preview", "Preview is not dispalyed before clicking on Show Preview", Status.PASS);
+}
+ 
+waitElementVisible(driver, By.xpath("//span[@class='floatL']"), 10);
+driver.findElements(By.xpath("//span[@class='floatL']")).get(0).click();
+ 
+waitElementVisible(driver, By.xpath("//a[@id='documentNum']"), 10);
+if (ifElementExists(By.xpath("//a[@id='documentNum']"))) {
+report.updateTestLog("Show Preview", "Preview is dispalyed after clicking on Show Preview", Status.PASS);
+} else {
+report.updateTestLog("Show Preview", "Preview is NOT dispalyed after clicking on Show Preview", Status.FAIL);
+}
+ 
+driver.findElements(By.xpath("//span[@class='floatL']")).get(0).click();
+driver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
+}
+
+ 
+ /**
+* To verify Print functionality
+* 
+* @since 01/03/2016
+* @author Nirupam 
+     * @throws InterruptedException 
+*/
+      //To verify Print functionality
+      public void print() throws InterruptedException, AWTException
+             {
+      
+        driver.findElement(By.cssSelector("a[title='Print this page']")).click();
+        //String PrintLink="//a[@class='txtSmaller iconPrintSmall']";
+        //if (verifyElementPresence(PrintLink))
+        //{
+    //ClickWebElement(getElement(PrintLink));
+             
+             // Creates the delay of 5 sec so that you can open notepad before
+             // Robot start writting
+             //robot.delay(2000);
+          Robot robot = new Robot();
+        robot.keyPress(KeyEvent.VK_CANCEL);
+        robot.keyPress(KeyEvent.VK_CANCEL);
+        
+          
+             //}
+             }
+ 
+ /**
+* To verify Email functionality
+* @since 01/03/2016
+* @author Nirupam 
+     * @throws InterruptedException 
+ */
+    
+      //To verify Email functionality
+public void EmailValidationResult() throws InterruptedException{
+ 
+String ConfirmmsgContainer="confirmMsgContainer";
+String ErrormsgContainer="errorMsgContainer";
+ 
+//TEST1
+  /* try {
+       driver.findElement(By.id("confirmMsgContainer")).isDisplayed();
+       System.out.println("Confirmation message displayed");
+       String str=getElement(ConfirmmsgContainer).getText();
+       System.out.println(str);
+if(str.contains("The email has been sent. "))
+report.updateTestLog("Email link clicked successfully and message has been sent",
+"Email link clicked successfully and message has been sent", Status.PASS);
+
+       } 
+       catch (NoSuchElementException e) {
+       System.out.println("Confirmation message  Tab element does not exist");
+       } finally{
+      System.out.println("Continue");
+        }
+
+          Thread.sleep(3000);
+        //TEST2
+       try {
+       driver.findElement(By.id("ErrormsgContainer")).isDisplayed();
+       System.out.println("Error message displayed");
+       String str1= driver.findElement(By.id("errorMsgContainer")).getText();
+       System.out.println(str1);
+       if(str1.contains("One or more of the email addresses entered is not valid. Please check your entries before sending. "))
+System.out.println("done");
+report.updateTestLog("Invalid Emails",
+"Invalid Emails -failed to send email", Status.PASS);
+    } catch (NoSuchElementException e) {
+       System.out.println("Error message element does not exist");
+       } //finally {
+       //System.out.println("Continue");
+      // }*/
+if(verifyElementPresence(ConfirmmsgContainer))
+{
+try {
+       System.out.println("Confirmation message displayed");
+       String str=getElement(ConfirmmsgContainer).getText();
+       System.out.println(str);
+if(str.contains("The email has been sent. "))
+report.updateTestLog("Email link clicked successfully and message has been sent",
+"Email link clicked successfully and message has been sent", Status.PASS);
+
+       } 
+       catch (NoSuchElementException e) {
+       System.out.println("Confirmation message  Tab element does not exist");
+       } finally{
+       System.out.println("Continue");
+        }
+
+           }
+  else
+   System.out.println("Error message displayed ,input is invalid");
+   report.updateTestLog("Invalid Emails",
+"Invalid Emails -failed to send email", Status.PASS);
+ 
+}
+
+/**
+*  To return back to home page ,logout and then again login
+* 
+* @since 01/03/2016
+* @author Nirupam 
+*  @throws InterruptedException 
+*/ 
+ 
+       public void backtoHome() throws InterruptedException
+        {
+       String opinionPopUp = "//div[contains(@class,'modalOverlayPopUp')]";
+           String remindLater = "modalRemindLater";
+       String loginLink = "login_loginlink";
+                String loginPopUp = "login_pop_container";
+                String userName = "username";
+       String passWord = "password";
+       String loginButton = "//input[@value='Login']";
+       String logout = "logout_logoutform";
+           String scopusLogo = "//img[contains(@alt,'search page')]";
+ 
+           ClickWebElement(getElement(scopusLogo));
+ 
+           ClickWebElement(getElement(logout));
+       report.updateTestLog("Logout", "Successfully logout", Status.PASS);
+       ClickWebElement(getElement(loginLink));
+       if(!(verifyElementPresence(loginPopUp)))
+report.updateTestLog("Loging Pop Up", "Login Pop is not displayed", Status.FAIL);
+       typeText(getElement(userName), "scautomation");
+       typeText(getElement(passWord), "password-1");
+       ClickWebElement(getElement(loginButton));
+       if (ifElementExists(By.cssSelector("input[title=Continue]")))
+       {
+       List<WebElement> org = driver.findElements(By.cssSelector("input[name='path_choice']"));
+       if (ifElementExists(By.cssSelector("input[value='58810']")))
+       {
+       driver.findElement(By.cssSelector("input[value='58810']")).click();
+report.updateTestLog("Choosing org", "Test Dept (58810)", Status.DONE);
+       }
+       else
+       {
+       org.get(0).click();
+       report.updateTestLog("Choosing org", "Test Dept (58810) is not displayed", Status.DONE);
+       }
+       driver.findElement(By.cssSelector("input[title=Continue]")).click();
+       Thread.sleep(5000);
+       report.updateTestLog("Choose organization", "A pathchoice is selected for authentication", Status.DONE);
+       }
+       else
+       {
+       report.updateTestLog("Choose organization", "Choose organization page is not displayed", Status.DONE);
+   }
+}
+ 
+       
+       
+       
+//Code for Abstract matches...
+       public void AbstractMatches() throws InterruptedException
+       {
+      
+      Thread.sleep(3000);
+      String Abstract =driver.findElement(By.id("previewAbstract1")).getText();
+      
+List<WebElement> docLink = driver.findElements(By.className("docTitle"));
+docLink.get(0).click();
+Thread.sleep(3000);
+String txt= driver.findElement(By.id("recordAbs")).getText();
+ 
+int  l = txt.length();
+for(int i=0;i<l;i++)
+{
+if(txt.charAt(i)=='.')
+{
+index=i;
+break;
+}
+}
+String ExactAbstract= txt.substring(0, index);
+ 
+ 
+if(Abstract.contains(ExactAbstract))
+{
+report.updateTestLog("Document Details","Abstract Section is Verified..",Status.PASS);
+}
+else
+{
+report.updateTestLog("Document Details","Abstract Section is not Verified..",Status.FAIL);
+}
+ 
+String color= driver.findElement(By.className("ScopusTermHighlight")).getCssValue("font-weight");
+boolean isBold="bold".equals(color)||"bolder".equals(color)||Integer.parseInt(color)>=700;
+ 
+ 
+if(isBold)
+{
+report.updateTestLog("Document Details","Search Term is Highlighted", Status.PASS);
+}
+else
+{
+report.updateTestLog("Document Details","Search Term is not Highlighted", Status.FAIL);
+}
+ 
+HighlightedSearchTerm = driver.findElement(By.className("ScopusTermHighlight")).getText();
+
+ 
+if(HighlightedSearchTerm.contains(dataTable.getData("Search", "search_term_text")))
+{
+report.updateTestLog("Document Details","Search Term is Present", Status.PASS);
+}
+else
+{
+report.updateTestLog("Document Details","Search Term is not Prsent", Status.FAIL);
+}
+ 
+     
+       
+       }  
+       
+   public void SortOrderConvertor(String SortOrder)
+   {
+  
+  
+  //Date....
+  WebDriverWait  sort =new   WebDriverWait(driver,5); 
+  sort.until(ExpectedConditions.elementToBeClickable(driver.findElement(By.cssSelector("#plf-f"))));
+  
+  
+ 
+ 
+ //Cited By....
+ driver.findElement(By.cssSelector("#cp-f")); 
+ 
+ 
+ 
+   }
+     
+     
+     
+     
+   public void ToAdvancedSearch()
+{
+ 
+String room=dataTable.getData("General_Data", "NavBar");
+if (driver.findElement(By.linkText(room)).isDisplayed()){
+driver.findElement(By.linkText(room)).click();
+report.updateTestLog("Navigation Bar","User is navigated to "+room,Status.PASS);
+}
+else{
+report.updateTestLog("Navigation Bar","User is NOT navigated to "+room,Status.FAIL);
+}
+
+ 
+}
+  
+     
+      public void QueryAdvanceSearch()
+      {
+     driver.findElement(By.id("searchfield")).sendKeys(dataTable.getData("Search","search_term_text"));
+     driver.findElement(By.cssSelector("input[title='Search']")).click();
+     
+      }
+       
+       
+       
+       public void ChangePassword() throws InterruptedException
+       {
+      MyScopus.click();
+      
+     
+      if(ChangePassword.isDisplayed())
+      {
+      ChangePassword.click();
+      changePassword = driver.getTitle();
+      if( changePassword.contains("Scopus - Change Password"))
+      {
+      System.out.println("ChangePassword page Navigated....");
+      //Current Password...
+      driver.findElement(By.id("changePass-currPass-old_password")).sendKeys(dataTable.getData("General_Data","Password" ));
+      //New Password...
+      driver.findElement(By.id("changePass-newPass-new_password")).sendKeys(dataTable.getData("General_Data","PasswordNew" ));
+      //Confirm Password...
+     
+      driver.findElement(By.id("changePass-cnfmNewPass-confirm_password")).sendKeys(dataTable.getData("General_Data","PasswordNew" ));
+          driver.findElement(By.cssSelector("input[title='Submit']")).click(); 
+      Thread.sleep(3000);
+      PasswordAcknowlegment = driver.getTitle();
+      
+      
+      if(PasswordAcknowlegment.contains("Scopus - Password change acknowledgement"))
+      {
+      report.updateTestLog("My Settings-Change Password ","Password Changed  ",Status.PASS);
+      }
+      else
+      {
+      report.updateTestLog("My Settings-Change Password","Password Unchanged ",Status.FAIL);
+      }
+      
+      //Clicking the continue button..
+      driver.findElement(By.id("changePass-continue1")).click();
+      wait.until(ExpectedConditions.elementToBeClickable(ChangePassword));
+      ChangePassword.click();
+    //Current Password...
+  driver.findElement(By.id("changePass-currPass-old_password")).sendKeys(dataTable.getData("General_Data","PasswordNew" ));
+  //New Password...
+  driver.findElement(By.id("changePass-newPass-new_password")).sendKeys(dataTable.getData("General_Data","Password" ));
+  //Confirm Password...
+ 
+  driver.findElement(By.id("changePass-cnfmNewPass-confirm_password")).sendKeys(dataTable.getData("General_Data","Password" ));
+      driver.findElement(By.cssSelector("input[title='Submit']")).click(); 
+  Thread.sleep(3000);
+  if(PasswordAcknowlegment.contains("Scopus - Password change acknowledgement"))
+  {
+  report.updateTestLog("My Settings-Change Password ","Password Again Changed  ",Status.PASS);
+  }
+  else
+  {
+  report.updateTestLog("My Settings-Change Password","Password Unchanged ",Status.FAIL);
+  }
+     
+      
+      }
+     
+      }
+      else
+      {
+     System.out.println("The Change Password Link is not displayed.."); 
+      }
+       }
+       
+       
+       
+       public void DeleteSearchInSearchHistory() throws InterruptedException
+       {
+      
+      boolean flag= false;
+      driver.findElement(By.id("searchterm1")).sendKeys(dataTable.getData("Search", "Term1"));
+      Thread.sleep(3000);
+      driver.findElement(By.id("field1-button")).click();
+      List<WebElement> options = driver.findElements(By.className("ui-menu-item"));
+      for(WebElement choices:options)
+      
+      {
+      if(choices.getText().equals(dataTable.getData("Search", "Selector")))
+      {
+      report.updateTestLog("Document search Page","Selector selected ",Status.PASS);
+      choices.click();
+      }
+          
+      }
+      
+          Search.click();
+          Thread.sleep(3000);
+          Query = driver.findElement(By.className("queryTxt")).getText();
+        driver.findElement(By.id("editAuthSearch")).click();
+          Thread.sleep(3000);
+          System.out.println(driver.findElement(By.className("txtSmaller")).getText());
+          jse.executeScript("arguments[0].click();" ,DeleteQuery );
+          Thread.sleep(5000);
+          try
+          {
+      Alert alert = driver.switchTo().alert();
+      flag=true;
+      alert.accept();
+          }catch(NoAlertPresentException e)
+          {
+          e.printStackTrace();
+          }
+    Thread.sleep(3000);  
+      
+       }
+       
+       public void verifyHighlight() throws InterruptedException {
+    // this method is designed by Mike Ye to verify highlight on document
+    // results page
+    // it can be used on other pages too
+    Thread.sleep(5000);
+    if (ifElementExists(By.xpath("//a[contains(.,'Show all abstracts')]"))) {
+    link_ShowAllAbstracts.click();
+    }
+    Thread.sleep(5000);
+
+    List<WebElement> highlightsOne = driver.findElements(By.xpath("//span[@class='ScopusTermHighlight']")); // on document details page
+    List<WebElement> highlightsTwo = driver.findElements(By.xpath("//font[@class='ScopusTermHighlight']")); // on document results page
+    // can add more if needed
+    List<WebElement> highlights = new ArrayList<WebElement>();
+    highlights.addAll(highlightsOne);
+    highlights.addAll(highlightsTwo);
+   
+    List<String> highlightsText = new ArrayList<String>();
+    for (int i = 0; i < highlights.size(); i++) {
+    highlightsText.add(highlights.get(i).getText().toLowerCase());
+    }
+
+    for (int i = 0; i < highlightsText.size(); i++) {
+    if (highlightsText.get(i).contains(dataTable.getData("Search", "search_term_text").toLowerCase())) {
+    if (i == highlightsText.size() - 1) {
+    report.updateTestLog("verifyHighlight", "Highlights are displayed", Status.PASS);
+    break;
+    }
+    } else {
+    report.updateTestLog("verifyHighlight", "Highlights are NOT displayed", Status.FAIL);
+    break;
+    }
+    }
+    }
+       
+       public void BasicToAdvancedFunModule() throws InterruptedException
+       {
+           driver.findElement(By.id("searchterm1")).clear();
+   
+      //----------------------
+
+           String searchTerm2 = dataTable.getData("Search", "Term2");
+    String searchTerm3 = dataTable.getData("Search", "Term3");
+
+    int totalNoOfSearchTerms;
+    if(searchTerm3.equalsIgnoreCase(""))
+    {
+    if(searchTerm2.equalsIgnoreCase(""))
+    totalNoOfSearchTerms =1;
+    else
+    totalNoOfSearchTerms = 2;
+    }
+    else
+    totalNoOfSearchTerms = 3;
+    for(int i = 1;i<totalNoOfSearchTerms; i++)
+    {
+    ClickWebElement(getElement(addSearchlink));
+    if(!(dataTable.getData("Search", "connector" + i).equalsIgnoreCase("") || dataTable.getData("Search", "connector" + i).equalsIgnoreCase(null)))
+    {
+    ClickWebElement(getElement(String.format(connectors,i)));
+    ClickWebElement(getElement(String.format(chooseConnectors, i, dataTable.getData("Search", "connector" + i))));
+    }
+    }
+
+
+    for(int i = 1; i<= totalNoOfSearchTerms; i++)
+    {
+    typeText(getElement(String.format(searchBoxes, i)), dataTable.getData("Search", "Term" + i));
+    ClickWebElement(getElement(String.format(withinFields, i)));
+    String within = dataTable.getData("Search", "Within" + i);
+
+    if(!(within.equalsIgnoreCase("")))
+    {
+    if(within.equalsIgnoreCase("Affiliation"))
+    ClickWebElement(getElement(String.format(withiInaffiliation, i)));
+    else
+    ClickWebElement(getElement(String.format(chooseWithin, i, within)));
+
+    }
+    }
+   
+
+   
+
+
+ 
+  //-----------------------------------------------
+
+      
+      //code for selecting Search Field Type 1..
+      driver.findElement(By.id("field1-button")).click();
+      List<WebElement> options = driver.findElements(By.className("ui-menu-item"));
+      for(WebElement choices:options)
+      
+      {
+      if(choices.getText().equals(dataTable.getData("Search", "Within1")))
+      {
+      report.updateTestLog("Document search Page","Selector selected ",Status.PASS);
+      choices.click();
+      }
+          
+      }
+      
+     
+      
+      //code for selecting the Date Range(inclusive).. 
+      //From ...
+      driver.findElement(By.id("yearFrom-button")).click();
+      List<WebElement> options2 = driver.findElements(By.className("ui-menu-item"));
+      for(WebElement choices:options2)
+      
+      {
+      if(choices.getText().equals(dataTable.getData("Search", "DateRange")))
+      {
+      report.updateTestLog("Document search Page","Date Range selected From ",Status.PASS);
+      choices.click();
+      }
+          
+      }
+      Thread.sleep(3000);
+      
+      //To..
+      driver.findElement(By.id("yearTo-button")).click();
+      List<WebElement> options3 = driver.findElements(By.className("ui-menu-item"));
+      for(WebElement choices:options3)
+      
+      {
+      if(choices.getText().equals(dataTable.getData("Search", "FromDate")))
+      {
+      report.updateTestLog("Document search Page","Date Range selected To ",Status.PASS);
+      choices.click();
+      }
+          
+      }
+      //code for selecting the Document type..
+      driver.findElement(By.id("documenttype-button")).click();
+      List<WebElement> options1 = driver.findElements(By.className("ui-menu-item"));
+      for(WebElement choices:options1)
+      
+      {
+      if(choices.getText().equals(dataTable.getData("Search", "DocumentType")))
+      {
+      report.updateTestLog("Document search Page","Document Type selected ",Status.PASS);
+      choices.click();
+      }
+          
+      }
+      
+          //Scroll up..
+js.executeScript("window.scrollBy(0,-250)", "");
+driver.findElement(By.cssSelector("input[title='Search']")).click();
+           String queryResults=driver.findElement(By.className("queryTxt")).getText();
+           String  queryResultsmodified = queryResults.replaceAll("\\s+", "");
+      Thread.sleep(3000);
+      System.out.println(queryResultsmodified);
+      Thread.sleep(3000);
+      driver.findElement(By.cssSelector("a[title='Edit search query']")).click();
+      //driver.navigate().back();
+      Thread.sleep(300);
+    //Scroll up..
+ 
+js.executeScript("window.scrollBy(0,-250)", "");
+ 
+      String room=dataTable.getData("Search", "NavBar");
+if (driver.findElement(By.linkText(room)).isDisplayed()){
+driver.findElement(By.linkText(room)).click();
+report.updateTestLog("Navigation Bar","User is navigated to "+room,Status.PASS);
+}
+ 
+else
+{
+report.updateTestLog("Navigation Bar","User is NOT navigated to "+room,Status.FAIL);
+}
+
+ 
+          Thread.sleep(3000);
+          String QueryAdv= driver.findElement(By.id("searchfield")).getText();
+          String QuerAdvModified=QueryAdv.replaceAll("\\s+", "");
+      Thread.sleep(3000);
+          System.out.println(driver.findElement(By.id("searchfield")).getText());
+          
+          if(queryResultsmodified.equalsIgnoreCase(QuerAdvModified)||(queryResultsmodified.contains(QuerAdvModified)))
+          
+          {
+        report.updateTestLog("Basic to Advanced ","Query Matched",Status.PASS);
+          }
+          else
+          {
+        report.updateTestLog("Basic to Advanced","Query not Matched",Status.FAIL); 
+          }
+         
+          
+       }
+       
+       
+       
+
+
+
+      
+      
+      
+      
+      
+      
+      
+
+       
+     //To click on xml doc linkin result page for privileged  user
+      public void clickOnXmlDoc() throws InterruptedException
+      {
+     
+      /*Actions builder = new Actions(driver);
+      builder.moveToElement(driver.findElement(By.id("rawAbsXmlLink"))).build().perform();
+      builder.click();
+           Thread.sleep(3000);
+      driver.findElement(By.id("rawAbsXmlLink")).click();*/
+      String Script = "javascript:document.getElementById('rawAbsXmlLink').click();";
+      ((JavascriptExecutor) driver).executeScript(Script);
+      }
+          
+      /**
+      *  To verify the xml doc against different tag
+      * 
+      * @since 03/30/2016
+      * @author Nirupam
+      * @author 4/8/16 Vinod: added the else for reporting failure. (Noticed that Nirupam has not completed the tag
+      * level validation...he left the code commented...anyone needing that should create another method 
+      * with appropriate name & build it. Also the spacing of the code is not standard.
+      * @throws InterruptedException 
+      * 
+      */
+          
+          public void verifyXmlDoc() throws InterruptedException
+          {
+        Set <String> handles =driver.getWindowHandles();
+          Iterator<String> it = handles.iterator();
+          //iterate through your windows
+          while (it.hasNext()){
+          String parent = it.next();
+          String newwin = it.next();
+          driver.switchTo().window(newwin);
+          }
+          
+         String str=driver.getCurrentUrl();//if(str.contains("http://cdc335-www.scopus.com/record/datacheckout.url?"))
+         if(str.contains("www.scopus.com/record/datacheckout.ur")) {
+         report.updateTestLog("Xml doc page"," Successfully navigated to Xml doc page", Status.PASS);
+         } else{report.updateTestLog("Xml doc page"," Did NOT validate opening of Xml doc page", Status.FAIL);}
+          //System.out.println(driver.findElement(By.xpath("//*[@id='collapsible2']/div[1]/div[2]/div/span[2]")).getText());
+        // String str3=driver.getPageSource();
+        // System.out.println(str3);
+         
+       
+      /* DocumentBuilderFactory factory=DocumentBuilderFactory.newInstance();
+         try
+         {
+         DocumentBuilder builder=factory.newDocumentBuilder();
+         Document doc=builder.parse("XmlDoc.xml");
+         NodeList referenceList=doc.getElementsByTagName("ref-titletext");
+         for(int i=0;i<referenceList.getLength();i++)
+         {
+         Node r=referenceList.item(i);
+         if(r.getNodeType()==Node.ELEMENT_NODE)
+         {
+         Element reference=(Element) r;
+         }
+         String str1=r.getTextContent();
+         System.out.println(str1);
+         
+         }
+         }
+         catch (ParserConfigurationException e)
+         {
+         e.printStackTrace();
+         
+         }catch(SAXException e)
+         {
+         e.printStackTrace();
+         }catch(IOException e)
+         {
+         e.printStackTrace();
+         }
+          }
+         
+        /*  String str1= driver.findElement(By.cssSelector("#collapsible1 > div.expanded > div.collapsible-content > div:nth-child(3) > span:nth-child(1)")).getTagName();
+         System.out.println(str1);
+       
+        //by using xpath and selector
+        String reference="//div[contains(@id,'collapsible368')]/div[1]/div[2]/span";
+        String str1= driver.findElement(By.cssSelector("#collapsible368 > div.expanded > div.collapsible-content > span")).getTagName();
+        String str2= driver.findElement(By.cssSelector("#collapsible368 > div.expanded > div.collapsible-content > span")).getText();
+        System.out.println(str1 +""+ str2);*/
+         
+}
+          public void  INWARD_CitedBySearchingFunModule() throws InterruptedException
+          {
+         driver.get(dataTable.getData("Search", "URL"));
+         driver.manage().window().maximize();
+        String title= driver.getTitle();
+         System.out.println(title);
+         if(CitedByQA.isDisplayed())
+         
+         {
+         CitedByQA.click();
+         report.updateTestLog("SCOPUS QA PORTAL", "INWARD LINK clicked", Status.PASS); 
+         }
+         
+         
+          Thread.sleep(3000);
+         
+          WebElement element = driver.findElement(By.name("searchType"));
+          Select se =  new Select(element);
+          se.selectByValue(dataTable.getData("Search", "SearchType"));
+          Thread.sleep(3000);
+          
+          WebElement method = driver.findElement(By.name("method"));
+          Select s =  new Select(method);
+          s.selectByValue(dataTable.getData("Search", "Method"));
+          Thread.sleep(3000);
+        /* List<WebElement> methods= driver.findElements(By.name("method"));
+         
+        for(WebElement choices:methods)
+        {
+        if(choices.getText().equals(dataTable.getData("Search", "Method")))
+        {
+        report.updateTestLog("SCOPUS QA PORTAL","Method  Type selected ",Status.PASS);
+        choices.click();
+        }
+          
+        }
+        */
+        driver.findElement(By.name("server")).clear();
+        driver.findElement(By.name("server")).sendKeys(dataTable.getData("Search", "Term1"));
+         
+        driver.findElement(By.name("partnerID")).clear();
+        driver.findElement(By.name("partnerID")).sendKeys(dataTable.getData("Search", "Term2")); 
+         
+        driver.findElement(By.name("rel")).clear();
+        driver.findElement(By.name("rel")).sendKeys(dataTable.getData("Search", "Term3"));
+        //Eid
+        driver.findElement(By.id("eid")).clear();
+        driver.findElement(By.id("eid")).sendKeys(dataTable.getData("Search", "Eid"));
+         
+        driver.findElement(By.id("doi")).clear();
+         
+        if(!(dataTable.getData("Search", "DOI").equalsIgnoreCase("")||dataTable.getData("Search", "DOI").equalsIgnoreCase(null)))
+        {
+        driver.findElement(By.id("doi")).sendKeys(dataTable.getData("Search", "DOI")); 
+        }
+         
+        if(!(dataTable.getData("Search", "PII").equalsIgnoreCase("")||dataTable.getData("Search", "PII").equalsIgnoreCase(null)))
+        {
+        driver.findElement(By.id("pii")).sendKeys(dataTable.getData("Search", "PII")); 
+        }
+         
+         
+        if(!(dataTable.getData("Search", "SCP").equalsIgnoreCase("")||dataTable.getData("Search", "SCP").equalsIgnoreCase(null)))
+        {
+        driver.findElement(By.id("scp")).sendKeys(dataTable.getData("Search", "SCP")); 
+        }
+         
+         
+         
+        if(driver.findElement(By.id("md5cb")).isDisplayed())
+        {
+        driver.findElement(By.id("md5cb")).click();
+        report.updateTestLog("SCOPUS QA PORTAL","Need MD5 selected ",Status.PASS);
+        }
+        Thread.sleep(3000);  
+        //driver.findElement(By.id("Create")).click();//for clicking only after valid set of data...
+          }
+       
+         public void SearchQuery()
+         {
+        if(DocQuery.isDisplayed())
+        {
+        report.updateTestLog("Author Selection page loads","Author Selection page is loaded",Status.PASS);
+        }
+        else
+        {
+        report.updateTestLog("Author Selection page loads","Author Selection page is loaded",Status.FAIL);
+        }
+         }
+         
+         
+         
+         public void inward_AuthorSearchingFunModule() throws InterruptedException
+         {
+         driver.get(dataTable.getData("Search", "URL"));
+         driver.manage().window().maximize();
+         String title= driver.getTitle();
+         System.out.println(title);
+         if(CitedByQA.isDisplayed())
+         
+         {
+         CitedByQA.click();
+         report.updateTestLog("SCOPUS QA PORTAL", "INWARD LINK clicked", Status.PASS); 
+         }
+         
+         
+             WebElement element = driver.findElement(By.name("searchType"));
+           Select se =  new Select(element);
+           se.selectByValue(dataTable.getData("Search", "SearchType"));
+           Thread.sleep(3000);
+        
+        WebElement method = driver.findElement(By.name("method"));
+        Select s =  new Select(method);
+        s.selectByValue(dataTable.getData("Search", "Method"));
+        Thread.sleep(3000);
+         
+         driver.findElement(By.name("server")).clear();
+         driver.findElement(By.name("server")).sendKeys(dataTable.getData("Search", "Term1"));
+         
+         driver.findElement(By.name("partnerID")).clear();
+        driver.findElement(By.name("partnerID")).sendKeys(dataTable.getData("Search", "Term2")); 
+         
+        driver.findElement(By.name("rel")).clear();
+        driver.findElement(By.name("rel")).sendKeys(dataTable.getData("Search", "Term3"));
+         
+        driver.findElement(By.name("author")).clear();
+        driver.findElement(By.name("author")).sendKeys(dataTable.getData("Search", "Authors"));
+         
+        if(driver.findElement(By.id("md5cb")).isDisplayed())
+        {
+        driver.findElement(By.id("md5cb")).click();
+        report.updateTestLog("SCOPUS QA PORTAL","Need MD5 selected ",Status.PASS);
+        }
+        Thread.sleep(3000); 
+         
+         }
+         
+         
+       
+         public void inward_RelatedDocumentSearchFunModule() throws InterruptedException
+         {
+         driver.get(dataTable.getData("Search", "URL"));
+         driver.manage().window().maximize();
+         String title= driver.getTitle();
+         System.out.println(title);
+         if(CitedByQA.isDisplayed())
+         
+         {
+         CitedByQA.click();
+         report.updateTestLog("SCOPUS QA PORTAL", "INWARD LINK clicked", Status.PASS); 
+         }
+         
+         
+             WebElement element = driver.findElement(By.name("searchType"));
+           Select se =  new Select(element);
+           se.selectByValue(dataTable.getData("Search", "SearchType"));
+           Thread.sleep(3000);
+        
+        WebElement method = driver.findElement(By.name("method"));
+        Select s =  new Select(method);
+        s.selectByValue(dataTable.getData("Search", "Method"));
+        Thread.sleep(3000);
+         
+         driver.findElement(By.name("server")).clear();
+         driver.findElement(By.name("server")).sendKeys(dataTable.getData("Search", "Term1"));
+         
+         driver.findElement(By.name("partnerID")).clear();
+        driver.findElement(By.name("partnerID")).sendKeys(dataTable.getData("Search", "Term2")); 
+         
+        driver.findElement(By.name("rel")).clear();
+        driver.findElement(By.name("rel")).sendKeys(dataTable.getData("Search", "Term3"));
+         
+        driver.manage().timeouts().implicitlyWait(5,TimeUnit.SECONDS);
+         
+        System.out.println(dataTable.getData("Search", "eid"));
+        driver.findElement(By.id("eid")).clear();
+        driver.findElement(By.id("eid")).sendKeys(dataTable.getData("Search", "eid"));
+         
+        if(driver.findElement(By.id("md5cb")).isDisplayed())
+        {
+        driver.findElement(By.id("md5cb")).click();
+        report.updateTestLog("SCOPUS QA PORTAL","Need MD5 selected ",Status.PASS);
+        }
+        Thread.sleep(3000); 
+         
+         }
+         
+         //new...
+         public void inward_MultiScopusIDSearchFunModule() throws InterruptedException
+         {
+         driver.get(dataTable.getData("Search", "URL"));
+         driver.manage().window().maximize();
+         String title= driver.getTitle();
+         System.out.println(title);
+         if(CitedByQA.isDisplayed())
+         
+         {
+         CitedByQA.click();
+         report.updateTestLog("SCOPUS QA PORTAL", "INWARD LINK clicked", Status.PASS); 
+         }
+         
+         
+             WebElement element = driver.findElement(By.name("searchType"));
+           Select se =  new Select(element);
+           se.selectByValue(dataTable.getData("Search", "SearchType"));
+           Thread.sleep(3000);
+        
+        WebElement method = driver.findElement(By.name("method"));
+        Select s =  new Select(method);
+        s.selectByValue(dataTable.getData("Search", "Method"));
+        Thread.sleep(3000);
+         
+         driver.findElement(By.name("server")).clear();
+         driver.findElement(By.name("server")).sendKeys(dataTable.getData("Search", "Term1"));
+         
+         driver.findElement(By.name("partnerID")).clear();
+        driver.findElement(By.name("partnerID")).sendKeys(dataTable.getData("Search", "Term2")); 
+         
+        driver.findElement(By.name("rel")).clear();
+        driver.findElement(By.name("rel")).sendKeys(dataTable.getData("Search", "Term3"));
+         
+        driver.manage().timeouts().implicitlyWait(5,TimeUnit.SECONDS);
+         
+         
+        driver.findElement(By.id("scp")).clear();
+        driver.findElement(By.id("scp")).sendKeys(dataTable.getData("Search", "SCP"));
+         
+        if(driver.findElement(By.id("md5cb")).isDisplayed())
+        {
+        driver.findElement(By.id("md5cb")).click();
+        report.updateTestLog("SCOPUS QA PORTAL","Need MD5 selected ",Status.PASS);
+        }
+        Thread.sleep(3000); 
+         
+         }
+         
+      
+         public void SearchHistory()
+         {
+          if(SearchHistory.isDisplayed())
+        {
+        report.updateTestLog("Search History box found","Search History box with query is found",Status.PASS);
+        }
+        else
+        {
+        report.updateTestLog("Search History box NOT found","Search History box is NOT found",Status.FAIL);
+        }
+          if(CombinedTexbox.isDisplayed())
+        {
+        report.updateTestLog("Combined Texbox found","Combined Texbox is found inside Search history",Status.PASS);
+        }
+        else
+        {
+        report.updateTestLog("Combined Texbox NOT found","Combined Texbox is NOT found inside Search history",Status.FAIL);
+        }
+         }
+         
+         public void addtosearch() throws InterruptedException, AWTException
+      {
+      if(Addtosearch.isDisplayed())
+      {
+      Addtosearch.click();
+      report.updateTestLog("Add to Search Link", "Add to search link is clicked", Status.PASS);
+      }
+      else{
+      report.updateTestLog("Add to Search Link NOT found", "Add to search link is NOT found in page", Status.FAIL);
+      }
+      PressEnter();
+      Thread.sleep(10000);
+      SwitchToParent();
+      }
+         
+         
+         
+         public void refineResults_SourceTitle_FunModule() throws Exception 
+         {
+        HomePage obj = new HomePage(scriptHelper);
+        obj.login();
+        obj.surveyPopUp();
+        obj.modalOverlay();
+        BasicSearchTerm.clear();
+        String searchTerm2 = dataTable.getData("Search", "Term2");
+      String searchTerm3 = dataTable.getData("Search", "Term3");
+
+      int totalNoOfSearchTerms;
+      if(searchTerm3.equalsIgnoreCase(""))
+      {
+      if(searchTerm2.equalsIgnoreCase(""))
+      totalNoOfSearchTerms =1;
+      else
+      totalNoOfSearchTerms = 2;
+      }
+      else
+      totalNoOfSearchTerms = 3;
+      for(int i = 1;i<totalNoOfSearchTerms; i++)
+      {
+      ClickWebElement(getElement(addSearchlink));
+      if(!(dataTable.getData("Search", "connector" + i).equalsIgnoreCase("") || dataTable.getData("Search", "connector" + i).equalsIgnoreCase(null)))
+      {
+      ClickWebElement(getElement(String.format(connectors,i)));
+      ClickWebElement(getElement(String.format(chooseConnectors, i, dataTable.getData("Search", "connector" + i))));
+      }
+      }
+
+
+      for(int i = 1; i<= totalNoOfSearchTerms; i++)
+      {
+      typeText(getElement(String.format(searchBoxes, i)), dataTable.getData("Search", "Term" + i));
+      ClickWebElement(getElement(String.format(withinFields, i)));
+      String within = dataTable.getData("Search", "Within" + i);
+
+      if(!(within.equalsIgnoreCase("")))
+      {
+      if(within.equalsIgnoreCase("Affiliation"))
+      ClickWebElement(getElement(String.format(withiInaffiliation, i)));
+      else
+      ClickWebElement(getElement(String.format(chooseWithin, i, within)));
+
+      }
+      }
+     
+
+
+
+      //code for selecting Search Field Type 1..
+            driver.findElement(By.id("field1-button")).click();
+            List<WebElement> options = driver.findElements(By.className("ui-menu-item"));
+            for(WebElement choices:options)
+            
+            {
+            if(choices.getText().equals(dataTable.getData("Search", "Within1")))
+            {
+            report.updateTestLog("Document search Page","Selector selected ",Status.PASS);
+            choices.click();
+            }
+                
+            }
+
+
+//code for selecting the Date Range(inclusive).. 
+//From ...
+driver.findElement(By.id("yearFrom-button")).click();
+List<WebElement> options2 = driver.findElements(By.className("ui-menu-item"));
+for(WebElement choices:options2)
+  
+{
+  if(choices.getText().equals(dataTable.getData("Search", "DateRange")))
+  {
+  report.updateTestLog("Document search Page","Date Range selected From ",Status.PASS);
+  choices.click();
+  }
+      
+}
+driver.manage().timeouts().implicitlyWait(5,TimeUnit.SECONDS);
+
+
+//To..
+driver.findElement(By.id("yearTo-button")).click();
+List<WebElement> options3 = driver.findElements(By.className("ui-menu-item"));
+for(WebElement choices:options3)
+  
+{
+  if(choices.getText().equals(dataTable.getData("Search", "FromDate")))
+  {
+  report.updateTestLog("Document search Page","Date Range selected To ",Status.PASS);
+  choices.click();
+  }
+      
+}
+
+driver.manage().timeouts().implicitlyWait(2,TimeUnit.SECONDS);
+//Clicking the Search Button...
+
+Search.click();
+driver.manage().timeouts().implicitlyWait(5,TimeUnit.SECONDS);
+//driver.findElement(By.className("clickBox")).click();//check
+
+// //*[@id="collapse_EXACTSRCTITLE"]/div
+//driver.findElement(By.xpath("//*[@id=collapse_EXACTSRCTITLE]/div")).click();
+
+
+driver.findElement(By.id("collapse_EXACTSRCTITLE")).click();
+List<WebElement> SourceTitle= driver.findElements(By.xpath("//input[contains(@id,'cat_')]"));
+
+for(WebElement sourcetitle:SourceTitle)
+{ 
+if(sourcetitle.getAttribute("value").equals(dataTable.getData("Search", "SourceTitle")))
+      {
+  sourcetitle.click();
+  report.updateTestLog("Document search Page","Source Tilte Selected ",Status.PASS);
+       }
+
+}
+         
+
+
+js.executeScript("scroll(250,0)");
+wait.until(ExpectedConditions.elementToBeClickable(By.id("editAuthSearch")));
+
+String limitto = LimitTo.getAttribute("value");
+//System.out.println("Limit to value   " +limitto);
+
+
+String excludeto = ExcludeTo.getAttribute("value");
+//System.out.println("Exclude to value  " +excludeto);
+//generic methods..
+ 
+if(dataTable.getData("Search", "Refine").equals(limitto)) 
+{
+if(LimitTo.isDisplayed())
+{
+ LimitTo.click();
+ report.updateTestLog("Document search Page","Limit To  Selected ",Status.PASS);
+ String query = driver.findElement(By.className("queryTxt")).getText();
+ //System.out.println("Query acquired ..." + query);
+ if(query.contains("LIMIT-TO"))
+ 
+ {
+ report.updateTestLog("Document search Page","Limit To  Applied to Query ",Status.PASS); 
+ }
+}//
+else
+{
+report.updateTestLog("Document search Page","LimitTo  Not Selected ",Status.FAIL);
+}
+
+Thread.sleep(5000);
+ 
+}
+
+
+else if(dataTable.getData("Search", "Refine").equals(excludeto))
+ 
+{
+if(ExcludeTo.isDisplayed())
+{
+ ExcludeTo.click();
+ report.updateTestLog("Document search Page","Exclude  To   Selected ",Status.PASS);
+ String query = driver.findElement(By.className("queryTxt")).getText();
+ //System.out.println("Query acquired ..." + query);
+if(query.contains("EXCLUDE"))
+ 
+ {
+ report.updateTestLog("Document search Page","Exclude  To  Applied to Query ",Status.PASS); 
+ }
+ 
+}
+else
+{
+report.updateTestLog("Document search Page","Exclude  To  Not Selected ",Status.FAIL);
+}
+
+Thread.sleep(5000);
+}
+
+
+
+obj.logOut();
+
+
+       
+/*driver.findElement(By.linkText("Search")).click();
+Thread.sleep(5000);*/         
+         }
+         
+         
+         
+         
+         
+         
+     
+       public void verifyDocumentname(){
+     
+      String Document=dataTable.getData("General_Data", "DocumentName");
+      String pageTitle=dataTable.getData("General_Data", "PageTitle");
+      List <WebElement> DocName=driver.findElements(By.xpath(DocumentDetails));
+  
+      for(int i=0;i<=DocName.size()-1;i++)
+      {
+      String Documentname=DocName.get(i).getText();
+      if(Documentname.contains(Document))
+      {
+      DocName.get(i).click();
+      String DocTitle=DocumentTitle.getText();
+      String page=driver.getTitle();
+      waitElementVisible(DocumentTitle,1000);
+      if(DocTitle.contains(Document) && page.contains(pageTitle))
+      {
+      report.updateTestLog("DOI", "The Scopus Document Results page for the DOI '"+Documentname+"' is displayed", Status.PASS);
+      }else{
+      report.updateTestLog("DOI", "The Scopus Document Results page for the provided DOI is NOT displayed", Status.FAIL);
+      }
+      break;
+      }
+      else{
+      report.updateTestLog("DOI", "The Scopus Document Results page for the provided DOI is NOT displayed", Status.FAIL);
+      }
+      }
+     }
+       
+       /**
+    * Verifies all Affiliation checkboxes on the page are checked.
+    * 
+    * @since 04/26/2016
+    * @author Sankari
+    */
+    public void verifyAllCheckboxesIsSelected() {
+    List<WebElement> checkboxes = driver.findElements(By.name(AffiliationId));
+    int size = checkboxes.size();
+    int j = 0;
+    for (int i = 0; i < size; i++) {
+    if (!checkboxes.get(i).isSelected()) {
+    j++;
+    }
+    }
+    if (j == 0) {
+    report.updateTestLog(pageTitle, "All Affiliation checkboxes are checked.",
+    Status.PASS);
+    } else {
+    report.updateTestLog(pageTitle, "Number of Affiliation checkboxes " + 
+    "not checked: " + j, Status.FAIL);
+    }
+    }
+    public void refineResults_SubjectArea_FunModule() throws Exception
+    {
+    HomePage obj = new HomePage(scriptHelper);
+       obj.login();
+       obj.surveyPopUp();
+       obj.modalOverlay();
+       BasicSearchTerm.clear();
+        String searchTerm2 = dataTable.getData("Search", "Term2");
+String searchTerm3 = dataTable.getData("Search", "Term3");
+int totalNoOfSearchTerms;
+if(searchTerm3.equalsIgnoreCase(""))
+{
+if(searchTerm2.equalsIgnoreCase(""))
+totalNoOfSearchTerms =1;
+else
+totalNoOfSearchTerms = 2;
+}
+else
+totalNoOfSearchTerms = 3;
+for(int i = 1;i<totalNoOfSearchTerms; i++)
+{
+ClickWebElement(getElement(addSearchlink));
+if(!(dataTable.getData("Search", "connector" + i).equalsIgnoreCase("") || dataTable.getData("Search", "connector" + i).equalsIgnoreCase(null)))
+{
+ClickWebElement(getElement(String.format(connectors,i)));
+ClickWebElement(getElement(String.format(chooseConnectors, i, dataTable.getData("Search", "connector" + i))));
+}
+}
+
+
+for(int i = 1; i<= totalNoOfSearchTerms; i++)
+{
+typeText(getElement(String.format(searchBoxes, i)), dataTable.getData("Search", "Term" + i));
+ClickWebElement(getElement(String.format(withinFields, i)));
+String within = dataTable.getData("Search", "Within" + i);
+
+if(!(within.equalsIgnoreCase("")))
+{
+if(within.equalsIgnoreCase("Affiliation"))
+ClickWebElement(getElement(String.format(withiInaffiliation, i)));
+else
+ClickWebElement(getElement(String.format(chooseWithin, i, within)));
+
+}
+}
+ 
+
+
+
+//code for selecting Search Field Type 1..
+    driver.findElement(By.id("field1-button")).click();
+    List<WebElement> options = driver.findElements(By.className("ui-menu-item"));
+    for(WebElement choices:options)
+    
+    {
+    if(choices.getText().equals(dataTable.getData("Search", "Within1")))
+    {
+    report.updateTestLog("Document search Page","Selector selected ",Status.PASS);
+    choices.click();
+    }
+        
+    }
+
+
+//code for selecting the Date Range(inclusive).. 
+//From ...
+driver.findElement(By.id("yearFrom-button")).click();
+List<WebElement> options2 = driver.findElements(By.className("ui-menu-item"));
+for(WebElement choices:options2)
+
+{
+if(choices.getText().equals(dataTable.getData("Search", "DateRange")))
+{
+  report.updateTestLog("Document search Page","Date Range selected From ",Status.PASS);
+  choices.click();
+}
+    
+}
+driver.manage().timeouts().implicitlyWait(5,TimeUnit.SECONDS);
+
+//js.executeScript("scroll(250,0)");
+//To..
+driver.findElement(By.id("yearTo-button")).click();
+List<WebElement> options3 = driver.findElements(By.className("ui-menu-item"));
+for(WebElement choices:options3)
+
+{
+if(choices.getText().equals(dataTable.getData("Search", "FromDate")))
+{
+  report.updateTestLog("Document search Page","Date Range selected To ",Status.PASS);
+  choices.click();
+}
+    
+}
+/* to be checked later..
+//code for selecting the Document type..
+driver.findElement(By.id("documenttype-button")).click();
+List<WebElement> options4 = driver.findElements(By.className("ui-menu-item"));
+for(WebElement choices:options4)
+
+{
+if(choices.getText().equals(dataTable.getData("Search", "DocumentType")))
+{   
+  choices.click();
+
+  report.updateTestLog("Document search Page","Document Type selected ",Status.PASS);
+  
+}
+    
+}
+*/
+
+//js.executeScript("scroll(250,0)");
+
+
+driver.manage().timeouts().implicitlyWait(2,TimeUnit.SECONDS);
+//Clicking the Search Button...
+Search.click();
+driver.manage().timeouts().implicitlyWait(5,TimeUnit.SECONDS);
+WebElement el =driver.findElement(By.id("collapse_SUBJAREA"));
+Actions action =  new Actions(driver);
+action.moveToElement(el).perform();
+
+if(driver.findElement(By.className("btn_expand floatL")).isDisplayed())
+{
+driver.findElement(By.className("btn_expand floatL")).click();
+System.out.println("The Subject area is opened");
+driver.manage().timeouts().implicitlyWait(3,TimeUnit.SECONDS);
+}
+else
+{
+System.out.println("no issuess");
+}
+
+
+
+/*if(driver.findElement(By.id("collapse_SUBJAREA")).isDisplayed())
+ 
+{
+System.out.println("ID open  "+ driver.findElement(By.id("collapse_SUBJAREA")).getAttribute("id"));
+}
+else
+{
+System.out.println("if close " + driver.findElement( By.id("collapse_SUBJAREA_hidden")).getAttribute("id"));
+driver.findElement(By.id("collapse_SUBJAREA")).click();
+driver.manage().timeouts().implicitlyWait(3,TimeUnit.SECONDS);
+}*/
+//collapse_SUBJAREA_hidden 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    /*if(  (SubjectArea.isDisplayed())  &&   (checkbox.isEnabled()))
+    {
+    System.out.println("Already Subject Area is opened");
+    }
+    else
+    {
+    SubjectArea.click();
+    System.out.println("Subject Area now  opened");
+    }
+    List<WebElement> SubArea= driver.findElements(By.xpath("//input[contains(@id,'cat_')]"));
+
+    for(WebElement subjectarea: SubArea)
+    { 
+    if(subjectarea.getAttribute("value").equals(dataTable.getData("Search", "SubjectArea")))
+         {
+    subjectarea.click();
+      report.updateTestLog("Document search Page","Source Tilte Selected ",Status.PASS);
+          }
+
+    }*/
+
+
+
+    js.executeScript("scroll(250,0)");
+    wait.until(ExpectedConditions.elementToBeClickable(By.id("editAuthSearch")));
+    String limitto = LimitTo.getAttribute("value");
+    String excludeto = ExcludeTo.getAttribute("value");
+    if(dataTable.getData("Search", "Refine").equals(limitto)) 
+    {
+    if(LimitTo.isDisplayed())
+    {
+     LimitTo.click();
+     report.updateTestLog("Document search Page","Limit To  Selected ",Status.PASS);
+     String query = driver.findElement(By.className("queryTxt")).getText();
+     //System.out.println("Query acquired ..." + query);
+     if(query.contains("LIMIT-TO"))
+     
+     {
+     report.updateTestLog("Document search Page","Limit To  Applied to Query ",Status.PASS); 
+     }
+    }//
+    else
+    {
+    report.updateTestLog("Document search Page","LimitTo  Not Selected ",Status.FAIL);
+    }
+
+    Thread.sleep(5000);
+   
+    }
+
+
+    else if(dataTable.getData("Search", "Refine").equals(excludeto))
+   
+    {
+    if(ExcludeTo.isDisplayed())
+    {
+     ExcludeTo.click();
+     report.updateTestLog("Document search Page","Exclude  To   Selected ",Status.PASS);
+     String query = driver.findElement(By.className("queryTxt")).getText();
+     //System.out.println("Query acquired ..." + query);
+    if(query.contains("EXCLUDE"))
+     
+     {
+     report.updateTestLog("Document search Page","Exclude  To  Applied to Query ",Status.PASS); 
+     }
+     
+    }
+    else
+    {
+    report.updateTestLog("Document search Page","Exclude  To  Not Selected ",Status.FAIL);
+    }
+
+    Thread.sleep(5000);
+    }
+
+
+
+    obj.logOut();
+
+   
+    }
+     
+     
+    
+
+/*public static void HoverOnNavigators(WebDriver driver,WebElement el)
+{
+Actions action = new Actions(driver);
+action.moveToElement(el).perform();
+ 
+}
+*/
+    
+    //code to select all or select page ...
+    //Written by Indrajit @May04,16
+  public void selectAll_or_selectPage()
+  {
+ driver.manage().timeouts().implicitlyWait(10,TimeUnit.SECONDS); 
+ if(checkBox.isEnabled())
+ {
+ Arrow.click();
+driver.manage().timeouts().implicitlyWait(2,TimeUnit.SECONDS);
+String excelData= dataTable.getData("Search", "select_option");
+if(excelData.contains(SelectAll))
+  {
+checkBox.click();
+report.updateTestLog("All/Page Checkbox", "Select All Checkbox is  checked" ,Status.PASS);
+driver.manage().timeouts().implicitlyWait(2,TimeUnit.SECONDS);
+  }
+ 
+else
+   {
+driver.findElement(By.id("selectPageTop")).click();
+report.updateTestLog("All/Page Checkbox", "Select Page  Checkbox is  checked" ,Status.PASS);
+driver.manage().timeouts().implicitlyWait(5,TimeUnit.SECONDS);
+   }
+ 
+ } 
+ else
+     {
+ report.updateTestLog("All Checkbox", "Checkbox not displayed" ,Status.FAIL); 
+      }
+ 
+  }
+  
+  public void MoreLinkVerifier()
+  {
+if(driver.findElement(By.id("moreLink")).isEnabled())
+{
+driver.findElement(By.id("moreLink")).click();
+driver.manage().timeouts().implicitlyWait(3,TimeUnit.SECONDS);
+String excelData= dataTable.getData("Search", "view_option");
+if(excelData.contains(View_References))
+{
+driver.findElement(By.cssSelector("a[title='View references of the selected documents']")).click();
+driver.manage().timeouts().implicitlyWait(5,TimeUnit.SECONDS);
+String ViewReferencesPg = driver.getTitle();
+ 
+if(ViewReferencesPg.contains("References that are cited by selected documents"))
+{
+report.updateTestLog("View References ", "View References  displayed" ,Status.PASS); 
+}
+else
+{
+report.updateTestLog("View References ", "View References not displayed" ,Status.FAIL); 
+}
+ 
+ 
+ 
+ 
+}
+}
+  }
+
+//Method to navigate to any search from home Page  
+  public void navigateToAnySearch()
+  {
+  String Search=dataTable.getData("General_Data", "NavBar");
+  WebElement SearchType =driver.findElement(By.linkText(Search));
+  driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+  switch(Search)
+  {
+  /*case "Document search":
+ if(SearchType.isDisplayed())
+ {
+ SearchType.click();
+ report.updateTestLog("Navigation Bar","User is navigated to "+Search,Status.PASS);
+ }
+ else{
+report.updateTestLog("Navigation Bar","User is NOT navigated to "+Search,Status.FAIL);
+}
+  break;*/
+ 
+  case "Author search":
+ if(SearchType.isDisplayed())
+ {
+ SearchType.click();
+ report.updateTestLog("Navigation Bar","User is navigated to "+Search,Status.PASS);
+ }
+ else{
+report.updateTestLog("Navigation Bar","User is NOT navigated to "+Search,Status.FAIL);
+}
+ 
+  break;
+ 
+  case "Affiliation search":
+ if(SearchType.isDisplayed())
+ {
+ SearchType.click();
+ report.updateTestLog("Navigation Bar","User is navigated to "+Search,Status.PASS);
+ }
+ else{
+report.updateTestLog("Navigation Bar","User is NOT navigated to "+Search,Status.FAIL);
+}
+  break;
+ 
+  case "Advanced search":
+ if(SearchType.isDisplayed())
+ {
+ SearchType.click();
+ report.updateTestLog("Navigation Bar","User is navigated to "+Search,Status.PASS);
+ }
+ else{
+report.updateTestLog("Navigation Bar","User is NOT navigated to "+Search,Status.FAIL);
+}
+  break;
+ 
+  default : report.updateTestLog("Navigation Bar","User is navigated to "+Search,Status.PASS);
+  driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+ 
+  }
+  }
+  
+  //Method to check the View Cited By Link in results Page..
+  public void ViewCitedByVerifier()
+  {
+if(driver.findElement(By.cssSelector("a[title='View documents citing the selected documents']")).isEnabled())
+{
+driver.findElement(By.cssSelector("a[title='View documents citing the selected documents']")).click();
+driver.manage().timeouts().implicitlyWait(3,TimeUnit.SECONDS);
+String ViewCitedByPage = driver.getTitle();
+        System.out.println(ViewCitedByPage);
+if(ViewCitedByPage.contains("Documents that cite selected documents"))
+{
+ 
+ 
+report.updateTestLog("Cited By Results ", "View CitedBy results   displayed" ,Status.PASS); 
+}
+else
+{
+report.updateTestLog("Cited By Results  ", "View CitedBy results  not displayed" ,Status.FAIL); 
+}
+ 
+ 
+ 
+ 
+}
+  }
+  
+  
+  public void ViewCitedByLinksVerifier()
+  {
+ 
+ //Verify the Document Title...
+ DocumentTitleVerifier(Document);
+ driver.manage().timeouts().implicitlyWait(5,TimeUnit.SECONDS);
+ //Verify the Author...
+ 
+ //List<WebElement> authors =driver.findElements(By.cssSelector("a[title='Show author details']"));
+ //  //*[@id="resultDataRow0"]/div[3]/span/a[1]
+//List<WebElement> authors =driver.findElements(By.xpath("//*[@id='resultDataRow0']/div[3]/span/a['+i+']"));
+ //parameter to be put =authors;
+ AuthornameVerifier();
+ driver.manage().timeouts().implicitlyWait(5,TimeUnit.SECONDS);
+ //Verify the Source Title..
+ SourceTitleVerifier(SourceTitle);
+ driver.manage().timeouts().implicitlyWait(5,TimeUnit.SECONDS);
+ //Verify the View at Publisher
+ ViewAtPublisherVerifier(ViewAtPublisher);
+ //Verify Show Abstract...
+ ShowAbstractVerifier();
+ driver.manage().timeouts().implicitlyWait(5,TimeUnit.SECONDS);
+ //Verify Related Documents ..
+ RelatedDocumentVerifier();
+ driver.manage().timeouts().implicitlyWait(5,TimeUnit.SECONDS);
+ //Verify all Abstracts...
+ ShowAllAbstractsVerifier();
+ 
+ 
+  }
+
+  /*Method to verify document link in results page..
+  Written By Indrajit*/
+public void  DocumentTitleVerifier(WebElement DocumentName)
+    {
+    String DocumentLinkToolTip=DocumentName.getAttribute("title");
+    String CurrentPgTitle="";
+     
+    if(DocumentName.isEnabled() && DocumentLinkToolTip.contains("Show document details"))
+    {
+     
+    DocumentName.click();
+    report.updateTestLog("Document Results page","Document is  clicked", Status.PASS);
+    driver.manage().timeouts().implicitlyWait(5,TimeUnit.SECONDS);
+    CurrentPgTitle=driver.getTitle();
+    }
+    else
+    {
+    report.updateTestLog("Document Results page","Document is  not clicked", Status.FAIL);
+    }
+     
+    System.out.println("Page Title" +CurrentPgTitle);
+    if(CurrentPgTitle.contains("Scopus - Document details"))
+    {
+    report.updateTestLog("Document Details page","In Document Details Page", Status.PASS); 
+    }
+    else
+    {
+    report.updateTestLog("Document Details page","In Document Details Page", Status.FAIL);
+    }
+     
+    //Back to Results...
+     
+    driver.findElement(By.className("backResult"));
+    if(driver.findElement(By.className("backResult")).isEnabled())
+    {
+    driver.findElement(By.className("backResult")).click();
+    report.updateTestLog("Document Results  page","Back to Results ", Status.PASS); 
+    }
+    else
+    {
+    report.updateTestLog("Document Results page","Back to Results not Reached ", Status.FAIL); 
+    }
+     
+    }
+ 
+ 
+ 
+ 
+/*Method to verify author name link in results page..
+    Written By Indrajit*/
+//need to work..
+// to put in parameter =List<WebElement> AuthorName
+public void AuthornameVerifier()
+    {
+int i =0;
+int k=0,AuthorNamesize;
+String Authordetails;
+ 
+List<WebElement> authors =driver.findElements(By.cssSelector("a[title='Show author details']"));
+AuthorNamesize =authors.size();
+ 
+ 
+System.out.println("The total size of .."+AuthorNamesize );
+ 
+ 
+ for(k=0;k<AuthorNamesize; k++)
+ {
+ 
+ authors.get(k).click();
+ driver.manage().timeouts().implicitlyWait(5,TimeUnit.SECONDS);
+Authordetails = driver.getTitle();
+ 
+if(Authordetails.contains("Scopus - Author details"))
+{
+report.updateTestLog("Author Details page","In Author Details page ", Status.PASS); 
+driver.navigate().back();
+break;
+}
+ 
+else if (Authordetails.contains("Scopus - Page not found"))
+{
+report.updateTestLog("Page not found","Data no longer exists ", Status.PASS); 
+driver.navigate().back();
+ 
+ 
+}
+ 
+else
+{
+report.updateTestLog("Data not existing ","Search for Different author  ", Status.FAIL);
+driver.navigate().back();
+}
+ 
+ 
+ 
+   
+   
+ 
+ }
+ 
+ 
+ report.updateTestLog("Document Results page","No Author is present ", Status.FAIL); 
+ 
+ 
+    }
+//Method for Source Title Verification in Results page..
+public void SourceTitleVerifier(WebElement SourceTtileName )
+{
+String SourceTitleLinkToolTip=SourceTtileName.getAttribute("title");
+  String CurrentPgTitle="";
+  if(SourceTtileName.isEnabled() && SourceTitleLinkToolTip.contains("Show source title details"))
+  {
+   
+  SourceTtileName.click();
+  report.updateTestLog("Source  page","Source Title  is  clicked", Status.PASS);
+  driver.manage().timeouts().implicitlyWait(5,TimeUnit.SECONDS);
+  CurrentPgTitle=driver.getTitle();
+  }
+  else
+  {
+  report.updateTestLog("Source  page","Source Title is  not clicked", Status.FAIL);
+  }
+ 
+   System.out.println("Page Title of Source Page.." +CurrentPgTitle);
+   WebElement FollowthisSource =driver.findElement(By.id("saveAsAlertSource"));
+  if(CurrentPgTitle.contains("Scopus -") &&  FollowthisSource.isEnabled())
+  {
+  report.updateTestLog("Source  page page","In Source  Page", Status.PASS); 
+  }
+  else
+  {
+  report.updateTestLog("Source  page ","Not In Source Page", Status.FAIL);
+  }
+  driver.navigate().back();
+}
+ 
+//View At Publisher Verifier
+public void ViewAtPublisherVerifier(WebElement ViewAtPublisherLink )
+{
+//take the document name..
+Document_Name =Document.getText();
+System.out.println("the original document name" + Document_Name);
+boolean flag=true;
+if(verifyisElementaLink(ViewAtPublisher)==flag)
+
+{    
+      NewTab_WindowLinksverifier( ViewAtPublisher);
+//note...
+        //ViewAtPublisher.click();
+        report.updateTestLog("View At Publisher page","In Publisher  Page", Status.PASS); 
+ 
+}
+else
+{
+report.updateTestLog("Document search Page","Not In Publisher  Page", Status.FAIL); 
+}
+ 
+}
+ 
+//Method to verify link that leads to a new Window/Tab ..
+    public void NewTab_WindowLinksverifier(WebElement link)
+    {
+     String ParentWindow=driver.getWindowHandle();
+         link.click();
+    for (String winHandle : driver.getWindowHandles()) 
+        {
+         driver.switchTo().window(winHandle);
+         }
+    driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+    String NewWindowTitle = driver.getTitle();
+    System.out.println("The current url is "+NewWindowTitle);
+    if (new String(NewWindowTitle).contains(Document_Name))
+       {
+report.updateTestLog("View At Publisher Page ","User is landed on View At Publisher  page", Status.PASS);
+System.out.println("in View At Publisher  page");
+        }
+
+     else 
+         {
+   report.updateTestLog("View At Publisher Page","User is not landed on View At Publisher  page", Status.FAIL);
+System.out.println("Not View At Publisher  page");
+         }
+
+    driver.close();
+    driver.switchTo().window(ParentWindow);
+    driver.manage().timeouts().implicitlyWait(4, TimeUnit.SECONDS);
+    //ViewAtPublisher
+    wait.until(ExpectedConditions.visibilityOf(ViewAtPublisher));
+   
+     
+    }
+    
+    //Method to click on Elements that are displayed only on Mouse Hover..
+    public void MouseHovertoElement(WebElement element)
+    {
+    Actions action = new Actions(driver);
+    action.moveToElement(element).build().perform();
+     
+     
+    }
+    
+    
+    //Method to Verify Show Abstract in results Page..
+    public void ShowAbstractVerifier()
+    {
+    //Show Abstract..
+    show_abstract="arguments[0].click();";
+    jse.executeScript(show_abstract, ShowAbstract);
+    driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
+     
+     
+    /*// wait.until(ExpectedConditions.visibilityOf(ViewAtPublisher));
+    if(driver.findElement(By.className("txt")).getText().equalsIgnoreCase(dataTable.getData("Search", "search_term_text")))
+    {
+    report.updateTestLog("Document  Results Page", "Show Abstract  is clicked  ", Status.PASS);
+    }
+    else
+    {
+    report.updateTestLog("Document  Results Page", "Show Abstract  is not clicked  ", Status.FAIL);
+    }*/
+    hide_abstract="arguments[0].click();";
+    jse.executeScript(hide_abstract, HideAbstract);
+    driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
+    if(ShowAbstract.isEnabled())
+    {
+    report.updateTestLog("Document  Results Page", "Hide  Abstract  is clicked  ", Status.PASS); 
+    }
+    else
+    {
+    report.updateTestLog("Document  Results Page", "Hide  Abstract  is not  clicked  ", Status.FAIL); 
+    }
+     
+     
+    }
+    
+    //Method to Verify Related Documents  in results Page..
+    public void RelatedDocumentVerifier()
+    {
+    String title="";
+    show_abstract="arguments[0].click();";
+    jse.executeScript(show_abstract, ReleatedDocuments);
+    driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
+    wait.until(ExpectedConditions.visibilityOf(ViewAtPublisher));
+    title=driver.getTitle();
+    ExtractDigitFromString(title);
+    System.out.println(title);
+    DocQueryInreleatedDoc.getText();
+    ExtractDigitFromString(DocQueryInreleatedDoc.getText());
+    if(ExtractDigitFromString(title).contains(ExtractDigitFromString(DocQueryInreleatedDoc.getText())))
+    {
+    report.updateTestLog("Related Document   Results Page", "Navigated to Related Document  ", Status.PASS);
+    }
+    else
+    {
+    report.updateTestLog("Related Document   Results Page", "Not Navigated to Related Document  ", Status.FAIL);
+   
+    }
+    driver.navigate().back();
+   
+    }
+    
+    //Method to Verify Show  all Abstract in results Page..
+    public void ShowAllAbstractsVerifier()
+    {
+   
+    boolean flag=true;
+if(verifyisElementaLink(link_ShowAllAbstracts)==flag)
+{
+link_ShowAllAbstracts.click();
+}
+   
+    }
+    
+    public void moreLink(){
+    if(More.isEnabled())
+    {
+    More.click();
+    report.updateTestLog("Results Page", "More Link  is clicked  ", Status.PASS);
+    }
+    else
+    {
+    report.updateTestLog("Results Page", "More Link is NOT Present  ", Status.FAIL);
+    }
+    }
+  /*More and its links verifier...
+    will verify the following ..
+       1. More link
+       2. ViewReferences
+       3.Bibliography
+       4.Print*/
+    public void MoreVerifier() throws AWTException
+    {
+    if(More.isEnabled())
+    {
+    More.click();
+    report.updateTestLog("Results Page", "More Link  Present  ", Status.PASS);
+    }
+    else
+    {
+    report.updateTestLog("Results Page", "More Link not Present  ", Status.FAIL);
+    }
+   
+    driver.manage().timeouts().implicitlyWait(4, TimeUnit.SECONDS);
+    ViewReferencesVerifier();
+    driver.manage().timeouts().implicitlyWait(4, TimeUnit.SECONDS);
+    wait.until(ExpectedConditions.elementToBeClickable(More));
+    More.click();
+    BibliographyVerifier();
+    BiblioGraphyBack.click();
+    wait.until(ExpectedConditions.elementToBeClickable(More));
+    More.click();
+    EmailVerifier();
+    wait.until(ExpectedConditions.elementToBeClickable(More));
+    More.click();
+        PrintVerifier();
+    wait.until(ExpectedConditions.elementToBeClickable(More));
+     
+   
+    }
+    public void ViewReferencesVerifier()
+    {
+    if(ViewReferences.isEnabled())
+    {
+    ViewReferences.click();
+    PageTitle =driver.getTitle();
+   
+    String extract =ExtractDigitFromString(PageTitle);
+   
+    String query =driver.findElement(By.className("resultsCount")).getText();
+   
+    if(extract.contains(query))
+    {
+    report.updateTestLog("Results Page", "View References Verified  ", Status.PASS);
+    }
+    else
+    {
+    report.updateTestLog("Results Page", "View References not Verified  ", Status.FAIL);
+    }
+   
+    }
+   
+    driver.navigate().back();
+   
+    }
+    
+    public void DownloadVerifier() throws AWTException
+    {
+    if(Download.isEnabled())
+    {
+    String ParentWindow=driver.getWindowHandle();
+    Download.click();
+    report.updateTestLog("Results Page", "Download link is Present  ", Status.PASS);
+    for (String winHandle : driver.getWindowHandles()) 
+       {
+        driver.switchTo().window(winHandle);
+        }
+    driver.manage().timeouts().implicitlyWait(4, TimeUnit.SECONDS);
+    Robot r = new Robot();
+    r.keyPress(KeyEvent.VK_ENTER);
+    driver.manage().timeouts().implicitlyWait(4, TimeUnit.SECONDS);
+    String CurrentURL =driver.getCurrentUrl();
+    System.out.println("Download url is .. " +CurrentURL);
+    if (new String(CurrentURL).contains("http://scddm.quosavl.com/ddm/scopus.jsp"))
+      {
+report.updateTestLog("Scopus Output Page ","User is in Download  page", Status.PASS);
+System.out.println("in Download  page");
+       }
+
+    else 
+        {
+  report.updateTestLog("Scopus Output Page","User is not in Download  page", Status.FAIL);
+System.out.println("Not Download  page");
+        }
+    driver.close();
+   driver.switchTo().window(ParentWindow);
+   driver.manage().timeouts().implicitlyWait(4, TimeUnit.SECONDS);
+   //driver.navigate().back();
+   
+   
+    }
+    else
+    {
+    report.updateTestLog("Results Page", "Download link is not  Present  ", Status.FAIL);
+   
+    }
+    }
+    
+    public void EmailVerifier()
+    {
+   
+    if(Email.isEnabled())
+    {
+    Email.click();
+    System.out.println("Email is  clicked ...");
+    driver.findElement(By.id("to")).sendKeys(dataTable.getData("General_Data", "Email"));
+    driver.findElement(By.cssSelector("input[title='Send email']")).click();
+      wait.until(ExpectedConditions.elementToBeClickable(EmailBack));
+      String CurrentURL =driver.getCurrentUrl();
+      System.out.println("String Current URL is ..."+driver.getCurrentUrl());
+      if(CurrentURL.contains("www.scopus.com/citation/email.uri"))
+      {
+      report.updateTestLog("Email   Page ","Email Functionality is verified", Status.PASS);
+      EmailBack.click();
+      }
+     
+      else
+      {
+      report.updateTestLog("Email   Page ","Email Functionality is not verified", Status.FAIL);
+      }
+    }
+   
+   
+    }
+    
+    
+    public void BibliographyVerifier()
+    {
+    if(BiblioGraphy.isEnabled())
+    {
+    BiblioGraphy.click();
+    PageTitle =driver.getTitle();
+    System.out.println("The Page title is "+ PageTitle);
+    WebElement Create =driver.findElement(By.cssSelector("input[title='Create']"));
+    System.out.println("The button in bibliography page is .." +Create.getAttribute("title"));
+    if(Create.isEnabled())
+    {
+    String ParentWindow=driver.getWindowHandle();
+    Create.click();
+    for (String winHandle : driver.getWindowHandles()) 
+           {
+            driver.switchTo().window(winHandle);
+            }
+    driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+    String NewWindowTitle = driver.getTitle();
+   
+    System.out.println("The current url is "+NewWindowTitle);
+    if (new String(NewWindowTitle).contains("QuikBib"))
+          {
+    report.updateTestLog("Create Bibliography  Page ","User is landed on Bibliography   page", Status.PASS);
+    System.out.println("in Create Bibliography  Page");
+   
+           }
+   
+    else
+    {
+    report.updateTestLog("Create Bibliography  Page","User is not landed on Bibliography   page", Status.FAIL);
+    System.out.println("Not in Create Bibliography  Page");
+    }
+       driver.close();
+       driver.switchTo().window(ParentWindow);
+       driver.manage().timeouts().implicitlyWait(4, TimeUnit.SECONDS);
+       wait.until(ExpectedConditions.visibilityOf(Create));
+   
+    }
+        }
+    }
+    
+    public void verifyBibStyleText(){
+    String formatvalue=dataTable.getData("General_Data", "Bibformat");
+    String stylevalue=dataTable.getData("General_Data", "Bibstyle");
+    int formatval=0;
+    int styleval=0;
+   
+    PageTitle =driver.getTitle();
+    if(BiblioGraphy.isEnabled())
+{
+BiblioGraphy.click();
+String ParentWindow=driver.getWindowHandle();
+WebElement Create =driver.findElement(By.cssSelector("input[title='Create']"));
+// System.out.println("The button in bibliography page is .." +Create.getAttribute("title"));
+ 
+if(!(formatvalue.isEmpty())){
+switch (formatvalue){
+case "HTML":
+formatval=1;
+break;
+case "Text":
+formatval=2;
+break;
+default:
+report.updateTestLog("Bib format","Bib format is not set", Status.FAIL);
+}
+    bibformatbtn.click();
+    driver.findElement(By.xpath("//ul[@id='outputFormat-menu']/li["+formatval+"]")).click();
+    report.updateTestLog("Bibliography format","Bibliography format is selected", Status.DONE);
+}else{
+report.updateTestLog("Bibliography format","Default Bibliography format is taken", Status.DONE);
+}
+ 
+if(!(stylevalue.isEmpty())){
+    bibStylebtn.click();
+    switch (stylevalue){
+case "APA 6th - American Psychological Association, 6th Edition":
+styleval=1;
+break;
+case "BibTeX":
+styleval=2;
+break;
+case "Council of Biology Editors - CBE 6th, Citation-Sequence":
+styleval=3;
+break;
+case "Chicago 16th Edition (Author-Date System)":
+styleval=4;
+break;
+case "Harvard":
+styleval=5;
+break;
+case "Harvard - British Standard":
+styleval=6;
+break;
+case "MLA 7th Edition":
+styleval=7;
+break;
+case "NLM - National Library of Medicine":
+styleval=8;
+break;
+case "Turabian 7th Edition (Reference List)":
+styleval=9;
+break;
+case "Vancouver":
+styleval=10;
+break;
+default:
+report.updateTestLog("Bib styleval","Bib styleval is not set", Status.FAIL);
+}
+    driver.findElement(By.xpath("//ul[@id='bibliographyStyle-menu']/li["+styleval+"]")).click();
+    report.updateTestLog("Bibliography style","Bibliography style is selected", Status.DONE);
+}else{
+report.updateTestLog("Bibliography style","Default Bibliography style is taken", Status.DONE);
+}
+ 
+String BibstyleText=driver.findElement(By.xpath("//div[@id='helpScopus"+styleval+"_Bib']/span[1]")).getText().replaceAll("\\s", "").toUpperCase();
+if(BibstyleText.contains(stylevalue.toUpperCase().replaceAll("\\s",""))){
+report.updateTestLog("Bibliography Style","Bibliography Style: "+stylevalue+" is retained in Scopus output page", Status.PASS);
+}else{
+report.updateTestLog("Bibliography Style","Bibliography Style: "+stylevalue+" is NOT retained in Scopus output page", Status.FAIL);
+}
+ 
+Create.click();
+ 
+for (String winHandle : driver.getWindowHandles()) 
+       {
+        driver.switchTo().window(winHandle);
+        }
+driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+String NewWindowTitle = driver.getTitle();
+ 
+System.out.println("The current url is "+NewWindowTitle);
+if (new String(NewWindowTitle).contains("QuikBib"))
+      {
+    report.updateTestLog("Create Bibliography  Page ","User is landed on Bibliography page", Status.PASS);
+    System.out.println("in Create Bibliography  Page");
+}else
+{
+report.updateTestLog("Create Bibliography  Page","User is not landed on Bibliography page", Status.FAIL);
+System.out.println("Not in Create Bibliography  Page");
+}
+ 
+driver.manage().timeouts().pageLoadTimeout(10, TimeUnit.SECONDS);
+driver.switchTo().frame("QBTOP");
+ 
+String Bibtext=driver.findElement(By.xpath("//td[@class='TF']/b[2]")).getText().replaceAll("\\.", "").replaceAll("\\s", "").toUpperCase();   
+  System.out.println(Bibtext);
+  if(BibstyleText.contains(Bibtext)){
+  report.updateTestLog("Style in QuickBib","QuickBib style: "+stylevalue+" matches in QuickBib page", Status.PASS);
+  }else{
+  report.updateTestLog("Style in QuickBib","QuickBib style: "+stylevalue+" does NOT match in QuickBib page", Status.FAIL);
+  }
+  driver.switchTo().defaultContent();
+     driver.close();
+   driver.switchTo().window(ParentWindow);
+   driver.manage().timeouts().implicitlyWait(4, TimeUnit.SECONDS);
+   wait.until(ExpectedConditions.visibilityOf(Create));
+    }
+    }
+    
+     public void create_Bibliographyviarecordpage()
+    {
+   
+    String formatvalue=dataTable.getData("General_Data", "Bibformat");
+    String stylevalue=dataTable.getData("General_Data", "Bibstyle");
+//     String Doctitle=DocumentTitle.getText().trim().replaceAll("Article", "").replaceAll("\\(", "").replaceAll("\\)", "");
+//     String Authorname=driver.findElement(By.cssSelector("#authorlist")).getText().replaceAll("\n", "");
+   
+    moreLink();
+    if(Record_BiblioGraphy.isEnabled())
+    {
+    Record_BiblioGraphy.click();
+    PageTitle =driver.getTitle();
+    System.out.println("The Page title is "+ PageTitle);
+    WebElement Create =driver.findElement(By.cssSelector("input[title='Create']"));
+    System.out.println("The button in bibliography page is .." +Create.getAttribute("title"));
+    if(Create.isEnabled())
+    {
+    String ParentWindow=driver.getWindowHandle();
+   
+    if(!(formatvalue.isEmpty())){
+    bibformatbtn.click();
+    driver.findElement(By.xpath("//ul[@id='outputFormat-menu']/li["+formatvalue+"]")).click();
+    report.updateTestLog("Bibliography format","Bibliography format is selected", Status.DONE);
+    }else{
+    report.updateTestLog("Bibliography format","Default Bibliography format is taken", Status.DONE);
+    }
+   
+    if(!(stylevalue.isEmpty())){
+    bibStylebtn.click();
+    driver.findElement(By.xpath("//ul[@id='bibliographyStyle-menu']/li["+stylevalue+"]")).click();
+    report.updateTestLog("Bibliography style","Bibliography style is selected", Status.DONE);
+    }else{
+    report.updateTestLog("Bibliography style","Default Bibliography style is taken", Status.DONE);
+    }
+   
+    String BibstyleText=driver.findElement(By.xpath("//span[@id='bibliographyStyle-button']/span[2]")).getText().replaceAll("\\s", "").toUpperCase();
+    Create.click();
+   
+    for (String winHandle : driver.getWindowHandles()) 
+           {
+            driver.switchTo().window(winHandle);
+            }
+    driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+    String NewWindowTitle = driver.getTitle();
+   
+    System.out.println("The current url is "+NewWindowTitle);
+    if (new String(NewWindowTitle).contains("QuikBib"))
+          {
+    report.updateTestLog("Create Bibliography  Page ","User is landed on Bibliography page", Status.PASS);
+    System.out.println("in Create Bibliography  Page");
+    }else
+    {
+    report.updateTestLog("Create Bibliography  Page","User is not landed on Bibliography page", Status.FAIL);
+    System.out.println("Not in Create Bibliography  Page");
+    }
+   
+    driver.manage().timeouts().pageLoadTimeout(10, TimeUnit.SECONDS);
+    driver.switchTo().frame("QBTOP");
+   
+    String Bibtext=driver.findElement(By.xpath("//td[@class='TF']/b[2]")).getText().replaceAll("\\.", "").replaceAll("\\s", "").toUpperCase();   
+      System.out.println(Bibtext);
+      if(BibstyleText.contains(Bibtext)){
+      report.updateTestLog("Reference text","The authorname and document title matches in quick bib page", Status.PASS);
+      }else{
+      report.updateTestLog("Reference text","The authorname and document title does NOT matches in quick bib page", Status.FAIL);
+      }
+      driver.switchTo().defaultContent();
+         driver.close();
+       driver.switchTo().window(ParentWindow);
+       driver.manage().timeouts().implicitlyWait(4, TimeUnit.SECONDS);
+       wait.until(ExpectedConditions.visibilityOf(Create));
+        }
+      }
+    }
+    
+    public void create_Bibliography()
+    {
+    int index=Integer.parseInt(dataTable.getData("General_Data", "ReferenceCheckcount"));
+    String formatvalue=dataTable.getData("General_Data", "Bibformat");
+    String stylevalue=dataTable.getData("General_Data", "Bibstyle");
+    String Doctitle=driver.findElements(By.cssSelector("a[title='Show document details']")).get(index).getText();
+    String Authorname=driver.findElement(By.xpath("//div[@id='resultDataRow"+index+"']/div[@class='dataCol3']/span/a[1]")).getText();
+   
+    if(BiblioGraphy.isEnabled())
+    {
+    BiblioGraphy.click();
+    PageTitle =driver.getTitle();
+    System.out.println("The Page title is "+ PageTitle);
+    WebElement Create =driver.findElement(By.cssSelector("input[title='Create']"));
+    System.out.println("The button in bibliography page is .." +Create.getAttribute("title"));
+    if(Create.isEnabled())
+    {
+    String ParentWindow=driver.getWindowHandle();
+   
+    if(!(formatvalue.isEmpty())){
+    bibformatbtn.click();
+    driver.findElement(By.xpath("//ul[@id='outputFormat-menu']/li["+formatvalue+"]")).click();
+    report.updateTestLog("Bibliography format","Bibliography format is selected", Status.DONE);
+    }else{
+    report.updateTestLog("Bibliography format","Default Bibliography format is taken", Status.DONE);
+    }
+   
+    if(!(stylevalue.isEmpty())){
+    bibStylebtn.click();
+    driver.findElement(By.xpath("//ul[@id='bibliographyStyle-menu']/li["+stylevalue+"]")).click();
+    report.updateTestLog("Bibliography style","Bibliography style is selected", Status.DONE);
+    }else{
+    report.updateTestLog("Bibliography style","Default Bibliography style is taken", Status.DONE);
+    }
+    Create.click();
+   
+    for (String winHandle : driver.getWindowHandles()) 
+           {
+            driver.switchTo().window(winHandle);
+            }
+    driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+    String NewWindowTitle = driver.getTitle();
+   
+    System.out.println("The current url is "+NewWindowTitle);
+    if (new String(NewWindowTitle).contains("QuikBib"))
+          {
+    report.updateTestLog("Create Bibliography  Page ","User is landed on Bibliography page", Status.PASS);
+    System.out.println("in Create Bibliography  Page");
+    }else
+    {
+    report.updateTestLog("Create Bibliography  Page","User is not landed on Bibliography page", Status.FAIL);
+    System.out.println("Not in Create Bibliography  Page");
+    }
+   
+    driver.manage().timeouts().pageLoadTimeout(10, TimeUnit.SECONDS);
+    driver.switchTo().frame("GBFormArea");
+   
+    List<WebElement> bibelems=driver.findElements(By.cssSelector("p[style^='text']"));   
+    System.out.println("Size of Bib: "+bibelems.size());
+    String Bibtext=bibelems.get(0).getText();
+      System.out.println(Bibtext);
+      if(Bibtext.contains(Authorname) && Bibtext.contains(Doctitle)){
+      report.updateTestLog("Reference text","The authorname and document title matches in quick bib page", Status.PASS);
+      }else{
+      report.updateTestLog("Reference text","The authorname and document title does NOT matches in quick bib page", Status.FAIL);
+      }
+      driver.switchTo().defaultContent();
+       driver.close();
+       driver.switchTo().window(ParentWindow);
+       driver.manage().timeouts().implicitlyWait(4, TimeUnit.SECONDS);
+       wait.until(ExpectedConditions.visibilityOf(Create));
+        }
+      }
+    }
+    
+    public void PrintVerifier() throws AWTException
+    {
+    if(Print.isEnabled())
+    {
+    Print.click();
+    String ParentWindow=driver.getWindowHandle();
+    PrintButton.click();
+    for (String winHandle : driver.getWindowHandles()) 
+       {
+        driver.switchTo().window(winHandle);
+        }
+       
+    driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+             Robot r =new Robot();
+        r.keyPress(KeyEvent.VK_ESCAPE);
+ 
+String CurrentURL =driver.getCurrentUrl();
+System.out.println("The current Print url is "+CurrentURL);
+if (new String(CurrentURL).contains("www.scopus.com/citation/print.uri?"))
+      {
+report.updateTestLog("Scopus Output Page ","User is in Print  page", Status.PASS);
+System.out.println("in View At Publisher  page");
+       }
+
+    else 
+        {
+  report.updateTestLog("Scopus Output Page","User is not in Print  page", Status.FAIL);
+System.out.println("Not View At Publisher  page");
+        }
+
+   driver.close();
+   driver.switchTo().window(ParentWindow);
+   driver.manage().timeouts().implicitlyWait(4, TimeUnit.SECONDS);
+   driver.navigate().back();
+   
+    }
+    }
+  public void CitationOverviewVerifier()
+  {
+ if(ViewCitationOverview.isEnabled())
+ {
+ ViewCitationOverview.click();
+ report.updateTestLog("Results Page","View Citation overview is clicked", Status.PASS);
+ driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+  wait.until(ExpectedConditions.visibilityOf( ViewH_graph));
+String WindowTitle = driver.getTitle();
+ 
+if(WindowTitle.contains("Scopus - Citation overview"))
+{
+report.updateTestLog(WindowTitle ,"View Citation overview is verified", Status.PASS); 
+Backfromcto.click();
+}
+else
+{
+report.updateTestLog(WindowTitle ,"View Citation overview is not  verified", Status.FAIL); 
+}
+ 
+ 
+ }
+ else
+ { 
+ report.updateTestLog("Results Page","View Citation overview is not clicked", Status.FAIL);
+ 
+ }
+ wait.until(ExpectedConditions.elementToBeClickable(More));
+  }
+  
+  
+  //Method to sort/switch between Date & Cited by..
+  public void Date_CitedBySortMethod()
+  {
+ String SortType=dataTable.getData("General_Data", "SortType");
+ 
+ //Cited by
+ //Date
+ switch(SortType)
+ {
+ case "Date":
+ 
+if(Date.isEnabled())
+     {
+  Date.click();
+  report.updateTestLog("Results Page","Date  Sort is  clicked", Status.PASS);
+}
+else
+      {
+report.updateTestLog("Results Page","Date  Sort is already  clicked", Status.PASS);
+     }
+ break;
+ 
+ case "Cited by":
+ 
+ if(CitedBy.isEnabled())
+    {
+    CitedBy.click();
+report.updateTestLog("Results Page","CitedBy  Sort is  clicked", Status.PASS);
+ }
+else
+     {
+report.updateTestLog("Results Page","CitedBy  Sort is already  clicked", Status.PASS);
+     }
+      break;
+ }
+ 
+  }
+  
+  
+
+//Method to check the View Cited By Link in results Page..
+  public void ViewCitedByVerifierwithAlert()
+  {
+if(driver.findElement(By.cssSelector("a[title='View documents citing the selected documents']")).isEnabled())
+{
+driver.findElement(By.cssSelector("a[title='View documents citing the selected documents']")).click();
+ 
+checkAlert();
+driver.manage().timeouts().implicitlyWait(3,TimeUnit.SECONDS);
+String ViewCitedByPage = driver.getTitle();
+        System.out.println(ViewCitedByPage);
+if(ViewCitedByPage.contains("Documents that cite selected documents"))
+{
+ 
+ 
+report.updateTestLog("Cited By Results ", "View CitedBy results   displayed" ,Status.PASS); 
+}
+else
+{
+report.updateTestLog("Cited By Results  ", "View CitedBy results  not displayed" ,Status.FAIL); 
+}
+ 
+ 
+ 
+ 
+ 
+}
+Re_selectdocumentsVerifier();
+stickVerifierResultsPg();
+  }
+  
+  public void stickVerifierResultsPg()
+  {
+//to check that all checkboxes in results page are selected..
+List<WebElement> checkboxes = driver.findElements(By.name("selectedEIDs"));
+for(WebElement chk:checkboxes)
+{
+if(chk.isSelected() )
+{
+report.updateTestLog(" Results page  ", "Re-select documents  functionality is verified  " ,Status.PASS); 
+}
+else
+{
+report.updateTestLog(" Results page  ", "Re-select documents  functionality is verified  " ,Status.FAIL);
+}
+}
+  }
+  
+  
+  
+   public void Re_selectdocumentsVerifier()
+   {
+  
+  wait.until(ExpectedConditions.visibilityOf( Reselect_documents));
+ String tooltip=  Reselect_documents.getAttribute("title");
+  
+ if(Reselect_documents.isEnabled() && tooltip.contains("Re-select documents")) 
+ {
+ Reselect_documents.click();
+ report.updateTestLog("Cited By Results ", "Re-select documents is present" ,Status.PASS); 
+ }
+ else
+ {
+ report.updateTestLog("Cited By Results ", "Re-select documents is not  present" ,Status.FAIL);  
+ }
+System.out.println("the last title is "+ driver.getTitle());  
+if(driver.getTitle().contains("Scopus - Document search results"))
+{
+report.updateTestLog("Cited By Results ", "In results page " ,Status.PASS); 
+}
+else
+{
+report.updateTestLog("Cited By Results ", "Not In results page" ,Status.FAIL);
+}
+ 
+ 
+ 
+   }
+   
+   public void click_ReferenceCheckbox() throws InterruptedException {
+String count = dataTable.getData("General_Data", "ReferenceCheckcount");
+int index = Integer.parseInt(count);
+//StoreValue.setStoredValue(count); This is not needed as we are not using this stored value anymore in viewCitedByFromResultsPage() method
+List<WebElement> checkboxes = driver.findElements(By.name("selectedEIDs"));
+System.out.println("checkboxes" + checkboxes.size());
+checkboxes.get(index).click();
+}
+  
+  public void checkAlert()
+{
+try
+{
+Thread.sleep(5000);
+Alert alert = driver.switchTo().alert();
+alert.accept();
+ 
+ 
+}catch(Exception e){
+ 
+}
+}
+  
+  public void AddtoListVerifier_NonLogin()
+  {
+ if(AddToList.isEnabled())
+ {
+ AddToList.click();
+ report.updateTestLog(" Results page  ", "Add to List  is clicked " ,Status.PASS); 
+ Lists.click();
+ wait.until(ExpectedConditions.visibilityOf( SavethisLists));
+ SavethisLists.click();
+ driver.findElement(By.id("allPageCheckBox")).click();
+ 
+ }
+  }
+  
+ 
+
+public void  AddToList_Alerthandler()
+  {
+ try
+{
+Thread.sleep(5000);
+Alert alert = driver.switchTo().alert();
+alert.accept();
+ 
+ 
+}catch(Exception e){
+ 
+}
+  }
+
+public void MoreStickiness() 
+{
+if(More.isEnabled())
+{
+More.click();
+report.updateTestLog("Results Page", "More Link  Present  ", Status.PASS);
+}
+else
+{
+report.updateTestLog("Results Page", "More Link not Present  ", Status.FAIL);
+}
+ 
+driver.manage().timeouts().implicitlyWait(4, TimeUnit.SECONDS);
+ViewReferencesVerifier();
+driver.manage().timeouts().implicitlyWait(4, TimeUnit.SECONDS);
+wait.until(ExpectedConditions.elementToBeClickable(More));
+ 
+
+
+ 
+}
+
+
+@FindBy(css = "a[title='Give feedback about this affiliation']")
+public WebElement View_FeedBack ;
+@FindBy(css = "a[title='View next result']")
+public WebElement NextLink;
+
+@FindBy(css = "a[title='View previous result']")
+public WebElement PrevoiusLink;
+@FindBy(css = "a[title='Back to results']")
+public WebElement Back_to_results;
+
+
+@FindBy(css = "a[title='Show documents of selected affiliations']")
+public WebElement ShowDoc;
+
+ 
+@FindBy(linkText = "Give feedback")
+public WebElement giveFeedback;
+
+
+
+
+//written by Indrajit...
+//New Method....
+public void LinksVerifierAffResults() throws InterruptedException
+{
+driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
+driver.navigate().back();
+driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
+ 
+//code for next link..
+if(NextLink.isDisplayed())
+{
+NextLink.click();
+report.updateTestLog("Affiliation Details Page", "Next link is clicked  ", Status.PASS);
+}
+else
+{
+report.updateTestLog("Affiliation Details Page", "Next link is not clicked  ", Status.FAIL);
+}
+driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
+//code for Previous link..
+ 
+if(PrevoiusLink.isDisplayed()) 
+{
+PrevoiusLink.click();
+report.updateTestLog("Affiliation Details Page", "Previous  link is clicked  ", Status.PASS);
+}
+else
+{
+report.updateTestLog("Affiliation Details Page", "Previous  link is  not clicked  ", Status.FAIL);
+}
+ 
+driver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
+//Clicking the back to results link..
+Back_to_results.click(); 
+driver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
+//Clicking the Checkbox against an Affiliation..
+ 
+//Select.click(); 
+selectAll_or_selectPage();
+ 
+//Clicking the Show documents link...
+if(ShowDoc.isDisplayed()) 
+ 
+{
+ShowDoc.click();
+report.updateTestLog("Affiliation Results  Page", "Show documents   link is clicked  ", Status.PASS);
+}
+else
+ 
+{
+report.updateTestLog("Affiliation Results  Page", "Show documents   link is  not clicked  ", Status.PASS);
+}
+ 
+//clicking on the Edit link..
+driver.findElement(By.id("editAuthSearch")).click();
+wait.until(ExpectedConditions.visibilityOf(View_FeedBack));
+ 
+//Clicking the Give feedback link....
+if( View_FeedBack.isDisplayed()) 
+ 
+{
+View_FeedBack.click();
+report.updateTestLog("Affiliation Results  Page", "Give Feedback  link is clicked  ", Status.PASS);
+}
+ 
+ 
+else
+{
+report.updateTestLog("Affiliation Results  Page", "Give Feedback  link is not clicked  ", Status.PASS);
+}
+driver.navigate().back();
+}
+ 
+
+/*Purpose: Perform affiliation search from author search
+* @Author:Indrajit Bhattacharjee
+*/
+ 
+public void AffiliationsearchfromAuthorsearch()
+
+{
+wait.until(ExpectedConditions.visibilityOf(AuthorSearchButton));
+AffiliationSearchTabinAuthorSrchForm.sendKeys(dataTable.getData("Search", "Affiliation"));
+
+AuthorSearchButton.click();
+driver.manage().timeouts().pageLoadTimeout(100, TimeUnit.SECONDS);
+
+}
+
+public void Navigateback()
+{
+driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+driver.findElement(By.linkText("Author search")).click();
+}
+ 
+ 
+public void PerformauthorSearch()
+{
+driver.manage().timeouts().pageLoadTimeout(100, TimeUnit.SECONDS);
+            wait.until(ExpectedConditions.visibilityOf(EditinAuthorSearchForm));
+EditinAuthorSearchForm.click();
+driver.manage().timeouts().pageLoadTimeout(100, TimeUnit.SECONDS);
+//wait.until(ExpectedConditions.visibilityOf(SearchButtonInAuthorSrchPg)) ;
+AffiliationSearchTabinAuthorSrchForm.clear();
+AuthorLastNameInAuthorSrchForm.sendKeys(dataTable.getData("General_Data", "Lastname"));
+AuthorSearchButton.click();
+driver.manage().timeouts().pageLoadTimeout(100, TimeUnit.SECONDS);
+
+}
+ 
+public void clickAuthorselection_Continuebtn(){
+ 
+if(AS_continuebtn.isDisplayed()){
+AS_continuebtn.click();
+report.updateTestLog("Author Selection Continue Btn", "Continue Btn in Author Selection is clicked", Status.PASS);
+}else{
+report.updateTestLog("Author Selection Continue Btn", "Continue Btn in Author Selection is NOT clicked", Status.FAIL);
+}
+ 
+}
+//code to locate and click Set Feed
+public void clickSetFeed()
+{
+List<WebElement> feed = driver.findElements(By.cssSelector("a[class^='icon setFeed']"));
+System.out.println("Feed List size "+feed.size());
+ 
+if(feed.get(0).isEnabled())
+{
+feed.get(0).click();
+for (String winHandle : driver.getWindowHandles()) {
+driver.switchTo().window(winHandle);
+}
+report.updateTestLog("Set Feed", "Set Feed is  clicked", Status.PASS);
+ 
+}
+else
+{
+report.updateTestLog("Set Feed", "Set Feed is not  clicked", Status.FAIL);
+}
+driver.manage().timeouts().pageLoadTimeout(100, TimeUnit.SECONDS);
+ 
+}
+public void verifyPresenceofSetFeedLink()
+{
+if((setFeed.isEnabled()) &&  (setFeed.getAttribute("title").equalsIgnoreCase("Set feed")))
+
+{
+report.updateTestLog("Set Feed", "Set Feed Link is present ",Status.PASS);
+}
+else
+{
+report.updateTestLog("Set Feed", "Set Feed Link is present ",Status.FAIL);
+}
+}
+ 
+//Written By Indrajit...
+public void Verify_setDocumentFeed$Abstract() throws InterruptedException
+{
+driver.manage().timeouts().pageLoadTimeout(100, TimeUnit.SECONDS);
+ 
+if(setDocumentFeed.isEnabled())
+{
+report.updateTestLog( "Document Tab "," Set Document Feed  is  present  ", Status.PASS);
+ 
+ 
+}
+else
+{
+report.updateTestLog( "Document Tab "," Set Document Feed  is not present  ", Status.FAIL);
+}
+//Author details pg..
+String WinhandleBefore = driver.getWindowHandle();
+setDocumentFeed.click();
+for (String winHandle : driver.getWindowHandles()) 
+{
+driver.switchTo().window(winHandle);
+}
+driver.manage().timeouts().implicitlyWait(4, TimeUnit.SECONDS);
+String documentFeedbackPgUrl = driver.getCurrentUrl();
+String FeedBackTitle =driver.getTitle();
+System.out.println("Printing the Page title of document feedback Page..");
+System.out.println(FeedBackTitle);
+if (new String(documentFeedbackPgUrl).contains("syndic8.scopus.com/register") || (FeedBackTitle.contains("Scopus - Subscribe to RSS Feed")))
+{
+report.updateTestLog(driver.getTitle(),"User is landed on Document feedback page", Status.PASS);
+
+}
+
+else
+{
+report.updateTestLog(driver.getTitle(),"User is not landed on Document feedback page", Status.FAIL);
+}
+ 
+RSSFeedname.getText();
+System.out.println("RSS typed value in checkbox is "+RSSFeedname.getAttribute("value"));
+ 
+if(RSSFeedname.getAttribute("value").equalsIgnoreCase(dataTable.getData("Search", "search_term_text")))
+{
+report.updateTestLog(driver.getTitle(),"Name of the feed is same as the entered search term", Status.PASS);
+}
+else
+{
+report.updateTestLog(driver.getTitle(),"Name of the feed is not same as the entered search term", Status.FAIL);
+}
+RSSFeedname.clear();
+RSSFeedname.sendKeys("Feed"+RandomStringUtils.randomNumeric(2));
+continue_Name_Feed.click();
+wait.until(ExpectedConditions.visibilityOf(create_html_feed));
+create_html_feed.click();
+ 
+//code for login email password..
+ 
+wait.until(ExpectedConditions.visibilityOf(Rss_Login));
+Rss_Email.sendKeys(dataTable.getData("Rss", "Rss_email"));
+Rss_Password.sendKeys(dataTable.getData("Rss", "Rss_password"));
+Rss_Login.click();
+ 
+wait.until(ExpectedConditions.visibilityOf(Next));
+site_Url.sendKeys(dataTable.getData("Rss", "site_Url"));
+Next.click();
+ 
+ 
+wait.until(ExpectedConditions.visibilityOf(NextBtn));
+NextBtn.click();
+ 
+wait.until(ExpectedConditions.visibilityOf(Save));
+Save.click();
+ 
+wait.until(ExpectedConditions.visibilityOf( Done));
+Done.click();
+ 
+ 
+WebElement createnewhTMLfeed= driver.findElement(By.id("createNewHtmlFeedButton"));
+wait.until(ExpectedConditions.visibilityOf( createnewhTMLfeed));
+ 
+ 
+WebElement  Preview= driver.findElement(By.cssSelector("a[id^='preview-'][name='preview']"));
+wait.until(ExpectedConditions.visibilityOf(Preview));
+ 
+String WinhandleBefore1 = driver.getWindowHandle();
+System.out.println("The window handle for feed is ");
+System.out.println(WinhandleBefore1);
+Preview.click();
+for (String winHandle : driver.getWindowHandles()) 
+{
+driver.switchTo().window(winHandle);
+}
+driver.manage().timeouts().implicitlyWait(4, TimeUnit.SECONDS);
+//Validations..
+ 
+driver.close();
+driver.switchTo().window(WinhandleBefore1);
+
+String rssFeedURL = driver.getCurrentUrl();
+String rssFeedURLTitle =driver.getTitle();
+System.out.println("Printing the Page title of RSS FeedBack  Page..");
+System.out.println(rssFeedURLTitle);
+//Scopus - Subscribe to RSS Feed
+if(rssFeedURLTitle.contains("Scopus HTML Feeds - Manage HTML Feeds"))
+{
+report.updateTestLog(driver.getTitle(),"RSS FEED verified", Status.PASS);
+}
+else
+{
+report.updateTestLog(driver.getTitle(),"RSS FEED not verified  ", Status.FAIL);
+}
+//back to parent window
+driver.close();
+driver.switchTo().window(WinhandleBefore);
+
+System.out.println("Check the window ");
+System.out.println(driver.getWindowHandle());
+
+driver.manage().timeouts().pageLoadTimeout(100, TimeUnit.SECONDS);
+
+driver.manage().timeouts().implicitlyWait(1, TimeUnit.MINUTES);
+//Verify the show Abstracts..
+ 
+action.moveToElement(ShowAbstract).perform();
+driver.findElement(By.cssSelector("span[class='abstractLink']")).click();
+
+
+WebElement abstract_data = driver.findElement(By.cssSelector("div[id^='previewAbstract']")).findElement(By.cssSelector("span[class='txt']"));
+
+String data =abstract_data.getText();
+System.out.println("The complete Abstract");
+System.out.println(data);
+ 
+if(data.contains(dataTable.getData("Search", "search_term_text")))
+{
+report.updateTestLog(driver.getTitle(), "Abstract verified ", Status.PASS);
+}
+else
+{
+report.updateTestLog(driver.getTitle(), "Abstract not verified   ", Status.FAIL);
+}
+driver.close();
+
+//code ends..
+
+
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+}
+ 
+public void navigateToMyScopus()
+{
+ 
+if(myScopus.isEnabled())
+{
+myScopus.click();
+report.updateTestLog(driver.getTitle(),"Inside My scopus Page  ", Status.DONE);
+}
+else
+{
+report.updateTestLog(driver.getTitle(),"Not Inside My scopus Page  ", Status.FAIL);
+}
+ 
+ 
+verifySavedSearches();
+driver.manage().timeouts().pageLoadTimeout(100, TimeUnit.SECONDS);
+}
+ 
+public void verifySavedSearches()
+{
+ 
+if(savedSearches.isEnabled())
+{
+savedSearches.click();
+report.updateTestLog(driver.getTitle(),"Inside My Saved List Page  ", Status.DONE);
+ 
+}
+else
+{
+report.updateTestLog(driver.getTitle(),"not in  My Saved List Page  ", Status.FAIL);
+}
+ 
+}
+ 
+//to verify the presence of set feed upon  mouse hover 
+public void verifyPresenceofSetFeedonMouseHover()throws InterruptedException
+{
+driver.manage().timeouts().pageLoadTimeout(100, TimeUnit.SECONDS);
+String toolTips= setFeedonMouseHover.getAttribute("title");
+ 
+ 
+if(toolTips.contains(dataTable.getData("General_Data", "ToolTip")) )
+{
+report.updateTestLog("The Link", "Set feed tooltip verified", Status.PASS);
+}
+else
+{
+report.updateTestLog("The Link", "Set feed tooltip is  not  verified", Status.FAIL);
+ 
+}
+ 
+}
+ 
+ 
+public void clickonSearchInNavBar()
+{
+driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+SearchInNavBar.click();
+}
+ 
+ 
+/*Method Purpose: To verify set feed link is present in scopus pages
+* 
+* 
+* @author:Indrajit
+* 
+*/
+ 
+public void verifySetFeedToBePresent(String page)
+{
+switch(page)
+{
+case "":
+break;
+ 
+}
+}
+
+public void navigatetoPreviousPage()
+{
+driver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
+            driver.navigate().back();
+            driver.manage().timeouts().pageLoadTimeout(100, TimeUnit.SECONDS);
+ 
+}
+ 
+/**
+ * This method reads csv data exported from refine result tab
+ * 
+ * @author Kamalas3
+ * @since 06/13/2016
+ * @throws InterruptedException
+ * @throws IOException
+ */
+
+public void ReadcsvExcel() throws InterruptedException, IOException
+{
+String Filename=dataTable.getData("General_Data", "Filename");
+String page=dataTable.getData("General_Data", "page");
+String username=System.getProperty("user.name");
+CSVReader reader = new CSVReader(new FileReader("C:\\Users\\"+username+"\\Downloads\\"+Filename));
+ 
+// String[] csvCell=reader.readNext();
+// System.out.println(csvCell[0]);
+ 
+List <String[]> li= reader.readAll();
+System.out.println(li.size());
+System.out.println(li.get(0));
+if(!(li.isEmpty())){
+Iterator<String[]> i=li.iterator();
+switch(page)
+{
+case "Document search":{
+String refinecnt;
+String result=driver.findElement(By.className("resultsCount")).getText();
+if(result.contains(",")){
+refinecnt=result.replaceAll(",", "");
+}else{
+refinecnt=result;
+}
+ 
+for(int k=0;k<=li.size()-161;k++){
+String[] str=i.next();
+for(int j=0;j<str.length;j++)
+{
+while(!str[j].isEmpty()){
+if(str[j].contains("Scopus refine results values")){
+report.updateTestLog("csv File", "Scopus file contains value: "+str[j]+" from Document refine results categories", Status.PASS);
+break;
+}
+else if((str[j].toUpperCase().contains(queryTerm.getText().toUpperCase()) && (str[j].contains(queryoperator.getText())))){ //
+report.updateTestLog("Document Query", "Scopus file query:  "+str[j]+" matches from Document refine results categories", Status.PASS);
+break;
+}else if(str[j].contains("Number of results : "+refinecnt)){
+report.updateTestLog("Result count", "Scopus file contains : "+str[j]+" from refine Document results categories", Status.PASS);
+break;
+}else if(str[j].toUpperCase().replaceAll("\\s", "").contains("YEAR")){
+report.updateTestLog(str[j], "Scopus file contains value: "+str[j]+" from Document refine results categories", Status.PASS);
+break;
+}else if(str[j].replaceAll("\\s", "").toUpperCase().contains("AUTHORNAME")){
+report.updateTestLog(str[j], "Scopus file contains value: "+str[j]+" from Document refine results categories", Status.PASS);
+break;
+}else if(str[j].replaceAll("\\s", "").toUpperCase().contains("SUBJECTAREA")){
+report.updateTestLog(str[j], "Scopus file contains value: "+str[j]+" from Document refine results categories", Status.PASS);
+break;
+}else if(str[j].replaceAll("\\s", "").toUpperCase().contains("DOCUMENTTYPE")){
+report.updateTestLog(str[j], "Scopus file contains value: "+str[j]+" from Document refine results categories", Status.PASS);
+break;
+}else if(str[j].replaceAll("\\s", "").toUpperCase().contains("SOURCETITLE")){
+report.updateTestLog(str[j], "Scopus file contains value: "+str[j]+" from Document refine results categories", Status.PASS);
+break;
+}else if(str[j].replaceAll("\\s", "").toUpperCase().contains("KEYWORD")){
+report.updateTestLog(str[j], "Scopus file contains value: "+str[j]+" from Document refine results categories", Status.PASS);
+break;
+}else if(str[j].replaceAll("\\s", "").toUpperCase().contains("AFFILIATION")){
+report.updateTestLog(str[j], "Scopus file contains value: "+str[j]+" from Document refine results categories", Status.PASS);
+break;
+}else if(str[j].replaceAll("\\s", "").toUpperCase().contains("COUNTRY")){
+report.updateTestLog(str[j], "Scopus file contains value: "+str[j]+" from Document refine results categories", Status.PASS);
+break;
+}else if(str[j].replaceAll("\\s", "").toUpperCase().contains("SOURCETYPE")){
+report.updateTestLog(str[j], "Scopus file contains value: "+str[j]+" from Document refine results categories", Status.PASS);
+break;
+}else if(str[j].replaceAll("\\s", "").toUpperCase().contains("LANGUAGE")){
+report.updateTestLog(str[j], "Scopus file contains value: "+str[j]+" from Document refine results categories", Status.PASS);
+break;
+}else{
+report.updateTestLog(str[j], "Scopus file does NOT contains value: "+str[j]+" from Document refine results categories", Status.FAIL);
+break;
+}
+}
+}
+}
+reader.close();
+break;
+}
+ 
+case "Affiliation Search":{
+String Affquery=driver.findElement(By.xpath("//span[@class='queryTxt']/span")).getText();
+String Affrefinecnt=driver.findElement(By.cssSelector(".resultsCount")).getText();
+ 
+for(int k=0;k<=li.size()-161;k++){   //while(It.hasNext()){
+String[] str=i.next();
+for(int j=0;j<str.length;j++)
+{
+while(!str[j].isEmpty()){
+if(str[j].contains("Scopus refine results values")){
+report.updateTestLog("csv File", "Scopus file contains value: "+str[j]+" from Affiliation refine results categories", Status.PASS);
+break;
+}else if(k==2){
+if(str[j].contains("Your query") && str[j].substring(20,str[j].length()-2).toUpperCase().contains(Affquery.toUpperCase().replaceAll("\"", ""))){
+report.updateTestLog("Affiliation Query", "Scopus file query:  "+str[j]+" matches from Affiliation refine results categories", Status.PASS);
+break;
+}else{
+report.updateTestLog("Author Query", "Scopus file query:  "+str[j]+" does NOT match from Affiliation refine results categories", Status.FAIL);
+break;
+}
+}else if(str[j].contains("Number of results : "+Affrefinecnt)){
+report.updateTestLog("Result count", "Scopus file contains : "+str[j]+" from Affiliation refine results categories", Status.PASS);
+break;
+}else if(str[j].replaceAll("\\s", "").toUpperCase().contains("CITY")){
+report.updateTestLog(str[j], "Scopus file contains value: "+str[j]+" from Affiliation refine results categories", Status.PASS);
+break;
+}else if(str[j].replaceAll("\\s", "").toUpperCase().contains("COUNTRY")){
+report.updateTestLog(str[j], "Scopus file contains value: "+str[j]+" from Affiliation refine results categories", Status.PASS);
+break;
+}else{
+report.updateTestLog(str[j], "Scopus file does NOT contains value: "+str[j]+" from Affiliation refine results categories", Status.FAIL);
+break;
+}
+}
+}
+ }
+reader.close();
+break;
+}
+ 
+case "Author search":{
+String Auquery=driver.findElement(By.xpath("//span[@class='queryTxt']/span[1]")).getText(); 
+String result= driver.findElement(By.xpath("//div[@class='resultsCountLabel floatL']/span[2]")).getText();
+String Aurefinecnt;
+ 
+if(result.contains(",")){
+Aurefinecnt=result.replaceAll(",", "");
+}else{
+Aurefinecnt=result;
+}
+ 
+for(int k=0;k<=li.size()-161;k++){  // while(ite.hasNext()){
+String[] str=i.next();
+for(int j=0;j<str.length;j++)
+{
+while(!str[j].isEmpty()){
+if(str[j].contains("Scopus refine results values")){
+report.updateTestLog("csv File", "Scopus file contains value: "+str[j]+" from Author refine results categories", Status.PASS);
+break;
+}else if(k==2){
+if(str[j].contains("Your query") && str[j].substring(31,str[j].length()-2).toUpperCase().contains(Auquery.toUpperCase().replaceAll("\"", ""))){
+report.updateTestLog("Author Query", "Scopus file query:  "+str[j]+" matches from Author refine results categories", Status.PASS);
+break;
+}else{
+report.updateTestLog("Author Query", "Scopus file query:  "+str[j]+" does NOT match from Author refine results categories", Status.FAIL);
+break;
+}
+}else if(str[j].contains("Number of results : "+Aurefinecnt)){
+report.updateTestLog("Result count", "Scopus file contains : "+str[j]+" from Author refine results categories", Status.PASS);
+break;
+}else if(str[j].replaceAll("\\s", "").toUpperCase().contains("SOURCETITLE")){
+report.updateTestLog(str[j], "Scopus file contains value: "+str[j]+" from Author refine results categories", Status.PASS);
+break;
+}else if(str[j].replaceAll("\\s", "").toUpperCase().contains("AFFILIATION")){
+report.updateTestLog(str[j], "Scopus file contains value: "+str[j]+" from Author refine results categories", Status.PASS);
+break;
+}else if(str[j].replaceAll("\\s", "").toUpperCase().contains("CITY")){
+report.updateTestLog(str[j], "Scopus file contains value: "+str[j]+" from Author refine results categories", Status.PASS);
+break;
+}else if(str[j].replaceAll("\\s", "").toUpperCase().contains("COUNTRY")){
+report.updateTestLog(str[j], "Scopus file contains value: "+str[j]+" from Author refine results categories", Status.PASS);
+break;
+}else if(str[j].replaceAll("\\s", "").toUpperCase().contains("SUBJECTAREA")){
+report.updateTestLog(str[j], "Scopus file contains value: "+str[j]+" from Author refine results categories", Status.PASS);
+break;
+}else{
+report.updateTestLog(str[j], "Scopus file does NOT contains value: "+str[j]+" from Author refine results categories", Status.FAIL);
+break;
+}
+}
+}
+  }
+reader.close();
+break;
+}
+}
+}else{
+report.updateTestLog(Filename, "Scopus file from refine results categories is empty", Status.FAIL);
+}
+}
+ 
+/**
+* This method deletes the file from download path 
+* 
+* @author Kamalas3
+* @since 06/13/2016
+* @throws InterruptedException
+* @throws IOException
+*/
+public void deleteFile(){
+String Filename=dataTable.getData("General_Data", "Filename");
+String username=System.getProperty("user.name");
+ 
+File file=new File("C:\\Users\\"+username+"\\Downloads\\"+Filename);
+if(file.exists()){
+file.delete();
+report.updateTestLog(Filename, "File- "+Filename+" has been deleted successfully", Status.PASS);
+}else{
+report.updateTestLog(Filename, Filename+" is not found in given path", Status.FAIL);
+}
+driver.manage().timeouts().implicitlyWait(100, TimeUnit.SECONDS);
+}
+ 
+/**
+* clicks Export refine button and saves exported file in download path in different browsers(Chrome, Firefox & IE)
+* 
+* @author Kamalas3
+* @since 06/13/2016
+* @throws InterruptedException
+* @throws IOException
+*/
+public void click_ExportRefine() throws InterruptedException, AWTException{
+String Filename=dataTable.getData("General_Data", "Filename");
+String username=System.getProperty("user.name");
+File file=new File("C:\\Users\\"+username+"\\Downloads\\"+Filename);
+Robot r = new Robot();
+ 
+Capabilities cap=((RemoteWebDriver)this.driver).getCapabilities();
+String browser=cap.getBrowserName();
+ 
+driver.manage().timeouts().pageLoadTimeout(100, TimeUnit.SECONDS);
+scrollIntoView(exportRefine);
+if(exportRefine.isDisplayed()){
+exportRefine.click();
+report.updateTestLog("Export Refine", "Export Refine link is clicked", Status.PASS);
+}else{
+report.updateTestLog("Export Refine", "Export Refine link is NOT found in page", Status.FAIL);
+}
+ 
+if(file.exists()){
+report.updateTestLog("File downloaded", "File: "+Filename+" has been downloaded successfully in "+browser+" Browser", Status.DONE); 
+}else{
+if(browser.toUpperCase().equals("FIREFOX")){
+//driver.manage().timeouts().implicitlyWait(100, TimeUnit.SECONDS);
+ 
+Thread.sleep(3000);
+r.delay(1000);
+r.keyPress(KeyEvent.VK_DOWN);
+r.keyRelease(KeyEvent.VK_DOWN);
+r.delay(1000);
+r.keyPress(KeyEvent.VK_ENTER);
+r.keyRelease(KeyEvent.VK_ENTER);
+driver.manage().timeouts().implicitlyWait(100, TimeUnit.SECONDS);
+report.updateTestLog(browser, "File: "+Filename+" has been downloaded successfully in "+browser+" Browser", Status.DONE);
+}else if(browser.toUpperCase().equals("INTERNETEXPLORER")){
+report.updateTestLog(browser, "File: "+Filename+" has been downloaded successfully in "+browser+" Browser", Status.DONE);
+Thread.sleep(3000);
+r.delay(1000);
+r.mouseMove(765,15); //1370,60
+r.mousePress(java.awt.event.InputEvent.BUTTON1_MASK);
+r.mouseRelease(java.awt.event.InputEvent.BUTTON1_MASK);
+}
+}
+}
+
+public void enterAffiliationinMakeAuthororAffiliationSelectionPage()
+{
+driver.manage().timeouts().pageLoadTimeout(100, TimeUnit.SECONDS);
+driver.findElement(By.id("inst")).sendKeys(dataTable.getData("Search", "affiliationName"));
+driver.findElement(By.id("authorSubmitBtn")).click();
+}
+ 
+public void navigateToDocumentSearch()
+{
+driver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
+//#scTabs > div:nth-child(1) > a > span
+List<WebElement> searches = driver.findElements(By.cssSelector("#scTabs > div:nth-child(1) > a > span"));
+searches.get(0).click();
+driver.manage().timeouts().pageLoadTimeout(100, TimeUnit.SECONDS);
+}
+
+ 
+public void navigateToMyScopusInSHIB()
+{
+ 
+if(myScopus.isEnabled())
+{
+myScopus.click();
+driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
+ 
+report.updateTestLog(driver.getTitle(),"Inside My scopus Page  ", Status.DONE);
+}
+else
+{
+report.updateTestLog(driver.getTitle(),"Not Inside My scopus Page  ", Status.FAIL);
+}
+ 
+ 
+ 
+driver.manage().timeouts().pageLoadTimeout(100, TimeUnit.SECONDS);
+}
+ 
+/*To validate Saved Searches , Alert and Saved lists
+* @author Indrajit
+* 
+* 
+*/
+public void loggedInViaScopus()
+{
+ 
+ 
+             wait.until(ExpectedConditions.visibilityOf(savedSearches));
+if(savedSearches.isEnabled())
+{
+savedSearches.click();
+ 
+driver.manage().timeouts().implicitlyWait(3 , TimeUnit.SECONDS);
+WebElement returnToPreviousPage = driver.findElement(By.linkText("Return to previous page"));
+WebElement error = driver.findElement(By.id("inaccess-txt"));
+String txt = error.getText();
+ 
+System.out.println("The text is ");
+System.out.print(txt);
+if(txt.contains(dataTable.getData("Search", "ErrorMessages")))
+{
+report.updateTestLog("Saved Searches","Error Message is Validated  ", Status.PASS);
+}
+else
+{
+report.updateTestLog("Saved Searches","Error Message is not Validated  ", Status.FAIL);
+}
+ 
+returnToPreviousPage.click();
+driver.manage().timeouts().implicitlyWait(2 , TimeUnit.SECONDS);
+ 
+}
+ 
+//Alert
+ 
+if(Alerts.isEnabled())
+{
+Alerts.click();
+ 
+driver.manage().timeouts().implicitlyWait(3 , TimeUnit.SECONDS);
+WebElement returnToPreviousPage = driver.findElement(By.linkText("Return to previous page"));
+WebElement error = driver.findElement(By.id("inaccess-txt"));
+String txt = error.getText();
+ 
+System.out.println("The text is ");
+System.out.print(txt);
+if(txt.contains(dataTable.getData("Search", "ErrorMessages")))
+{
+report.updateTestLog("Alerts","Error Message is Validated  ", Status.PASS);
+}
+else
+{
+report.updateTestLog("Alerts","Error Message is not Validated  ", Status.FAIL);
+}
+ 
+returnToPreviousPage.click();
+driver.manage().timeouts().implicitlyWait(2 , TimeUnit.SECONDS);
+ 
+}
+ 
+//Saved Lists
+if(SavedList.isEnabled())
+{
+SavedList.click();
+driver.manage().timeouts().implicitlyWait(3 , TimeUnit.SECONDS);
+WebElement returnToPreviousPage = driver.findElement(By.linkText("Return to previous page"));
+WebElement error = driver.findElement(By.id("inaccess-txt"));
+String txt = error.getText();
+ 
+System.out.println("The text is ");
+System.out.print(txt);
+if(txt.contains(dataTable.getData("Search", "ErrorMessages")))
+{
+report.updateTestLog("Saved List ","Error Message is Validated  ", Status.PASS);
+}
+else
+{
+report.updateTestLog("Saved List ","Error Message is not Validated  ", Status.FAIL);
+}
+ 
+returnToPreviousPage.click();
+driver.manage().timeouts().implicitlyWait(2 , TimeUnit.SECONDS);
+}
+ 
+ 
+ 
+}
+
+public void clickSearch()
+{
+WebElement Search =driver.findElement(By.xpath("//*[@id='mainNav']/nav/ul/li[1]/a"));
+wait.until(ExpectedConditions.visibilityOf( Search));
+Search.click();
+ 
+ 
+}
+ 
+public void verifyScopusIsAccessible()
+{
+driver.manage().timeouts().pageLoadTimeout(100, TimeUnit.SECONDS);
+String PageTitle="";
+PageTitle =driver.getTitle();
+System.out.println("The Page  Title is ...");
+System.out.println(PageTitle);
+if(PageTitle.contains("Scopus - Document search"))
+{
+report.updateTestLog("Saved List ","Scopus is Accessible   ", Status.PASS);
+ 
+}
+else
+{
+report.updateTestLog("Saved List ","Scopus is not  Accessible   ", Status.FAIL);
+}
+ 
+ 
+ 
+}
+ 
+public void verifyActivePersonalization()
+{
+WebElement activePersonalization = driver.findElement(By.linkText("Active Personalization"));
+if(!activePersonalization.isDisplayed())
+ 
+{
+report.updateTestLog("Scopus Home Page ","Active Personalization is not present", Status.PASS);
+}
+else
+{
+report.updateTestLog("Scopus Home Page ","Active Personalization is  present", Status.FAIL);
+}
+ 
+ 
+}
+ 
+public void verifyModifyProfile()
+{
+driver.manage().timeouts().pageLoadTimeout(100, TimeUnit.SECONDS);
+ 
+//ModifyDetails
+if(ModifyDetails.isEnabled())
+{
+ModifyDetails.click();
+driver.manage().timeouts().implicitlyWait(3 , TimeUnit.SECONDS);
+WebElement Submit =driver.findElement(By.cssSelector("input[title='Submit']"));
+wait.until(ExpectedConditions.visibilityOf( Submit));
+ 
+//modify the value in First name
+System.out.println("The  First Name ...");
+    System.out.println(driver.findElement(By.id("first_name")).getAttribute("value"));
+    String temp =driver.findElement(By.id("first_name")).getAttribute("value");
+    driver.findElement(By.id("first_name")).clear();
+    driver.findElement(By.id("first_name")).sendKeys(temp);
+    
+    
+Submit.click();
+ 
+report.updateTestLog("Shib User", "Modify Personal details Verified ", Status.DONE);
+ 
+}
+ 
+}
+ 
+ 
+public void verifyModifyProfileForActivePersonalization()
+{
+String messageInActivePersonalization = "";
+driver.manage().timeouts().pageLoadTimeout(100, TimeUnit.SECONDS);
+//ModifyDetails
+if(ModifyDetails.isEnabled())
+{
+ModifyDetails.click();
+driver.manage().timeouts().implicitlyWait(3 , TimeUnit.SECONDS);
+messageInActivePersonalization=driver.findElement(By.cssSelector(".CARS_panelTitle")).getText();
+System.out.println("The error message is..");
+System.out.println(messageInActivePersonalization);
+if(messageInActivePersonalization.equals(dataTable.getData("Search", "ErrorMessages")))
+{
+report.updateTestLog("Active Personalization ", "Modify Personal details cant be accessed ", Status.PASS);
+}
+else
+{
+report.updateTestLog("Active Personalization", "Modify Personal can be accessed ", Status.FAIL);
+}
+}
+}
+ 
+ 
+public void click_SingleDocumentCheckbox() throws InterruptedException {
+String count = dataTable.getData("General_Data", "CheckboxCount");
+int chkindex = Integer.parseInt(count);
+List<WebElement> checkboxes = driver.findElements(By.name("selectedEIDs"));
+System.out.println("checkboxes" + checkboxes.size());
+checkboxes.get(chkindex).click();
+}
+ 
+public void export_Outputbtn() throws AWTException, InterruptedException{
+String DocFormat=dataTable.getData("General_Data", "DocFormat");
+String Info=dataTable.getData("General_Data", "InformationExport");
+String Filename=dataTable.getData("General_Data", "Filename");
+String username=System.getProperty("user.name");
+ 
+File file=new File("C:\\Users\\"+username+"\\Downloads\\"+Filename);
+Robot r = new Robot();
+int Infolist=0;
+ 
+Capabilities cap=((RemoteWebDriver)this.driver).getCapabilities();
+String browser=cap.getBrowserName();
+ 
+ 
+if(Exportarrow.isDisplayed()){
+Exportarrow.click();
+driver.findElement(By.cssSelector("#"+DocFormat)).click();
+report.updateTestLog("File Format", "File format: "+DocFormat+" is selected",Status.PASS);
+}else{
+report.updateTestLog("File Format", "File format: "+DocFormat+" is NOT selected",Status.FAIL);
+}
+ 
+driver.findElement(By.xpath("//span[@id='exportView-button']")).click();
+if(!Info.isEmpty()){
+switch(Info){
+case "Citation information only":
+Infolist=1;
+break;
+case "Citations and abstract information":
+Infolist=2;
+break;
+case "Citations, abstract and references":
+Infolist=3;
+break;
+case "All available information":
+Infolist=4;
+break;
+case "Specify fields to be exported":
+Infolist=5;
+break;
+default:
+report.updateTestLog("Information dropdown", "index value is NOT set",Status.FAIL );
+break;
+}
+driver.findElement(By.xpath("//div[@class='ui-selectmenu-menu ui-front ui-selectmenu-open']/ul[1]/li["+Infolist+"]")).click();
+report.updateTestLog("Information", Info+": is selected from Informationbox",Status.PASS);
+}else{
+report.updateTestLog("Information", "Default value is selected from Informationbox",Status.DONE);
+}
+ 
+if(Exportbtn.isDisplayed()){
+Exportbtn.click();
+report.updateTestLog("Export button", "Export button is selected",Status.PASS);
+}else{
+report.updateTestLog("Export button", "Export button is NOT selected",Status.FAIL);
+}
+ 
+if(file.exists()){
+report.updateTestLog("File downloaded", "File: "+Filename+" has been downloaded successfully in "+browser+" Browser", Status.DONE); 
+}else{
+if(browser.toUpperCase().equals("FIREFOX")){
+//driver.manage().timeouts().implicitlyWait(100, TimeUnit.SECONDS);
+Thread.sleep(3000);
+r.delay(1000);
+r.keyPress(KeyEvent.VK_DOWN);
+r.keyRelease(KeyEvent.VK_DOWN);
+r.delay(1000);
+r.keyPress(KeyEvent.VK_ENTER);
+r.keyRelease(KeyEvent.VK_ENTER);
+driver.manage().timeouts().implicitlyWait(100, TimeUnit.SECONDS);
+report.updateTestLog(browser, "File: "+Filename+" has been downloaded successfully in "+browser+" Browser", Status.DONE);
+}else if(browser.toUpperCase().equals("INTERNETEXPLORER")){
+report.updateTestLog(browser, "File: "+Filename+" has been downloaded successfully in "+browser+" Browser", Status.DONE);
+Thread.sleep(3000);
+r.delay(1000);
+r.mouseMove(765,15); //1370,60
+r.mousePress(java.awt.event.InputEvent.BUTTON1_MASK);
+r.mouseRelease(java.awt.event.InputEvent.BUTTON1_MASK);
+}
+}
+}
+ 
+public void exportfromDocumentResult() throws AWTException, InterruptedException {
+String DocFormat=dataTable.getData("General_Data", "DocFormat");
+String information=dataTable.getData("General_Data", "Informationcheckbox");
+String Info=dataTable.getData("General_Data", "InformationExport");
+String Filename=dataTable.getData("General_Data", "Filename");
+String username=System.getProperty("user.name");
+File file=new File("C:\\Users\\"+username+"\\Downloads\\"+Filename);
+int Infolist=0;
+Thread.sleep(1000);
+ 
+if(RefWorkExportarrow.isDisplayed()){
+RefWorkExportarrow.click();
+driver.findElement(By.cssSelector("#"+DocFormat)).click();
+report.updateTestLog("File Format", "File format: "+DocFormat+" is selected",Status.PASS);
+}else{
+report.updateTestLog("File Format", "File format: "+DocFormat+" is NOT selected",Status.FAIL);
+}
+ 
+driver.findElement(By.xpath("//span[@id='exportView-button']")).click();
+if(!Info.isEmpty()){
+switch(Info){
+case "Citation information only":
+Infolist=1;
+break;
+case "Citations and abstract information":
+Infolist=2;
+break;
+case "Citations, abstract and references":
+Infolist=3;
+break;
+case "All available information":
+Infolist=4;
+break;
+case "Specify fields to be exported":
+Infolist=5;
+break;
+default:
+report.updateTestLog("Information dropdown", "index value is NOT set",Status.FAIL );
+break;
+}
+driver.findElement(By.xpath("//div[@class='ui-selectmenu-menu ui-front ui-selectmenu-open']/ul[1]/li["+Infolist+"]")).click();
+report.updateTestLog("Information", Info+": is selected from Informationbox",Status.PASS);
+}else{
+report.updateTestLog("Information", "Default value is selected from Informationbox",Status.DONE);
+}
+ 
+if(Info.contains("Specify fields to be exported")){
+if(citationinfo.isEnabled()){
+if(citationinfo.isSelected()){
+citationinfo.click();
+report.updateTestLog("Citation Info", "Citation Info checkbox is deselected",Status.DONE);
+}else{
+report.updateTestLog("Citation Info", "Citation Info checkbox is deselected by default",Status.DONE);
+}
+}
+ 
+if(!information.isEmpty()){
+WebElement infoCB=driver.findElement(By.cssSelector("input[value='_"+information+"_']"));
+if(infoCB.isSelected()){
+report.updateTestLog(information+" checkbox", information+" Checkbox is selected by default",Status.PASS);
+}else{
+infoCB.click();
+report.updateTestLog(information+" checkbox", information+" Checkbox is selected",Status.DONE);
+}
+}
+}else{
+report.updateTestLog("Information", Info+" is already selected",Status.DONE);
+}
+ 
+if(file.exists()){
+deleteFile();
+report.updateTestLog("File process", "Old file is found and deleted",Status.DONE);
+}else{
+report.updateTestLog("File process", "New file is processed for downloading...",Status.DONE);
+}
+ 
+if(Exportbtn.isDisplayed()){
+Exportbtn.click();
+report.updateTestLog("Export button", "Export button is selected",Status.PASS);
+}else{
+report.updateTestLog("Export button", "Export button is NOT selected",Status.FAIL);
+}
+ 
+verify_filedownload();
+}
+ 
+public void export_referenceformat() throws AWTException, InterruptedException {
+String DocFormat=dataTable.getData("General_Data", "DocFormat");
+String information=dataTable.getData("General_Data", "Informationcheckbox");
+String Info=dataTable.getData("General_Data", "InformationExport");
+String Filename=dataTable.getData("General_Data", "Filename");
+String username=System.getProperty("user.name");
+File file=new File("C:\\Users\\"+username+"\\Downloads\\"+Filename);
+int Infolist=0;
+ 
+if(Exportarrow.isDisplayed()){
+Exportarrow.click();
+driver.findElement(By.cssSelector("#"+DocFormat)).click();
+report.updateTestLog("File Format", "File format: "+DocFormat+" is selected",Status.PASS);
+}else{
+report.updateTestLog("File Format", "File format: "+DocFormat+" is NOT selected",Status.FAIL);
+}
+ 
+driver.findElement(By.xpath("//span[@id='exportView-button']")).click();
+if(!Info.isEmpty()){
+switch(Info){
+case "Citation information only":
+Infolist=1;
+break;
+case "Citations and abstract information":
+Infolist=2;
+break;
+case "Citations, abstract and references":
+Infolist=3;
+break;
+case "All available information":
+Infolist=4;
+break;
+case "Specify fields to be exported":
+Infolist=5;
+break;
+default:
+report.updateTestLog("Information dropdown", "index value is NOT set",Status.FAIL );
+break;
+}
+driver.findElement(By.xpath("//div[@class='ui-selectmenu-menu ui-front ui-selectmenu-open']/ul[1]/li["+Infolist+"]")).click();
+report.updateTestLog("Information", Info+": is selected from Informationbox",Status.PASS);
+}else{
+report.updateTestLog("Information", "Default value is selected from Informationbox",Status.DONE);
+}
+ 
+if(Info.contains("Specify fields to be exported")){
+if(citationinfo.isEnabled()){
+if(citationinfo.isSelected()){
+citationinfo.click();
+report.updateTestLog("Citation Info", "Citation Info checkbox is deselected",Status.DONE);
+}else{
+report.updateTestLog("Citation Info", "Citation Info checkbox is deselected by default",Status.DONE);
+}
+}
+ 
+if(!information.isEmpty()){
+WebElement infoCB=driver.findElement(By.cssSelector("input[value='_"+information+"_']"));
+if(infoCB.isSelected()){
+report.updateTestLog(information+" checkbox", information+" Checkbox is selected by default",Status.PASS);
+}else{
+infoCB.click();
+report.updateTestLog(information+" checkbox", information+" Checkbox is selected",Status.DONE);
+}
+}
+}else{
+report.updateTestLog("Information", Info+" is already selected",Status.DONE);
+}
+ 
+if(file.exists()){
+deleteFile();
+report.updateTestLog("File process", "Old file is found and deleted",Status.DONE);
+}else{
+report.updateTestLog("File process", "New file is processed for downloading...",Status.DONE);
+}
+ 
+if(Exportbtn.isDisplayed()){
+Exportbtn.click();
+report.updateTestLog("Export button", "Export button is selected",Status.PASS);
+}else{
+report.updateTestLog("Export button", "Export button is NOT selected",Status.FAIL);
+}
+verify_filedownload();
+}
+ 
+public void verify_filedownload() throws AWTException, InterruptedException{
+String Filename=dataTable.getData("General_Data", "Filename");
+String username=System.getProperty("user.name");
+ 
+File file=new File("C:\\Users\\"+username+"\\Downloads\\"+Filename);
+Robot r = new Robot();
+Capabilities cap=((RemoteWebDriver)this.driver).getCapabilities();
+String browser=cap.getBrowserName();
+
+if(file.exists()){
+report.updateTestLog("File downloaded", "File: "+Filename+" has been downloaded successfully in "+browser+" Browser", Status.DONE); 
+}else{
+if(browser.toUpperCase().equals("FIREFOX")){
+//driver.manage().timeouts().implicitlyWait(100, TimeUnit.SECONDS);
+Thread.sleep(3000);
+r.delay(1000);
+r.keyPress(KeyEvent.VK_DOWN);
+r.keyRelease(KeyEvent.VK_DOWN);
+r.delay(1000);
+r.keyPress(KeyEvent.VK_ENTER);
+r.keyRelease(KeyEvent.VK_ENTER);
+driver.manage().timeouts().implicitlyWait(100, TimeUnit.SECONDS);
+report.updateTestLog(browser, "File: "+Filename+" has been downloaded successfully in "+browser+" Browser", Status.DONE);
+}else if(browser.toUpperCase().equals("INTERNETEXPLORER")){
+report.updateTestLog(browser, "File: "+Filename+" has been downloaded successfully in "+browser+" Browser", Status.DONE);
+Thread.sleep(3000);
+r.delay(1000);
+r.mouseMove(765,15); //1370,60
+r.mousePress(java.awt.event.InputEvent.BUTTON1_MASK);
+r.mouseRelease(java.awt.event.InputEvent.BUTTON1_MASK);
+}
+}
+}
+ 
+public void verifyTextExported(){
+String[] Textvalue=dataTable.getData("General_Data", "TextData").split(",");
+String parentwindow=driver.getWindowHandle();
+Set <String> windownames=driver.getWindowHandles();
+ 
+for (String window:windownames){
+driver.switchTo().window(window);
+}
+ 
+String TextinBrowser=driver.findElement(By.cssSelector("pre[style^='word-wrap']")).getText();
+for(int i=0;i<=Textvalue.length-1;i++){
+if(TextinBrowser.contains(Textvalue[i])){
+report.updateTestLog("Text Exported: "+Textvalue[i], Textvalue[i]+" text is available in browser",Status.PASS);
+}else{
+report.updateTestLog("Text Exported: "+Textvalue[i], Textvalue[i]+" text is NOT found in browser",Status.PASS);
+}
+}
+driver.close();
+driver.switchTo().window(parentwindow);
+}
+ 
+public void verify_PostExportlink(){
+String DocFormat=dataTable.getData("General_Data", "DocFormat");
+int CBindex=Integer.parseInt(dataTable.getData("General_Data", "CheckboxCount"));
+List<WebElement> checkbox=driver.findElements(By.name("selectedEIDs"));
+ 
+for(int i=0;i<CBindex;i++)
+{
+if(checkbox.get(i).isSelected()){
+report.updateTestLog("Checkbox status", "Checkbox  ["+i+"] document is sticked to its selection",Status.PASS);
+}else{
+report.updateTestLog("Checkbox status", "Checkbox ["+i+"] document is NOT sticked to its selection",Status.FAIL);
+}
+}
+ 
+switch(DocFormat){
+case "RIS":
+if(driver.findElement(By.linkText("RIS export")).isDisplayed()){
+report.updateTestLog("RIS Export", "RIS Export link is present",Status.PASS);
+}else{
+report.updateTestLog("RIS Export", "RIS Export link is NOT present",Status.FAIL);
+}
+break;
+case "CSV":
+if(driver.findElement(By.linkText("CSV export")).isDisplayed()){
+report.updateTestLog("CSV Export", "CSV Export link is present",Status.PASS);
+}else{
+report.updateTestLog("CSV Export", "CSV Export link is NOT present",Status.FAIL);
+}
+break;
+case "BIB":
+if(driver.findElement(By.linkText("BibTeX export")).isDisplayed()){
+report.updateTestLog("BIBTeX Export", "BIBTeX Export link is present",Status.PASS);
+}else{
+report.updateTestLog("BIBTeX Export", "BIBTeX Export link is NOT present",Status.FAIL);
+}
+break;
+case "TEXT":
+if(driver.findElement(By.linkText("Text export")).isDisplayed()){
+report.updateTestLog("TEXT Export", "TEXT Export link is present",Status.PASS);
+}else{
+report.updateTestLog("TEXT Export", "TEXT Export link is NOT present",Status.FAIL);
+}
+break;
+default:
+report.updateTestLog("Document Format", "Document Format is NOT set...",Status.FAIL );
+break;
+}
+}
+ 
+public void readTxtFile() throws IOException, InterruptedException{
+String Filename=dataTable.getData("General_Data", "Filename");
+String[] searchtag=dataTable.getData("General_Data", "Tags").split(",");
+String username=System.getProperty("user.name");
+int index=Integer.parseInt(dataTable.getData("General_Data", "CheckboxCount"));
+String AbId=dataTable.getData("General_Data", "AbstractId");
+String ExportInfo=dataTable.getData("General_Data", "InformationExport");
+String contents;
+int Abindex;
+
+String Filepath="C:\\Users\\"+username+"\\Downloads\\"+Filename;
+FileReader fr= new FileReader(Filepath);
+BufferedReader br=new BufferedReader(fr);
+while((contents=br.readLine())!=null){
+System.out.println(contents);
+Filecontent=Filecontent+contents;
+System.out.println("File content:"+Filecontent);
+}
+ 
+for(int i=0;i<=searchtag.length-1;i++){
+if(Filecontent.contains(searchtag[i])){
+report.updateTestLog("Tags", searchtag[i]+" -tag is found in file",Status.PASS );
+}else{
+report.updateTestLog("Tags", searchtag[i]+" -tag is NOT found in file",Status.FAIL );
+}
+}
+
+if(!(AbId.equals(""))){
+List <WebElement> showabstract=driver.findElements(By.className("openpreview"));
+js.executeScript("arguments[0].click();" ,showabstract.get(index));
+Thread.sleep(1000);
+Abindex=Integer.parseInt(AbId);
+String Abstract=driver.findElement(By.id("previewAbstract"+Abindex)).getText().substring(0, 200);
+System.out.println(Abstract);
+ 
+List <WebElement> DocTitles=driver.findElements(By.cssSelector(".dataCol2"));
+String DocTitle=DocTitles.get(index).getText();
+System.out.println(DocTitle);
+ 
+List <WebElement> Authors_1=driver.findElements(By.xpath("//div[@class='dataCol3']/span[1]/a[1]"));
+String Au1=Authors_1.get(index).getText();
+System.out.println(Au1);
+ 
+List <WebElement> Authors_2=driver.findElements(By.xpath("//div[@class='dataCol3']/span[1]/a[2]"));
+String Au2=Authors_2.get(index).getText();
+System.out.println(Au2);
+ 
+List <WebElement> Years=driver.findElements(By.cssSelector(".dataCol4"));
+String Pubyear=Years.get(index).getText();
+System.out.println(Pubyear);
+ 
+List <WebElement> sources=driver.findElements(By.cssSelector(".dataCol5")); //a[title='Show source title details']
+String src=sources.get(index).getText();
+System.out.println(src);
+ 
+if(!(ExportInfo.contains("Citation information only"))){
+if(Filecontent.contains(Abstract)){
+report.updateTestLog("Abstract", Abstract+" -content is found in file",Status.PASS );
+}else{
+report.updateTestLog("Abstract", Abstract+" -content is NOT found in file",Status.FAIL );
+}
+}
+ 
+if(Filecontent.contains(DocTitle)){
+report.updateTestLog("DocTitle", DocTitle+" -content is found in file",Status.PASS );
+}else{
+report.updateTestLog("DocTitle", DocTitle+" -content is NOT found in file",Status.FAIL );
+}
+ 
+if(Filecontent.contains(Au1)){
+report.updateTestLog("Author1 name", Au1+" -content is found in file",Status.PASS );
+}else{
+report.updateTestLog("Author1 name", Au1+" -content is NOT found in file",Status.FAIL );
+}
+ 
+if(Filecontent.contains(Au2)){
+report.updateTestLog("Author2 name", Au2+" -content is found in file",Status.PASS );
+}else{
+report.updateTestLog("Author2 name", Au2+" -content is NOT found in file",Status.FAIL );
+}
+ 
+if(Filecontent.contains(Pubyear)){
+report.updateTestLog("Pubyear", Pubyear+" -content is found in file",Status.PASS );
+}else{
+report.updateTestLog("Pubyear", Pubyear+" -content is NOT found in file",Status.FAIL );
+}
+ 
+if(Filecontent.contains(src)){
+report.updateTestLog("Source", src+" -content is found in file",Status.PASS );
+}else{
+report.updateTestLog("Source", src+" -content is NOT found in file",Status.FAIL );
+}
+}else{
+report.updateTestLog("Tag Validation", "Tag alone is validated from file",Status.DONE );
+}
+
+br.close();
+}
+ 
+ 
+/**
+* Reads csv excel file exported from reference manager
+* 
+* @author Kamalas3
+* @throws InterruptedException
+*/
+public void readcsvExcel_referenceformat() throws IOException{
+ 
+String Filename=dataTable.getData("General_Data", "Filename");
+int csvrow=Integer.parseInt(dataTable.getData("General_Data", "csvrow"));
+String csvData=dataTable.getData("General_Data", "csvData");
+String[] arrcsvData=csvData.split(",");
+String username=System.getProperty("user.name");
+ 
+CSVReader reader = new CSVReader(new FileReader("C:\\Users\\"+username+"\\Downloads\\"+Filename));
+String[] csvCell;
+ 
+for (int k=1;k<=csvrow;k++){
+if((csvCell=reader.readNext())!= null){
+ 
+for (int i=0;i<=arrcsvData.length-1;i++){
+if(k==1){
+String cellValue=csvCell[i].toUpperCase().replaceAll("\\s", "");
+String ExpcellValue=arrcsvData[i].toUpperCase().replaceAll("\\s", "");
+System.out.println(cellValue);
+System.out.println(ExpcellValue);
+if(cellValue.equals(ExpcellValue)){
+report.updateTestLog(i+":"+cellValue, cellValue+" column is present in csv file",Status.PASS);
+}else{
+report.updateTestLog(i+":"+cellValue, cellValue+" column is NOT present in csv file",Status.FAIL);
+}
+}else{
+String cellValue=csvCell[i];
+if(cellValue.length()>0 && !(cellValue.length()>=32767)){  
+report.updateTestLog(i+" :Data description", "The data description: '"+cellValue+"' is present in csv file ",Status.PASS);
+}else if(cellValue.length()>=32767){ //only 32767 length of characters can be read from cell
+report.updateTestLog(i+" :Data description", "The data description is present in csv file ",Status.PASS);
+}else if(cellValue.length()==0 && i>0){
+report.updateTestLog(i+" :Data description", "The data description is not specefied for this header",Status.DONE);
+}else{
+report.updateTestLog(i+" :Data description", "The csv file has empty content",Status.FAIL);
+}
+}
+ 
+}
+}
+}
+ 
+reader.close();
+}
+ 
+/**
+* Selects All checkbox in the document
+* 
+* @throws InterruptedException
+*/
+public void select_AllCheckboxes() throws InterruptedException {
+waitElementVisible(driver, By.id("allPageCheckBox"), 10);
+AllCheckbox.click();
+
+Thread.sleep(3000); 
+report.updateTestLog("All Checkbox",
+"All Checkbox is checked", Status.PASS); 
+}
+ 
+
+public void refWorkdirectExport() throws InterruptedException {
+String information=dataTable.getData("General_Data", "Informationcheckbox");
+String Info=dataTable.getData("General_Data", "InformationExport");
+String Filename=dataTable.getData("General_Data", "Filename");
+String username=System.getProperty("user.name");
+File file=new File("C:\\Users\\"+username+"\\Downloads\\"+Filename);
+int Infolist=0;
+
+if(Exportarrow.isEnabled()){
+Exportarrow.click();
+report.updateTestLog("Export Arrow", "Export Arrow is clicked",Status.PASS);
+}else{
+report.updateTestLog("Export Arrow", "Export Arrow is NOT found",Status.FAIL);
+}
+ 
+if(RefWorkdirect.isDisplayed()){
+RefWorkdirect.click();
+report.updateTestLog("RefWorks direct Export", "RefWorks direct Export is selected",Status.PASS);
+}else{
+report.updateTestLog("RefWorks direct Export", "RefWorks direct Export link is not found",Status.FAIL);
+}
+ 
+if(!Info.isEmpty()){
+switch(Info){
+case "Citation information only":
+Infolist=1;
+break;
+case "Citations and abstract information":
+Infolist=2;
+break;
+case "Citations, abstract and references":
+Infolist=3;
+break;
+case "All available information":
+Infolist=4;
+break;
+case "Specify fields to be exported":
+Infolist=5;
+break;
+default:
+report.updateTestLog("Information dropdown", "index value is NOT set",Status.FAIL );
+break;
+}
+driver.findElement(By.xpath("//span[@id='exportView-button']")).click();
+driver.findElement(By.xpath("//div[@class='ui-selectmenu-menu ui-front ui-selectmenu-open']/ul[1]/li["+Infolist+"]")).click();
+report.updateTestLog("Information", Info+": is selected from Informationbox",Status.PASS);
+}else{
+report.updateTestLog("Information", "Default value is selected from Informationbox",Status.DONE);
+}
+ 
+if(citationinfo.isDisplayed()){
+if(citationinfo.isSelected()){
+citationinfo.click();
+report.updateTestLog("Citation Info", "Citation Info checkbox is deselected",Status.DONE);
+}else{
+report.updateTestLog("Citation Info", "Citation Info checkbox is deselected by default",Status.DONE);
+}
+}
+
+if(!information.isEmpty()){
+WebElement infoCB=driver.findElement(By.cssSelector("input[value='_"+information+"_']"));
+if(infoCB.isSelected()){
+report.updateTestLog(information+" checkbox", information +" Checkbox is selected by default",Status.PASS);
+}else{
+infoCB.click();
+report.updateTestLog(information+" checkbox", information +" Checkbox is selected",Status.DONE);
+}
+}
+ 
+if(file.exists()){
+deleteFile();
+report.updateTestLog("File process", "Old file is found and deleted",Status.DONE);
+}else{
+report.updateTestLog("File process", "New file is processed for downloading...",Status.DONE);
+}
+ 
+Thread.sleep(1000);
+if(Exportbtn.isDisplayed()){
+Exportbtn.click();
+report.updateTestLog("Export button", "Export button is selected",Status.PASS);
+}else{
+report.updateTestLog("Export button", "Export button is NOT selected",Status.FAIL);
+}
+ }
+ 
+public void verify_refWorkdirectExport() throws InterruptedException, AWTException {
+String information=dataTable.getData("General_Data", "Informationcheckbox");
+String Info=dataTable.getData("General_Data", "InformationExport");
+String Filename=dataTable.getData("General_Data", "Filename");
+String username=System.getProperty("user.name");
+File file=new File("C:\\Users\\"+username+"\\Downloads\\"+Filename);
+ 
+Thread.sleep(2000);
+if(RefWorkExportarrow.isDisplayed()){
+RefWorkExportarrow.click();
+report.updateTestLog("RefWorks Export Arrow", "RefWorks Export Arrow is clicked",Status.PASS);
+}else{
+report.updateTestLog("Export Arrow", "Export Arrow is NOT found",Status.FAIL);
+}
+ 
+Thread.sleep(2000);
+if(RefWorkdirectSelected.isDisplayed()){
+report.updateTestLog("RefWorks direct Export", "RefWorks direct Export is selected by default",Status.PASS);
+}else{
+report.updateTestLog("RefWorks direct Export", "RefWorks direct Export link is not found",Status.FAIL);
+}
+ 
+if(driver.findElement(By.xpath("//span[@id='exportView-button']/span[2]")).getText().contains(Info)){
+report.updateTestLog("Information", Info+": is pre-selected in Informationbox",Status.PASS);
+}else{
+report.updateTestLog("Information", Info+": is NOT pre-selected in Informationbox",Status.FAIL);
+}
+ 
+if(citationinfo.isDisplayed()){
+if(!(citationinfo.isSelected())){
+report.updateTestLog("Citation Info", "Citation Info checkbox is deselected by default",Status.PASS);
+}else{
+report.updateTestLog("Citation Info", "Citation Info checkbox is deselected",Status.FAIL);
+}
+}
+ 
+if(!information.isEmpty()){
+WebElement infoCB=driver.findElement(By.cssSelector("input[value='_"+information+"_']"));
+if(infoCB.isSelected()){
+report.updateTestLog(information+" checkbox", information +" Checkbox is selected by default",Status.PASS);
+}else{
+infoCB.click();
+report.updateTestLog(information+" checkbox", information +" Checkbox is selected",Status.FAIL);
+}
+}
+ 
+if(file.exists()){
+deleteFile();
+report.updateTestLog("File process", "Old file is found and deleted",Status.DONE);
+}else{
+report.updateTestLog("File process", "New file is processed for downloading...",Status.DONE);
+}
+ 
+if(Exportbtn.isDisplayed()){
+Exportbtn.click();
+report.updateTestLog("Export button", "Export button is clicked",Status.PASS);
+}else{
+report.updateTestLog("Export button", "Export button is NOT clicked",Status.FAIL);
+}
+verify_filedownload();
+ }
+ 
+public void refbasedworkbrowser() throws InterruptedException{
+String searchText=dataTable.getData("General_Data", "TextData");
+String Refusername=dataTable.getData("General_Data", "Username");
+String Refpwd=dataTable.getData("General_Data", "Password");
+String parentwin=driver.getWindowHandle();
+int index;
+ 
+SwitchToChild();
+ 
+if(oldRefworks.isDisplayed()){
+oldRefworks.click();
+report.updateTestLog("Legacy RefWorks", "Export to  Legacy RefWorks tab is clicked",Status.DONE);
+}else{
+report.updateTestLog("Legacy RefWorks", "Export to  Legacy RefWorks tab is NOT available",Status.DONE);
+}
+ 
+if(driver.getTitle().contains("RefWorks Login")){
+RefWorkusername.sendKeys(Refusername);
+RefWorkpwd.sendKeys(Refpwd);
+RefWorkLoginbtn.click();
+report.updateTestLog("RefWorks Login", "Entered RefWorks Login credentials",Status.DONE);
+}else{
+report.updateTestLog("RefWorks Login", "User is directed to Refwork page",Status.DONE);
+}
+
+Thread.sleep(3000);
+if(driver.getTitle().contains("RefWorks Web Based Bibliographic Management Software")){
+Thread.sleep(3000);
+Lastimportedbtn.click();
+Thread.sleep(3000);
+report.updateTestLog("RefWorks Login", "RefWorks Login is successful",Status.PASS);
+}else{
+report.updateTestLog("RefWorks Login", "RefWorks was NOT successfully logged in",Status.FAIL);
+}
+ 
+String pagesrc=driver.getPageSource();
+if(!searchText.isEmpty()){
+if(pagesrc.contains(searchText)){
+report.updateTestLog("Export view", searchText+" -search field is found in page",Status.PASS);
+}else{
+report.updateTestLog("Export view", "Search field is NOT exported",Status.FAIL);
+}
+}else{
+List <WebElement> Reflistlabel= driver.findElements(By.cssSelector(".reflist_label"));
+List <WebElement> Reflistvalue=driver.findElements(By.cssSelector(".reflist_value"));
+ 
+for(index=0;index<=Reflistlabel.size()-2;index++){
+String Reflabeltxt=Reflistlabel.get(index).getText();
+String Refvaluetxt=Reflistvalue.get(index).getText();
+if(pagesrc.contains(Reflabeltxt)){
+report.updateTestLog("Reference Label", Reflabeltxt+"-"+Refvaluetxt+" search label is found in RefWork page",Status.PASS);
+}else{
+report.updateTestLog("Reference Label", "Search label is NOT found in RefWork page",Status.FAIL);
+}
+}
+}
+ 
+driver.switchTo().window(parentwin);
+}
+ 
+public void verify_printOutput() throws AWTException, InterruptedException{
+String Outputitem=dataTable.getData("General_Data", "InformationExport");
+String [] data=dataTable.getData("General_Data", "TextData").split(",");
+JavascriptExecutor js =  (JavascriptExecutor) driver;
+ 
+int index=Integer.parseInt(dataTable.getData("General_Data", "CheckboxCount"));
+int Abindex=Integer.parseInt(dataTable.getData("General_Data", "AbstractId"));
+int itemid=0;
+ 
+List <WebElement> showabstract=driver.findElements(By.className("openpreview"));
+js.executeScript("arguments[0].click();" ,showabstract.get(index));
+ 
+String Abstract=driver.findElement(By.id("previewAbstract"+Abindex)).getText();
+System.out.println(Abstract);
+ 
+List <WebElement> DocTitles=driver.findElements(By.cssSelector(".dataCol2"));
+String DocTitle=DocTitles.get(index).getText();
+System.out.println(DocTitle);
+ 
+List <WebElement> Authors=driver.findElements(By.cssSelector(".dataCol3"));
+String Author=Authors.get(index).getText();
+System.out.println(Author);
+ 
+List <WebElement> Years=driver.findElements(By.cssSelector(".dataCol4"));
+String Pubyear=Years.get(index).getText();
+System.out.println(Pubyear);
+ 
+List <WebElement> sources=driver.findElements(By.cssSelector(".dataCol5"));//a[title='Show source title details']
+String src=sources.get(index).getText();
+System.out.println(src);
+ 
+if(More.isEnabled()){
+    More.click();
+    report.updateTestLog("Results Page", "More Link  Present  ", Status.PASS);
+    }else{
+    report.updateTestLog("Results Page", "More Link not Present  ", Status.FAIL);
+    }
+ 
+Print.click();
+if(!Outputitem.isEmpty()){
+switch (Outputitem){
+case "Citations only":
+itemid=1;
+break;
+case "Abstract format":
+itemid=2;
+break;
+case "Abstract format with References":
+itemid=3;
+break;
+case "Complete format":
+itemid=4;
+break;
+case "Specify fields to be Printed":
+itemid=5;
+break;
+default:
+report.updateTestLog("Print output dropdown", "index value is NOT set",Status.FAIL );
+break;
+}
+List <WebElement> outputdropdown=driver.findElements(By.xpath("//span[@class='ui-selectmenu-button ui-widget ui-state-default ui-corner-all']"));  // and @aria-activedescendant='ui-id-1']
+outputdropdown.get(1).click();
+driver.findElement(By.xpath("//ul[@id='outputEmailSel-menu' and @aria-activedescendant='ui-id-1']/li["+itemid+"]")).click();
+}
+   
+PrintButton.click();
+Thread.sleep(2000);
+    for (String winHandle : driver.getWindowHandles()) 
+       {
+        driver.switchTo().window(winHandle);
+        }
+       
+    driver.manage().timeouts().implicitlyWait(100, TimeUnit.SECONDS);
+             Robot r =new Robot();
+        r.keyPress(KeyEvent.VK_ESCAPE);
+        driver.manage().timeouts().implicitlyWait(100, TimeUnit.SECONDS);
+       
+String CurrentURL =driver.getCurrentUrl();
+System.out.println("The current Print url is "+CurrentURL);
+if (new String(CurrentURL).contains("www.scopus.com/citation/print.uri?")){
+report.updateTestLog("Scopus Output Page ","User is in Print  page", Status.PASS);
+       }else{
+        report.updateTestLog("Scopus Output Page","User is not in Print  page", Status.FAIL);
+       }
+ 
+driver.manage().window().maximize();
+String printsrc=driver.getPageSource();
+if(printsrc.contains(Abstract)){
+report.updateTestLog("Abstarct Field",Abstract+ " -content is found in Print  page", Status.PASS);
+}else{
+report.updateTestLog("Abstarct Field","Abstract content is NOT found in Print  page", Status.FAIL);
+}
+ 
+if(printsrc.contains(DocTitle)){
+report.updateTestLog("Document Title",DocTitle+ " -content is found in Print  page", Status.PASS);
+}else{
+report.updateTestLog("Document Title","DocTitle content is NOT found in Print  page", Status.FAIL);
+}
+
+if(printsrc.contains(Author)){
+report.updateTestLog("Author",Author+ " -content is found in Print  page", Status.PASS);
+}else{
+report.updateTestLog("Author","Author content is NOT found in Print  page", Status.FAIL);
+}
+ 
+if(printsrc.contains(Pubyear)){
+report.updateTestLog("Pubyear",Pubyear+ " -content is found in Print  page", Status.PASS);
+}else{
+report.updateTestLog("Pubyear","Pubyear content is NOT found in Print  page", Status.FAIL);
+}
+ 
+if(printsrc.contains(src)){
+report.updateTestLog("Source",src+ " -content is found in Print  page", Status.PASS);
+}else{
+report.updateTestLog("Source","Source content is NOT found in Print  page", Status.FAIL);
+}
+ 
+for(int i=0;i<=data.length-1;i++){
+if(printsrc.contains(data[i])){
+report.updateTestLog("Data in Print page",data[i]+ " -title is found in Print  page", Status.PASS);
+}else{
+report.updateTestLog("Data in Print page",data[i]+" -title is NOT found in Print  page", Status.FAIL);
+}
+}
+}
+ 
+public void clickDocumentcheckbox(){
+Integer Checkboxcount = Integer.parseInt(dataTable.getData("General_Data", "CheckboxCount"));
+List <WebElement> Doccheckbox=driver.findElements(By.name("selectedEIDs"));
+for (int i=0;i<=Checkboxcount;i++){
+Doccheckbox.get(i).click();
+report.updateTestLog("Document",i+ " - Document checkbox is clicked", Status.PASS);
+}
+}
+ 
+public ArrayList getDocumentname(){
+Integer Checkboxcount = Integer.parseInt(dataTable.getData("General_Data", "CheckboxCount"));
+List<WebElement> Docname=driver.findElements(By.cssSelector("a[title='Show document details']"));
+ArrayList arrdoc=new ArrayList();
+ 
+for(int i=0;i<=Checkboxcount;i++){
+String DocText=Docname.get(i).getText();
+arrdoc.add(DocText);
+}
+return arrdoc;
+}
+ 
+public void verify_Printpage() throws AWTException{
+ArrayList doctitle=getDocumentname();
+More.click();
+if(Print.isEnabled())
+    {
+    Print.click();
+    String ParentWindow=driver.getWindowHandle();
+    PrintButton.click();
+    }
+    for (String winHandle : driver.getWindowHandles()) 
+       {
+        driver.switchTo().window(winHandle);
+        }
+       
+    driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+            Robot r =new Robot();
+      r.keyPress(KeyEvent.VK_ESCAPE);
+       
+      String printpagesrc=driver.getPageSource();
+     
+      for (int index=0;index<=doctitle.size()-1;index++){
+      String docname=doctitle.get(index).toString();
+      if(printpagesrc.contains(docname)){
+      report.updateTestLog("Core Records", "Core Record: ["+docname+"] is available in print page", Status.PASS);
+      }else{
+      report.updateTestLog("Core Records", "Core Record: ["+docname+"] is NOT available in print page", Status.FAIL);
+      }
+      }
+}
+ 
+public void viewReferencesFromSearchPage() throws InterruptedException 
+{
+Thread.sleep(2000);
+moreLink.click();
+Thread.sleep(2000);
+driver.findElement(By.linkText("View references")).click();
+Thread.sleep(3000);
+ 
+if (driver.getTitle().contains("References that are cited by")) {
+report.updateTestLog("View Reference page", "View Reference page is opened as expected", Status.PASS);
+} else {
+report.updateTestLog("View Reference page", "View Reference page is NOT opened", Status.FAIL);
+}
+}
+ 
+public String getAffiliationList(){
+String affList=driver.findElement(By.xpath("//p[@id='affiliationlist']/span[1]")).getText();
+return affList;
+}
+ 
+public void verify_Languagename(){
+String Searchtext=dataTable.getData("General_Data", "TextData");
+String Language=driver.findElement(By.xpath("//div[@class='formatSourceExtended']/span[4]")).getText();
+if(Language.contains(Searchtext)){
+report.updateTestLog("Text-"+Searchtext, Searchtext+" is displayed in record page.", Status.PASS);
+}else{
+report.updateTestLog("Text-"+Searchtext, Searchtext+" is NOT displayed in record page.", Status.FAIL);
+}
+}
+ 
+public void verify_AffiliationList(){
+String Searchtext=dataTable.getData("General_Data", "TextData");
+String Affdetail=getAffiliationList();
+if(Affdetail.contains(Searchtext)){
+report.updateTestLog("Text-"+Searchtext, Searchtext+" is displayed in record page.", Status.PASS);
+}else{
+report.updateTestLog("Text-"+Searchtext, Searchtext+" is NOT displayed in record page.", Status.FAIL);
+}
+}
+ 
+public void verifyAffListinprintpage() throws AWTException, InterruptedException{
+String Outputitem=dataTable.getData("General_Data", "InformationExport");
+String [] data=dataTable.getData("General_Data", "TextData").split(",");
+int itemid=0;
+ 
+if(More.isEnabled()){
+    More.click();
+    report.updateTestLog("Results Page", "More Link  Present  ", Status.PASS);
+    }else{
+    report.updateTestLog("Results Page", "More Link not Present  ", Status.FAIL);
+    }
+ 
+Printrecordpage.click();
+if(!Outputitem.isEmpty()){
+switch (Outputitem){
+case "Citations only":
+itemid=1;
+break;
+case "Abstract format":
+itemid=2;
+break;
+case "Abstract format with References":
+itemid=3;
+break;
+case "Complete format":
+itemid=4;
+break;
+case "Specify fields to be Printed":
+itemid=5;
+break;
+default:
+report.updateTestLog("Print output dropdown", "index value is NOT set",Status.FAIL );
+break;
+}
+List <WebElement> outputdropdown=driver.findElements(By.xpath("//span[@class='ui-selectmenu-button ui-widget ui-state-default ui-corner-all']"));  // and @aria-activedescendant='ui-id-1']
+outputdropdown.get(1).click();
+driver.findElement(By.xpath("//ul[@id='outputEmailSel-menu' and @aria-activedescendant='ui-id-1']/li["+itemid+"]")).click();
+}
+   
+PrintButton.click();
+Thread.sleep(2000);
+    for (String winHandle : driver.getWindowHandles()) 
+       {
+        driver.switchTo().window(winHandle);
+        driver.manage().window().maximize();
+        }
+       
+    driver.manage().timeouts().implicitlyWait(1000, TimeUnit.SECONDS);
+            Robot r =new Robot();
+      r.keyPress(KeyEvent.VK_ESCAPE);
+      driver.manage().timeouts().implicitlyWait(1000, TimeUnit.SECONDS);
+ 
+String printsrc=driver.getPageSource();
+ 
+for(int i=0;i<=data.length-1;i++){
+if(printsrc.contains(data[i])){
+report.updateTestLog("Data in Print page","Text ["+data[i]+ "] is found in Print page", Status.PASS);
+}else{
+report.updateTestLog("Data in Print page","Text ["+data[i]+"] is NOT found in Print page", Status.FAIL);
+}
+}
+}
+
+public void ExportAll_specifyfields() throws AWTException, InterruptedException {
+String DocFormat=dataTable.getData("General_Data", "DocFormat");
+String Info=dataTable.getData("General_Data", "InformationExport");
+String Filename=dataTable.getData("General_Data", "Filename");
+String username=System.getProperty("user.name");
+File file=new File("C:\\Users\\"+username+"\\Downloads\\"+Filename);
+int Infolist=0;
+ 
+if(Exportarrow.isDisplayed()){
+Exportarrow.click();
+driver.findElement(By.cssSelector("#"+DocFormat)).click();
+report.updateTestLog("File Format", "File format: "+DocFormat+" is selected",Status.PASS);
+}else{
+report.updateTestLog("File Format", "File format: "+DocFormat+" is NOT selected",Status.FAIL);
+}
+ 
+driver.findElement(By.xpath("//span[@id='exportView-button']")).click();
+if(!Info.isEmpty()){
+switch(Info){
+case "Citation information only":
+Infolist=1;
+break;
+case "Citations and abstract information":
+Infolist=2;
+break;
+case "Citations, abstract and references":
+Infolist=3;
+break;
+case "All available information":
+Infolist=4;
+break;
+case "Specify fields to be exported":
+Infolist=5;
+break;
+default:
+report.updateTestLog("Information dropdown", "index value is NOT set",Status.FAIL );
+break;
+}
+driver.findElement(By.xpath("//div[@class='ui-selectmenu-menu ui-front ui-selectmenu-open']/ul[1]/li["+Infolist+"]")).click();
+report.updateTestLog("Information", Info+": is selected from Informationbox",Status.PASS);
+}else{
+report.updateTestLog("Information", "Default value is selected from Informationbox",Status.DONE);
+}
+ 
+if(Info.contains("Specify fields to be exported")){
+if(!citationinfo.isSelected()){
+citationinfo.click();
+report.updateTestLog("Citation info","Citation info checkbox is clicked", Status.DONE);
+}else{
+report.updateTestLog("Citation info","Citation info checkbox is selected by default", Status.DONE);
+}
+if(!otherinfo.isSelected()){
+otherinfo.click();
+report.updateTestLog("Other info","Other info checkbox is clicked", Status.DONE);
+}else{
+report.updateTestLog("Other info","Other info checkbox is selected by default", Status.DONE);
+}
+if(!bibinfo.isSelected()){
+bibinfo.click();
+report.updateTestLog("Bibilography info","Bibilography info checkbox is clicked", Status.DONE);
+}else{
+report.updateTestLog("Bibilography info","Bibilography info checkbox is selected by default", Status.DONE);
+}
+if(!absinfo.isSelected()){
+absinfo.click();
+report.updateTestLog("Abstract info","Abstract info checkbox is clicked", Status.DONE);
+}else{
+report.updateTestLog("Abstract info","Abstract info checkbox is selected by default", Status.DONE);
+}
+if(!fundinfo.isSelected()){
+fundinfo.click();
+report.updateTestLog("Funding info","Funding info checkbox is clicked", Status.DONE);
+}else{
+report.updateTestLog("Funding info","Funding info checkbox is selected by default", Status.DONE);
+}
+if(!Refinfo.isSelected()){
+Refinfo.click();
+report.updateTestLog("Reference info","Reference info checkbox is clicked", Status.DONE);
+}else{
+report.updateTestLog("Reference info","Reference info checkbox is selected by default", Status.DONE);
+}
+}else{
+report.updateTestLog("Information", Info+" is already selected",Status.DONE);
+}
+ 
+if(file.exists()){
+deleteFile();
+report.updateTestLog("File process", "Old file is found and deleted",Status.DONE);
+}else{
+report.updateTestLog("File process", "New file is processed for downloading...",Status.DONE);
+}
+ 
+if(Exportbtn.isDisplayed()){
+Exportbtn.click();
+report.updateTestLog("Export button", "Export button is selected",Status.PASS);
+}else{
+report.updateTestLog("Export button", "Export button is NOT selected",Status.FAIL);
+}
+ 
+verify_filedownload();
+}
+ 
+
+public void navigateToPreviousPage()
+{
+driver.navigate().back();
+driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
+}
+ 
+public void clickBackToResultsInResultsPgFromPatentsPg()
+{
+wait.until(ExpectedConditions.visibilityOf(backtoResultsFromPatentsPg));
+backtoResultsFromPatentsPg.click();
+driver.manage().timeouts().pageLoadTimeout(100, TimeUnit.SECONDS);
+}
+ 
+ 
+public void closeCurrentWindow()
+{
+driver.close();
+driver.manage().timeouts().pageLoadTimeout(100, TimeUnit.SECONDS);
+}
+public void clickDocdetailsfromAuthorpage(){
+int docindex = Integer.parseInt(dataTable.getData("General_Data", "documentindex"));
+driver.manage().timeouts().pageLoadTimeout(1000, TimeUnit.SECONDS);
+if(DocumentdetailLink.isEnabled())
+DocumentdetailLink.click();
+
+List <WebElement> docdetails=driver.findElements(By.cssSelector("a[title='Show document details']"));
+docdetails.get(docindex).click();
+report.updateTestLog("Document detail", "Document is clicked from Author detail page",Status.PASS);
+
+}
+ 
+/**
+* A Generic method to click and verify the View at Publisher link
+* @see - Only first 3 documents View at Publisher link is clicked. And this will suffice the testing coverage. 
+* @author Krishna
+* @since 7/8/2016
+* @throws InterruptedException
+*/
+public void verifyViewAtPublisherNavigation() throws InterruptedException {
+List<WebElement> ViewAtPublisherList = driver.findElements(By.linkText("View at Publisher"));
+for (int i = 0; i < 3; i++) {
+ViewAtPublisherList.get(i).click();
+Thread.sleep(3000);//only for testing purpose. To identify the publisher window is opened or not.
+if (driver.getWindowHandles().size() == 2+i) {
+report.updateTestLog(pageTitle, "Document publisher is opened in new window " + driver.getWindowHandles().size(), Status.PASS);
+} else {
+report.updateTestLog(pageTitle, "Document publisher windows is not opened" + driver.getWindowHandles().size(), Status.FAIL);
+}
+}
+}
+ 
+public void scrollToTargetElement()
+{
+ScrollToTargetElement(link_ShowAllAbstracts);
+ 
+js.executeScript("scroll(450,0)");
+}
+ 
+public void verifyDocumentCountSort()
+{
+WebElement DocumentCount =driver.findElement(By.partialLinkText("Document Count"));
+ 
+ 
+String color= driver.findElement(By.partialLinkText("Document Count")).getCssValue("font-weight");
+boolean isBold="bold".equals(color)||"bolder".equals(color)||Integer.parseInt(color)>=700;
+ 
+if(isBold)
+{
+report.updateTestLog("Scopus Page ","Sort order is Douemnt Count by default",Status.PASS);
+}
+else
+{
+report.updateTestLog("Scopus Page","Sort order is Dcouemnt Count by default", Status.FAIL);
+}
+}
+ 
+ 
+}
