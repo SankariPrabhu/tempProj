@@ -1,0 +1,86 @@
+package UIMAP;
+
+import org.openqa.selenium.By;
+
+public class UIMAP_LPAHome {
+	public static By practiceAreaNav = By.cssSelector("button[id='nav_practiceareasandtopics_btn']");
+	public static By childMenu = By.cssSelector("div[class='navchildmenucontainer']");
+	public static By homePageCont = By.cssSelector("div[class='homepages-content']");
+	public static By pageHeader = By.cssSelector("header[class='banner results-data']");
+	public static By updatesPod = By.cssSelector("div[id*='pod-WhatsNew']");
+	public static By recentPod = By.cssSelector("div[id*='pod-RecentView']");
+	public static By editorPod = By.cssSelector("div[id*='pod-PopularDocument']");
+	public static By marketPod = By.cssSelector("div[id*='pod-MarketTracker']");
+	public static By law360Pod = By.cssSelector("div[id*='pod-Law360']");
+	public static By meetAuthPod = By.cssSelector("div[id*='pod-MeetAuthor']");
+	public static By knowledgeMosaicPod = By.cssSelector("div[id*='pod-KnowledgeMosaic']");
+	public static By cscPod = By.cssSelector("div[id*='pod-CSC']");
+	public static By actionList=By.tagName("li");
+	public static By noDocumnentsDiv=By.cssSelector("div[class='wrapper']");
+	public static By noDocumentsHeader=By.tagName("h3");
+	public static By reRunSearch=By.cssSelector("button[data-action='SwitchQueryParser']");	
+	public static By pageWrapper = By.cssSelector("div[class*='wrapper']");
+	public static By divClause = By.cssSelector("div[class='SS_ClauseContent']");
+	public static By sectionSpan = By.cssSelector("span[class='SS_bf']");
+	public static By alternateClauseImg = By.cssSelector("img[alt='Alternate Clause']");
+	public static By popupAltClause = By.cssSelector("aside[class*='altclausedialog']");
+	public static By btnAddToForm = By.cssSelector("input[value='Add to form']");
+	public static By btnAddYourOwnClauseText = By.cssSelector("input[value='Add your own clause text']");
+	public static By p = By.tagName("p");
+	public static By addContentTextAltClause = By.cssSelector("input[class='SS_AddUserClause secondary']");
+	public static By copySelectedTextBtn = By.cssSelector("button[data-id='copyselectedtext']");
+	public static By citationCloseButton = By.cssSelector("input[id='citationCloseButton']");
+	public static By xImg = By.cssSelector("img[alt='Remove clause']");
+	public static By editAnchor = By.cssSelector("a[title='Click to edit clause']");
+	public static By saveClauseTxt = By.cssSelector("input[value='Save']");
+	public static By a = By.tagName("a");
+	public static By topicsTab = By.cssSelector("div[class*='browsetopics']");
+	public static By ul=By.tagName("ul");
+	public static By topicHeader=By.tagName("h2");	
+	public static By Parent_topic=By.cssSelector("div[class='globalpod-content panel-content clr']");
+	public static By child_topic=By.cssSelector("a[data-action='lpasubtopic']");
+	public static By topicslist=By.cssSelector("li[class='topics-list collapsed']");
+	
+	public static By backToTopArrow = By.cssSelector("button[class*='JumpToTop']");
+	public static By jumpToToolbar = By.cssSelector("div[class='documentRightSide neverOverflow]");
+	public static By jumpToContainer = By.cssSelector("div[class*='dropdownContainer']");
+	public static By jumpTo = By.cssSelector("button[class*='current trigger collapsed icon la-TriangleDownAfter']");
+	public static By jumpToDd = By.cssSelector("aside[class='supplemental jumptodropdown']");
+	public static By jumpTo1 = By.cssSelector("button[data-action='jumptotrigger']");
+	public static By jumpToDd1 = By.cssSelector("aside[class='supplemental scrollable']");
+	public static By btn = By.tagName("button");
+	public static By HeaderResults = By.cssSelector("header[class*='results-data']");
+	public static By recentTitle = By.cssSelector("div[class='pod-tab-title']");
+	public static By linkToHistory = By.linkText("View all document history");
+	public static By podContent = By.cssSelector("div[class='pod-content citelist']");
+	public static By podTab = By.cssSelector("div[class='citelist-pod-tab']");
+	public static By ulLaw360 = By.tagName("ul");
+	public static By liLaw360 = By.tagName("li");
+	
+	public static By law360Tab = By.cssSelector("div[class='citelist-pod-tab']");
+	public static By law360feedEmployment = By.cssSelector("div[id='10130040-content']");
+	public static By law360feedImmigration = By.cssSelector("div[id='10130041-content']");
+	public static By law360feedCapitalMarket = By.cssSelector("div[id='10130021-content']");
+	public static By law360feedSecurities = By.cssSelector("div[id='10130020-content']");
+	public static By law360feedCapitalMarket1 = By.cssSelector("div[id='10130032-content']");
+	public static By law360feedLegalIndustry = By.cssSelector("div[id='10005722-content']");
+	public static By law360feedCorporate = By.cssSelector("div[id='10130052-content']");
+	public static By showmorelessLink = By.cssSelector("button[class='icon showmoreless-link']");
+	public static By businesscommPod = By.cssSelector("div[class='pod-wrapper globalpod pod-framecolor-orange']");
+	public static By retainFilter = By.cssSelector("input[id='LpaSearch_Prefilters_SaveAcrossSessions']");
+	public static By doclink=By.cssSelector("a[data-action='ExternalLink']");
+	public static By externalIcon=By.cssSelector("span[class*='ExternalLink']");
+	
+	public static By btnTitleMore = By.cssSelector("button[title='More']");
+	public static By lnkTextSignOut = By.cssSelector("a[id='SignOut']");
+	public static By folder = By.cssSelector("a[id='Folder']");
+	public static By feedback = By.cssSelector("a[id='Feedback']");
+	public static By Alerts = By.cssSelector("a[id='Alerts']");
+	public static By Notifications = By.cssSelector("a[id='Notifications']");
+	public static By Settings = By.cssSelector("a[id='Settings']");
+	public static By Help = By.cssSelector("a[id='Help']");
+	public static By PriceGuide = By.cssSelector("a[id='PriceGuide']");
+	public static By LiveSupport = By.cssSelector("a[id='LiveChat']");
+	public static By SignInProfile = By.cssSelector("a[id='SignIn']");
+	public static By MyLexis = By.cssSelector("a[id='MyLexis']");
+}

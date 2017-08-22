@@ -1,0 +1,107 @@
+package UIMAP;
+
+import org.openqa.selenium.By;
+
+public class UIMAP_LexisAdvanceTax {
+
+	public static By btnIdPracticeArea = By.cssSelector("div[id='nav_PracticeArea_btn'] button[class*='icon la-TriangleDown']");
+	public static By btntaxpracticearea = By.cssSelector("a[data-action='taxpracticeareaselect']");
+	public static By taxpracticeareaHeader = By.cssSelector("header[id='taxsignpost']");
+	
+	public static By taxPods = By.cssSelector("section[class*='tax']");
+	public static By federalTaxPods = By.cssSelector("section[class='tax-pod']");
+	public static By taxReporterPod = By.cssSelector("section[id='pod-pod1");
+	public static By taxPodHeader = By.cssSelector("h2[id*='pod']");
+	public static By links = By.tagName("button");
+	public static By federalbtn = By.cssSelector("button[class='actions btn-link']");
+	public static By text = By.cssSelector("h2[class='SS_Banner']");
+	public static By practiceDiv = By.cssSelector("div[id='nav_PracticeArea_btn']");
+	public static By practiceArea = By.cssSelector("button[class*='icon la-TriangleDown']");
+	public static By podExpanded = By.cssSelector("button[class*='icon toggle-pod'][class*='la-TriangleDown']");
+	public static By podCollapsed = By.cssSelector("button[class*='icon toggle-pod'][class*='la-TriangleRight']");
+	public static By lists = By.tagName("li");
+	public static By podlist = By.cssSelector("ul[id='pod5-content']");
+	public static By sourceExpanded = By.cssSelector("button[class*='la-TriangleDown']");
+	public static By sourceCollapsed = By.cssSelector("button[class*='la-TriangleRight']");
+	public static By sourceCollapsednew = By.cssSelector("button[data-action='expand-collapse']");
+	public static By toggleBar = By.cssSelector("div[class='togglebar']");
+	public static By childList = By.cssSelector("button[data-action='show-hide']");
+	public static By dropmenu = By.cssSelector("div[class='drop-menu'][aria-hidden='false']");
+	public static By innerchild= By.cssSelector("div[class='pod-content showchildlist']");
+	public static By morelink= By.tagName("footer");
+	public static By search = By.cssSelector("textarea[id='searchTerms']");
+	public static By searchbtn = By.cssSelector("button[id='mainSearch']");
+	public static By doc = By.cssSelector("h2[class='doc-title']");
+	public static By category = By.cssSelector("ul[class='content-switcher open expanded']");
+	public static By contents = By.cssSelector("aside[class='minitoc leftpane noreader']");
+
+	public static By taxTabHeader = By.cssSelector("nav[id='navlist']");
+	public static By ul = By.tagName("ul");
+	public static By li = By.tagName("li");
+	public static By fcrheader = By.cssSelector("div[class='taxfcr']");
+	public static By tag = By.tagName("h2");
+	public static By FCRpods = By.cssSelector("section[ id='pod-pod1']");
+	public static By button = By.tagName("button");
+	public static By addtoSearch = By.cssSelector("button[data-action='addtosearch']");
+	public static By addToFavorite = By.cssSelector("button[data-action='addtofavorites']");
+	public static By addToDelete= By.cssSelector("button[data-action='removefromlist']");
+	public static By filtercount = By.cssSelector("span[id='filterCount']");	
+	public static By alertIcon= By.cssSelector("button[data-id='addalert']");
+	public static By actionsDropdown= By.cssSelector("button[data-id='addalert']");
+	public static By getdocssource1= By.cssSelector("button[data-action='getdocsource']");
+	public static By sourcePop= By.cssSelector("div[class='drop-menu'][aria-hidden='false']");
+	public static By sourceItems = By.tagName("li");
+	public static By taxPods1 = By.cssSelector("ul[id='pod2-content']");
+	public static By content1 = By.cssSelector("li[id='pod2-pod2group1']");
+	public static By expandIcon = By.cssSelector("button[class='icon la-TriangleRight tooltip-ctl conceal']");
+	public static By childList1 = By.cssSelector("ul[class='child-list']");
+	public static By liList = By.cssSelector("li[id*='pod2-MTA']");
+	public static By taxPods2 = By.cssSelector("ul[class='pod-body showmore']");
+	public static By content2 = By.cssSelector("li[data-label='Tax Treaties']");
+	public static By sourceCollapsed1 = By.cssSelector("button[data-action='show-hide']");
+	public static By recentPod = By.cssSelector("div[class='recentfavoritespod-el comp taxrecentandfavoritespod']");	
+	public static By btncontiune = By.cssSelector("input[data-action='confirm']");
+	public static By divTabs = By.cssSelector("section[class*='navlist-coabtainer']");
+	public static By divTax = By.cssSelector("section[class*='taxnavigation']");
+	public static By taxTabUlli = By.cssSelector("li[class='selected']");
+	public static By aside = By.cssSelector("aside[class='taxfulldoc-results-tab']");
+	public static By deleteDialogPopUp = By.cssSelector("aside[class='dialog msgbox undefined']");
+	public static By sourcedrpmenus = By.cssSelector("ul[class='additional-options']");
+	public static By morebutton = By.tagName("footer");
+	public static By sourceDespDialgBox = By.cssSelector("aside[class='dialog viewsourceinfo']");
+	public static By sourceDespDialgBoxheader = By.cssSelector("header[role='banner']");
+	public static By sourceDespDialgBoxbuton = By.cssSelector("button[class='icon la-CloseRemove']");
+	public static By tocHeader = By.cssSelector("header[class='banner results-data']");
+	public static By active = By.cssSelector("li[class='active']");
+	public static By getADocumentSection = By.cssSelector("section[id='content']");
+	public static By header = By.tagName("header");
+	public static By sourcesLabel = By.cssSelector("label[for='sources']");
+	public static By sourceSelector = By.cssSelector("select[id='sources']");
+	public static By leftFormatBox = By.cssSelector("input[id='leftformat']");
+	public static By rightFormatLabel = By.cssSelector("label[for='rightformat']");
+	public static By rightformatBox = By.cssSelector("input[id='rightformat']");
+	public static By spanTag = By.tagName("span");
+	public static By getDocument = By.cssSelector("input[value='Get Document']");
+	public static By searchResult = By.cssSelector("div[class='wrapper']");
+	public static By showmorebutton = By.cssSelector("button[data-action='getmorelist']");
+	public static By showMore = By.cssSelector("button[class*='ShowMore']");
+	public static By labelName = By.cssSelector("div[class='icon actionbar']");
+	public static By options = By.tagName("option");
+	public static By replacepop = By.cssSelector("aside[class='dialog msgbox undefined']");
+	public static By linkTOC= By.cssSelector("a[class='toc']");
+	public static By msgbox = By.cssSelector("form[class='dialog-content']");
+	public static By msg = By.tagName("div");
+	public static By btn = By.tagName("input");
+	public static By addToFavorite1 = By.cssSelector("button[data-action='removefromfavorites']");
+	public static By lesslink = By.cssSelector("button[class='icon la-ShowLess'][data-action='hidemorelist']");
+	public static By TPG = By.cssSelector("li[id*='pod5']");
+	public static By homeTax= By.cssSelector("button[data-action='taxnavsearch']");
+	
+	public static By filtTray = By.cssSelector("div[id='filtertray]");
+	public static By clrLin = By.cssSelector("button[class='clear-filters']");
+	public static By searchBox = By.cssSelector("label[class='expandingTextarea']");
+	public static By filtCount = By.cssSelector("strong[id='filterCount']");
+	public static By filtDropDown1 = By.cssSelector("span[class='options']");
+	public static By filtDropDownButton = By.cssSelector("button[class='filters focusElement icon la-TriangleDownAfter filterBtn selected']");
+	
+}
