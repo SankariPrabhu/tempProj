@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry excluding="selenium-2.44.0/" kind="src" path=""/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="supportlibraries/Framework_Core.jar"/>
+	<classpathentry kind="lib" path="supportlibraries/Framework_DataTable.jar"/>
+	<classpathentry kind="lib" path="supportlibraries/Framework_Reporting.jar"/>
+	<classpathentry kind="lib" path="supportlibraries/Framework_Selenium.jar"/>
+	<classpathentry kind="lib" path="supportlibraries/Framework_Utilities.jar"/>
+	<classpathentry kind="lib" path="supportlibraries/poi-3.10.1/dom4j-1.6.1.jar"/>
+	<classpathentry kind="lib" path="supportlibraries/poi-3.10.1/poi-3.10.1-20140818.jar"/>
+	<classpathentry kind="lib" path="supportlibraries/poi-3.10.1/poi-ooxml-3.10.1-20140818.jar"/>
+	<classpathentry kind="lib" path="supportlibraries/poi-3.10.1/poi-ooxml-schemas-3.10.1-20140818.jar"/>
+	<classpathentry kind="lib" path="supportlibraries/poi-3.10.1/stax-api-1.0.1.jar"/>
+	<classpathentry kind="lib" path="supportlibraries/poi-3.10.1/xmlbeans-2.6.0.jar"/>
+	<classpathentry kind="lib" path="supportlibraries/itextpdf-5.1.0.jar"/>
+	<classpathentry kind="con" path="org.testng.TESTNG_CONTAINER"/>
+	<classpathentry kind="lib" path="selenium-server-standalone-2.49.0.jar"/>
+	<classpathentry kind="output" path=""/>
+</classpath>
