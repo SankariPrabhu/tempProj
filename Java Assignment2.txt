@@ -1,0 +1,217 @@
+ArrayList:
+package javaAssignment;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
+public class ArrayListExample {
+
+public static void main(String[] args) {
+List<String> alist=new ArrayList();
+alist.add("UFT");
+alist.add("Selenium IDE");
+alist.add("Selenium RC");
+alist.add("Selenium Webdriver");
+alist.add("Selenium Grid");
+ 
+System.out.println("Size of list:"+alist.size());
+ 
+for(String arrstr:alist){
+if(arrstr.contains("UFT")){
+System.out.println("String :"+arrstr+" is present");
+break;
+}
+}
+System.out.println("Strings available in List");
+Iterator <String> Itr=alist.iterator();
+while(Itr.hasNext()){
+System.out.println(Itr.next());
+ 
+}
+alist.remove("Selenium IDE");
+System.out.println("Size of list after removing one string:"+alist.size());
+}
+
+}
+
+
+Demosite_ArrayList:
+package javaAssignment;
+
+import java.util.Iterator;
+import java.util.List;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.firefox.FirefoxDriver;
+
+public class Demosite_ArrayList {
+
+public static void main(String[] args) {
+WebDriver driver=new FirefoxDriver();
+driver.get("http://demoqa.com/");
+driver.manage().window().maximize();
+ 
+List<WebElement> interactionlist=driver.findElements(By.cssSelector("#menu-interactions>li"));
+System.out.println("No of items in Interaction tab:"+interactionlist.size());
+ 
+for(int i=0;i<=interactionlist.size()-1;i++){
+if(interactionlist.get(i).getText().contains("Resizable")){
+interactionlist.get(i).click();
+System.out.println("Resizable tab is clicked successfully...");
+break;
+}
+}
+driver.close();
+}
+
+}
+
+Demosite_Map:
+package javaAssignment;
+
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.Map.Entry;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.testng.Assert;
+
+public class Demosite_Map {
+public static void main(String args[]) throws InterruptedException{
+WebDriver driver=new FirefoxDriver();
+driver.get("http://demoqa.com/");
+driver.manage().window().maximize();
+ 
+List<WebElement> widgetlist=driver.findElements(By.cssSelector("#menu-widget>li"));
+Map<String,String> hm=new HashMap<String,String>();
+String ElemText = null;
+String ElemURL = null;
+int j=0;
+ 
+for(int i=1;i<=widgetlist.size()-4;i++){
+ElemURL=driver.findElement(By.xpath("//ul[@id='menu-widget']/li["+i+"]/a")).getAttribute("href");
+ElemText=driver.findElement(By.xpath("//ul[@id='menu-widget']/li["+i+"]")).getText();
+hm.put(ElemText, ElemURL);
+}
+System.out.println("Key and URL value of Map items are:"+hm);
+ 
+for(String key:hm.keySet()){
+String hmurl=hm.get(key);
+System.out.println(hm.get(key));
+driver.findElement(By.linkText(key)).click();
+Thread.sleep(2000);
+String url=driver.getCurrentUrl();
+Assert.assertEquals(hmurl, url);
+j++;
+}
+driver.close();
+}
+
+}
+
+Demosite_SetExample:
+package javaAssignment;
+
+import java.util.HashSet;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.firefox.FirefoxDriver;
+
+public class Demosite_SetExample {
+
+public static void main(String[] args) {
+WebDriver driver=new FirefoxDriver();
+driver.get("http://demoqa.com/");
+driver.manage().window().maximize();
+
+List<WebElement> Registrationlist=driver.findElements(By.cssSelector("#menu-registration>li"));
+List<WebElement> interactionlist=driver.findElements(By.cssSelector("#menu-interactions>li"));
+List<WebElement> widgetlist=driver.findElements(By.cssSelector("#menu-widget>li"));
+List<WebElement> Windowlist=driver.findElements(By.cssSelector("#menu-frames-and-windows>li"));
+ 
+Set<String> hs= new HashSet<String>();
+Set<String> lhs= new LinkedHashSet<String>();
+Set<String> ths= new TreeSet<String>();
+ 
+for(WebElement Reg:Registrationlist){
+hs.add(Reg.getText());
+}
+System.out.println("Registration Tab contents:"+hs);
+ 
+for(WebElement inter:interactionlist){
+lhs.add(inter.getText());
+}
+System.out.println("Interaction Tab contents:"+lhs);
+ 
+for(WebElement widget:widgetlist){
+ths.add(widget.getText());
+}
+System.out.println("Widget Tab contents:"+ths);
+
+for(WebElement wind:Windowlist){
+ths.add(wind.getText());
+}
+System.out.println("Frame and Window Tab contents:"+ths);
+ 
+hs.addAll(lhs);
+hs.addAll(ths);
+System.out.println("After adding allset values:"+hs);
+System.out.println("Size of set after adding all values into single Set:"+hs.size());
+driver.close();
+}
+
+}
+ 
+DiffList_Example:
+package javaAssignment;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+
+public class DiffList_Example {
+
+public static void main(String[] args) {
+List<String> alist=new ArrayList();
+List<String> llist=new LinkedList<String>();
+ 
+alist.add("UFT");
+alist.add("Selenium IDE");
+alist.add("Selenium RC");
+ 
+System.out.println("Size of Array list:"+alist.size());
+System.out.println("Strings available in Array List");
+Iterator <String> Itr=alist.iterator();
+while(Itr.hasNext()){
+System.out.println(Itr.next());
+}
+ 
+llist.add("Selenium Webdriver");
+llist.add("Selenium Grid");
+System.out.println("Size of Linked list:"+llist.size());
+System.out.println("Strings available in Linked List");
+Iterator <String> Itr1=llist.iterator();
+while(Itr1.hasNext()){
+System.out.println(Itr1.next());
+}
+ 
+ 
+}
+
+}

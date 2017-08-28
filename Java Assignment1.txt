@@ -1,0 +1,130 @@
+DiffMap_Example:
+package javaAssignment;
+
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Set;
+import java.util.Map.Entry;
+import java.util.TreeMap;
+
+public class DiffMap_Example {
+
+public static void main(String[] args) {
+HashMap<Integer,String> hm=new HashMap<Integer,String>();
+LinkedHashMap<Integer,String> lhm=new LinkedHashMap<Integer,String>();
+TreeMap<Integer,String> thm=new TreeMap<Integer,String>();
+ 
+hm.put(5, "UFT");
+hm.put(6, "Selenium IDE");
+Set hmset=hm.entrySet();
+Iterator itr=hmset.iterator();
+while(itr.hasNext()){
+Map.Entry hmMap=(Entry) itr.next();
+System.out.println("Key:"+hmMap.getKey());
+System.out.println("Value of an key:"+hmMap.getValue());
+}
+System.out.println("Size of HashMap:"+hm.size());
+ 
+lhm.put(3, "Selenium RC");
+lhm.put(4, "Selenium WebDriver");
+Set lhmset=lhm.entrySet();
+Iterator itr1=lhmset.iterator();
+while(itr1.hasNext()){
+Map.Entry lhmMap=(Entry) itr1.next();
+System.out.println("Key:"+lhmMap.getKey());
+System.out.println("Value of an key:"+lhmMap.getValue());
+}
+System.out.println("Size of LinkedHashMap:"+lhm.size());
+ 
+thm.put(8, "Selenium Grid");
+thm.putAll(lhm);
+Set thmset=thm.entrySet();
+Iterator itr2=thmset.iterator();
+while(itr2.hasNext()){
+Map.Entry thmMap=(Entry) itr2.next();
+System.out.println("Key:"+thmMap.getKey());
+System.out.println("Value of an key:"+thmMap.getValue());
+}
+System.out.println("Size of TreeHashMap:"+thm.size());
+
+}
+
+}
+
+HashMapExample:
+package javaAssignment;
+
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
+
+public class HashMapExample {
+
+public static void main(String[] args) {
+HashMap<Integer,String> hm=new HashMap<Integer,String>();
+hm.put(1, "UFT");
+hm.put(2, "Selenium IDE");
+hm.put(3, "Selenium RC");
+hm.put(4, "Selenium WebDriver");
+hm.put(5, "Selenium Grid");
+ 
+Set hmset=hm.entrySet();
+Iterator itr=hmset.iterator();
+while(itr.hasNext()){
+Map.Entry hmMap=(Entry) itr.next();
+System.out.println("Key:"+hmMap.getKey());
+System.out.println("Value of an key:"+hmMap.getValue());
+}
+ 
+System.out.println("HasMap using Entryset method:"+hm.entrySet());
+System.out.println("Is HashMap empty?"+hm.isEmpty());
+System.out.println("Size of HashMap:"+hm.size());
+System.out.println("Item present in second place:"+hm.get(2));
+System.out.println("Remove one item from hashMap");
+hm.remove(5);
+System.out.println("Size of HashMap after removing method:"+hm.size());
+}
+
+}
+
+PriorityQueueExample:
+package javaAssignment;
+
+import java.util.Iterator;
+import java.util.PriorityQueue;
+import java.util.Scanner;
+
+public class PriorityQueueExample {
+
+public static void main(String[] args) {
+PriorityQueue<String> pqlist=new PriorityQueue<String>();
+Scanner scan=new Scanner(System.in);
+for(int i=0;i<=5;i++){
+System.out.println("Enter values to store:");
+pqlist.add(scan.next());
+}
+ 
+System.out.println(pqlist);
+System.out.println("Size of queue:"+pqlist.size());
+System.out.println("Items stored in queue:");
+Iterator <String> Itr=pqlist.iterator();
+while(Itr.hasNext()){
+System.out.println(Itr.next());
+}
+ 
+System.out.println("Queue using Element method:"+pqlist.element());
+System.out.println("Queue using Peek method:"+pqlist.peek());
+System.out.println("Is queue empty?:"+pqlist.isEmpty());
+System.out.println("Queue using remove method:"+pqlist.remove());
+System.out.println("Queue using Poll method:"+pqlist.poll());
+System.out.println("Size of Queue after using removing and polling method:"+pqlist.size());
+System.out.println("Queue using clear method");
+pqlist.clear();
+System.out.println("is Queue empty after clear method:"+pqlist.isEmpty());
+}
+ 
+}
